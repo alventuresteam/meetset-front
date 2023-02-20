@@ -1,0 +1,156 @@
+<template>
+  <div class="user">
+    <div class="user__item" v-for="item in userStore?.getRoom" :key="item?.id">
+      <div class="user__info">
+        <img
+          src="../../assets/images/svg/user.svg"
+          class="user__info-img"
+          alt="user"
+        />
+        <div class="user__info-box">
+          <h2 class="user__info-title name">{{ item.name }}</h2>
+          <span class="user__info-subtitle">{{ item.capacity }} nəfər</span>
+        </div>
+      </div>
+
+      <div class="user__info">
+        <div class="user__info-box email">
+          <span class="user__info-subtitle email">Otağın detalları</span>
+          <h2 class="user__info-title emailName">
+            Bina {{ item.address }} / Mərtəbə {{ item.floor }} / Otaq
+            {{ item.name }}
+          </h2>
+        </div>
+
+        <div class="user__info">
+          <div class="user__info-edit" @click="handleUpdate(item)">
+            Redakt et
+          </div>
+          <div class="user__info-remove" @click="showDeletButtons = true">
+            Sil
+          </div>
+        </div>
+      </div>
+
+      <Suspense v-if="showDeletButtons">
+        <template #default>
+          <div
+            class="modal-overlay"
+            style="background: rgba(0, 0, 0, 21%); opacity: 0.4"
+          >
+            <div class="modal modal__remove" @click.stop>
+              <div class="modal__head" v-show="showDeletButtons">
+                <h6 class="modal__head-title">Otaq rezervasiyasını sil</h6>
+              </div>
+
+              <div>
+                <p class="modal__form-delete">
+                  Bu otaq rezervasiyasını silmək istədiyinizə əminsiniz?
+                </p>
+              </div>
+
+              <div class="modal__form-group modal__flex">
+                <button
+                  aria-label="Imtina et"
+                  type="button"
+                  class="submitWhite"
+                  @click="showDeletButtons = false"
+                >
+                  Imtina et
+                </button>
+
+                <button
+                  aria-label="Sil"
+                  @click="handleDelete(item)"
+                  type="submit"
+                  class="submitWhite"
+                  id="messg"
+                >
+                  Sil
+                  <img src="../../assets/images/svg/delet.svg" alt="delet" />
+                </button>
+              </div>
+              <div v-show="success" class="success">
+                <p>Otaqlar uğurla silindi</p>
+              </div>
+            </div>
+          </div>
+        </template>
+
+        <template #fallback>Load...</template>
+      </Suspense>
+    </div>
+
+    <Suspense v-if="showUpdateModalRoom">
+      <template #default>
+        <UpdateModalRoom
+          :item="updateDataRoom"
+          v-show="showUpdateModalRoom"
+          @close-modal="showUpdateModalRoom = false"
+        />
+      </template>
+
+      <template #fallback>Load...</template>
+    </Suspense>
+  </div>
+</template>
+
+<script>
+import { ref, defineAsyncComponent, onMounted } from "vue";
+import { useRoomStore } from "../../stores/room";
+import UpdateModalRoom from "./AdminModal/room/UpdateModalRoom.vue";
+
+export default {
+  components: {
+    UpdateModalRoom,
+  },
+
+  data() {
+    return {
+      updateDataRoom: {},
+      showDeletButtons: false,
+      success: false,
+    };
+  },
+
+  methods: {
+    handleUpdate(item) {
+      this.showUpdateModalRoom = true;
+      this.updateDataRoom = item;
+      console.log("item", this.updateDataRoom);
+    },
+
+    async handleDelete(item) {
+      await this.userStore.deleteRoom(item);
+      await this.userStore.fetchRoom();
+
+      this.success = true;
+      if ((this.success = true)) {
+        setTimeout(() => {
+          this.showDeletButtons = false;
+          this.success = false;
+        }, 1500);
+      }
+    },
+  },
+
+  setup() {
+    const userStore = useRoomStore();
+    const UpdateModalRoom = defineAsyncComponent({
+      loader: () =>
+        import(
+          "../../components/AdminPanel/AdminModal/room/UpdateModalRoom.vue"
+        ),
+      delay: 1000,
+      timeout: 3000,
+      suspensible: true,
+    });
+
+    onMounted(() => {
+      userStore.fetchRoom();
+    });
+    const showUpdateModalRoom = ref(false);
+    return { userStore, showUpdateModalRoom, UpdateModalRoom };
+  },
+};
+</script>

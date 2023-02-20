@@ -1,0 +1,88 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+//colors
+$primaryGradient: var(--primaryGradient);
+
+$black: #1e1e1e;
+$white: #ffffff;
+
+@include FontFace(TTInterfaces-Bold, "./font/TTInterfaces-Bold.ttf");
+@include FontFace(TTInterfaces-Light, "./font/TTInterfaces-Light.ttf");
+@include FontFace(TTInterfaces-Medium, "./font/TTInterfaces-Medium.ttf");
+@include FontFace(TTInterfaces-Regular, "./font/TTInterfaces-Regular.ttf");
+@include FontFace(TTInterfaces-DemiBold, "./font/TTInterfaces-DemiBold.ttf");
+
+.container {
+    // max-width: 1440px;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.flex {
+    display: flex;
+}
+
+.center__flex {
+    justify-content: center;
+    align-items: center;
+}
+
+.errorText {
+    position: relative;
+    display: block;
+    margin: 10px 30px;
+
+    &::before {
+        content: "";
+        background-image: url("../assets/images/svg/errorIcon.svg");
+        background-size: cover;
+        position: absolute;
+        height: 16px;
+        width: 16px;
+        left: -30px;
+    }
+    font-family: TTInterfaces-Regular, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    color: #fd4c5c;
+}
+
+.loaderGif {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 500px;
+}
+.success {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background: green;
+    height: 57px;
+    width: 350px;
+    z-index: 15;
+    border-radius: 10px;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: TTInterfaces-Regular, sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 18px;
+}
+
+body,
+html {
+    height: 100%;
+}

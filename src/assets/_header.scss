@@ -1,0 +1,112 @@
+.header {
+    // padding: 24px 34px;
+    padding: 24px 0;
+
+    // border-bottom: 1px solid #e3e8ef;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__img {
+        width: 162px;
+        height: 34px;
+    }
+
+    .submit {
+        background-color: #155eef;
+        color: $white;
+        font-family: TTInterfaces-DemiBold,sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        text-align: center;
+        line-height: 20px;
+        padding: 17px 32px 11px;
+
+        cursor: pointer;
+        padding: 0 20px;
+        height: 56px;
+        border-radius: 8px;
+        width: 169px;
+        border: 1px solid transparent;
+        &:focus {
+            outline: none;
+        }
+
+        &:first-child{
+            margin-right: 12px;
+        }
+
+        img {
+            margin-left: 12px;
+        }
+    }
+
+    .submitWhite {
+        background-color: $white;
+        color: #121926;
+        font-family: TTInterfaces-DemiBold,sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        text-align: center;
+        line-height: 20px;
+        cursor: pointer;
+        padding: 17px 32px 11px;
+        height: 56px;
+        border-radius: 8px;
+        // margin-right: 12px;
+        // width: 169px;
+        width: 100%;
+        border: 1px solid #CDD5DF;
+
+        &:first-child{
+        margin-right: 12px;
+
+        }
+        img {
+            margin-left: 12px;
+            width: 20px;
+            margin-top: -3px;
+            height: 16px;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.dropDown {
+    position: absolute;
+    list-style: none;
+    background-color: #ffffff;
+    color: #1e1e1e;
+    font-family: TTInterfaces-DemiBold,sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    padding: 10px 8px;
+    margin-top: 5px;
+    border-radius: 8px;
+    margin-right: 12px;
+    width: 169px;
+    border: 1px solid #9aa4b2;
+
+    &__item {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        padding: 12px 0 0;
+
+        &:first-child{
+            padding: 0;
+        }
+
+        img{
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+        }
+    }
+}

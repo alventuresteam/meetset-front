@@ -1,0 +1,139 @@
+
+.login {
+    background-color: $white;
+    width: 498px;
+    padding-top: 264px;
+    position: relative;
+    height: auto;
+
+    &__container{
+        width: auto;
+        margin: 0 0 0 88px;
+    }
+
+    &__box {
+margin-left: 80px;
+        &-img {
+            height: 44px;
+            width: 198px;
+            margin-bottom: 72px;
+        }
+
+        &-form {
+            width: 320px;
+            .submit {
+                background-color: #155eef;
+                color: $white;
+                font-family: TTInterfaces-DemiBold,sans-serif;
+                font-size: 16px;
+                font-weight: 600;
+                text-align: center;
+                line-height: 22px;
+                cursor: pointer;
+                margin-bottom: 32px;
+                height: 56px;
+                border-radius: 4px;
+                width: 320px;
+                margin-top: 24px;
+                border: 1px solid #cdd5df;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            position: relative;
+            .input {
+                height: 56px;
+                border: 1px solid #cdd5df;
+                border-radius: 4px;
+                padding: 16px;
+                margin: 24px 0 0;
+                width: 320px;
+                font-size: 16px;
+                line-height: 22px;
+                font-weight: 400;
+                font-family: TTInterfaces-Regular,sans-serif ;
+
+                &:focus {
+                    outline: none;
+                }
+
+                &::placeholder {
+                    color: #cdd5df;
+                }
+            }
+
+            .formBox {
+                position: relative;
+                display: flex;
+                align-items: center;
+                &__img {
+                    position: absolute;
+                    right: 18px;
+                    margin-top: 0;
+                    cursor: pointer;
+                }
+            }
+        }
+        &-link{
+            font-family: TTInterfaces-DemiBold,sans-serif ;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #202939;
+            text-decoration: none;
+        
+        }
+
+        &-title {
+            font-family: TTInterfaces-Regular,sans-serif ;
+            position: absolute;
+            bottom: 0;
+            color: #364152;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 22px;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: center;
+            margin-left: 88px;
+
+            span {
+                font-weight: 400;
+                color: #155eef;
+            }
+        }
+    }
+
+   &Second__box{
+        overflow: hidden;
+        background-image: url('../assets/images/LoginBg.jpg');
+        width: 992px;
+        background-size: cover;
+    height: 100vh;
+        background-repeat: no-repeat;
+        position: relative;
+
+        p{
+            position: absolute;
+            bottom: 80px;
+            font-family: TTInterfaces-Bold , sans-serif;
+font-size: 46px;
+font-weight: 700;
+line-height: 58px;
+color: $white;
+margin-left: 64px;
+        }
+
+    }
+}
+.main {
+    display: flex;
+    justify-content: space-between;
+
+  }
+
