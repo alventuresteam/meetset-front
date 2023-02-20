@@ -7,7 +7,7 @@
         <label class="label" for="">Server IP adresi</label>
         <input
           class="input"
-          v-model="userStore.getSetting.ip_address"
+          v-model.lazy="userStore.getSetting.ip_address"
           type="text"
         />
       </div>
@@ -16,7 +16,7 @@
         <label class="label" for="">Serverin port adresi</label>
         <input
           class="input"
-          v-model="userStore.getSetting.port"
+          v-model.lazy="userStore.getSetting.port"
           type="number"
           min="0"
         />
@@ -27,7 +27,7 @@
 
     <button aria-label="Yadda saxla" type="submit" class="setting__save">
       Yadda saxla
-      <span><img src="../../assets/images/svg/check.svg" alt="check" /></span>
+      <span><img  loading="lazy" src="../../assets/images/svg/check.svg" alt="check" /></span>
     </button>
   </form>
 </template>

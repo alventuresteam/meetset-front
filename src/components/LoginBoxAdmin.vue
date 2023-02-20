@@ -1,6 +1,6 @@
 <template>
   <div class="login__box">
-    <img
+    <img  loading="lazy"
       src="../assets/images/logo/logo.png"
       alt="meet-set logoin"
       class="login__box-img"
@@ -11,7 +11,7 @@
         type="text"
         class="input"
         placeholder="İstifadəçi adı vəya e-mail"
-        v-model="email"
+        v-model.lazy="email"
       />
 
       <span
@@ -24,7 +24,7 @@
       <div class="formBox">
         <input
           v-if="passwordShow"
-          v-model="password"
+          v-model.lazy="password"
           type="password"
           class="input"
           placeholder="Şifrə "
@@ -32,21 +32,21 @@
 
         <input
           v-else
-          v-model="password"
+          v-model.lazy="password"
           type="text"
           class="input"
           placeholder="Şifrə "
         />
 
         <div @click="showPass()">
-          <img
+          <img  loading="lazy"
             v-if="passwordShow"
             class="formBox__img"
             src="../assets/images/svg/passwordEye.svg"
             alt="meetSet Icon"
           />
 
-          <img
+          <img  loading="lazy"
             v-else
             class="formBox__img"
             src="../assets/images/svg/passwordShowEye.svg"

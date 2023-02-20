@@ -5,7 +5,7 @@
       <div class="flexCalendar">
         <DatePicker
           color="blue"
-          v-model="date"
+          v-model.lazy="date"
           mode="date"
           locale="en"
           @dayclick="dayClicked"
@@ -17,7 +17,7 @@
 
         <div class="table-wrapper">
           <div class="loaderGif" v-if="loader">
-            <img src="../../assets/images/gif/load.gif" alt="gif" />
+            <img  loading="lazy" src="../../assets/images/gif/load.gif" alt="gif" />
           </div>
           <Table
             v-else

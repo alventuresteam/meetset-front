@@ -4,7 +4,7 @@
       <div class="modal__head">
         <h6 class="modal__head-title">Otaq əlavə et</h6>
         <span class="modal__head-close" @click="$emit('close-modal')"
-          ><img src="../../../../assets/images/svg/modalClose.svg" alt=""
+          ><img  loading="lazy" src="../../../../assets/images/svg/modalClose.svg" alt=""
         /></span>
       </div>
 
@@ -15,7 +15,7 @@
             placeholder="Otağın adı"
             maxlength="30"
             type="text"
-            v-model="name"
+            v-model.lazy="name"
           />
 
           <span
@@ -29,7 +29,7 @@
 
         <div class="modal__form-group">
           <input
-            v-model="capacity"
+            v-model.lazy="capacity"
             min="1"
             max="25"
             class="input input__100"
@@ -47,7 +47,7 @@
 
         <div class="modal__form-group">
           <input
-            v-model="address"
+            v-model.lazy="address"
             class="input input__100"
             min="1"
             max="9999"
@@ -68,7 +68,7 @@
           <input
             min="1"
             max="25"
-            v-model="floor"
+            v-model.lazy="floor"
             class="input input__100"
             placeholder="Yerləşdiyi mərtəbə"
             type="number"

@@ -23,7 +23,7 @@
 
 .fc-timeline-event {
     height: 56px;
-    border-radius: 12px;
+    border-radius: 12px !important;
     background: rgba(178, 204, 255, 1);
     border: 1px solid transparent;
 
@@ -39,7 +39,7 @@ margin: -5px;
 
 .fc-timeline-event-harness {
     .activeUser {
-        background: rgba(21, 94, 239, 1);
+        background: rgba(21, 94, 239, 1) !important;
     }
 }
 .fc .fc-resource-timeline-flat .fc-datagrid-expander-placeholder {
@@ -139,4 +139,10 @@ margin: -5px;
 
 .e-input-group.e-control-wrapper:not(.e-float-icon-left):not(.e-float-input)::after {
     background-color: transparent !important;
+}
+
+
+.fc-h-event{
+    background-color: rgb(178, 204, 255) !important;
+    border-color: transparent !important;
 }

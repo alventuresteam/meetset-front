@@ -1,6 +1,6 @@
 <template>
   <aside class="sidebar">
-    <img
+    <img  loading="lazy"
       src="../../assets/images/logo/whiteLogo.png"
       alt="sidebar logo"
       class="sidebar__logo"
@@ -11,7 +11,7 @@
         :class="['sidebar__item', { active: item.route === $route.path }]"
         :to="item.route"
       >
-        <img
+        <img  loading="lazy"
           class="sidebar__item-img"
           :src="getImageUrl(item.img)"
           :alt="item.name"
@@ -20,7 +20,7 @@
       </router-link>
     </div>
     <span @click="logout()" class="sidebar__item">
-      <img
+      <img  loading="lazy"
         class="sidebar__item-img"
         src="../../assets/images/svg/exit.svg"
         alt="exit"

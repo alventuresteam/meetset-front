@@ -34,7 +34,6 @@ import { onMounted, defineComponent, defineAsyncComponent } from "vue";
 import FullCalendar from "@fullcalendar/vue3";
 import ShowReservRoom from "../Modal/ShowReservRoom.vue";
 
-import "@fullcalendar/core";
 import interactionPlugin from "@fullcalendar/interaction";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import { useReservationStore } from "../../stores/reservations";

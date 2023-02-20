@@ -2,7 +2,7 @@
   <div class="user">
     <div class="user__item" v-for="item in userStore?.getRoom" :key="item?.id">
       <div class="user__info">
-        <img
+        <img  loading="lazy"
           src="../../assets/images/svg/user.svg"
           class="user__info-img"
           alt="user"
@@ -67,7 +67,7 @@
                   id="messg"
                 >
                   Sil
-                  <img src="../../assets/images/svg/delet.svg" alt="delet" />
+                  <img  loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet" />
                 </button>
               </div>
               <div v-show="success" class="success">

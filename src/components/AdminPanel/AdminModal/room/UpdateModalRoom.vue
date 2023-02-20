@@ -4,14 +4,14 @@
       <div class="modal__head">
         <h6 class="modal__head-title">Otağı redaktə et</h6>
         <span class="modal__head-close" @click="close()">
-          <img src="../../../../assets/images/svg/modalClose.svg" alt=""
+          <img  loading="lazy" src="../../../../assets/images/svg/modalClose.svg" alt=""
         /></span>
       </div>
 
       <form action="" class="modal__form" @submit.prevent="uppdateHandler">
         <div class="modal__form-group">
           <input
-            v-model="updateDataRoom.name"
+            v-model.lazy="updateDataRoom.name"
             class="input input__100"
             placeholder="Otağın adı"
             maxlength="30"
@@ -29,7 +29,7 @@
 
         <div class="modal__form-group">
           <input
-            v-model="updateDataRoom.capacity"
+            v-model.lazy="updateDataRoom.capacity"
             class="input input__100"
             min="1"
             max="25"
@@ -48,7 +48,7 @@
 
         <div class="modal__form-group">
           <input
-            v-model="updateDataRoom.address"
+            v-model.lazy="updateDataRoom.address"
             class="input input__100"
                         max="9999"
 
@@ -68,7 +68,7 @@
 
         <div class="modal__form-group">
           <input
-            v-model="updateDataRoom.floor"
+            v-model.lazy="updateDataRoom.floor"
             class="input input__100"
             min="1"
                         max="25"

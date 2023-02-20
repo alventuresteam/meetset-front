@@ -2,7 +2,7 @@
   <div class="user">
     <div class="user__item" v-for="item in userStore?.getPerson" :key="item.id">
       <div class="user__info">
-        <img
+        <img  loading="lazy"
           src="../../assets/images/svg/user.svg"
           class="user__info-img"
           alt="user"
@@ -61,7 +61,7 @@
                       id="messg"
                     >
                       Sil
-                      <img
+                      <img  loading="lazy"
                         src="../../assets/images/svg/delet.svg"
                         alt="delet"
                       />

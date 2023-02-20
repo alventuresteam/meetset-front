@@ -4,7 +4,7 @@
       <div class="modal__head">
         <h6 class="modal__head-title">İstifadəçi yarat</h6>
         <span class="modal__head-close" @click="close()"
-          ><img
+          ><img  loading="lazy"
             src="../../../../assets/images/svg/modalClose.svg"
             alt="modalClose"
         /></span>
@@ -13,7 +13,7 @@
         <div class="modal__form-group">
           <input
             class="input input__100"
-            v-model="name"
+            v-model.lazy="name"
             maxlength="250"
             placeholder="Ad, soyad"
             type="text"
@@ -31,7 +31,7 @@
         <div class="modal__form-group">
           <input
             class="input input__100"
-            v-model="fin_code"
+            v-model.lazy="fin_code"
             placeholder="FİN nömrə"
             maxlength="7"
             type="text"
@@ -51,7 +51,7 @@
             placeholder="Əməkdaşı olduğu şöbə"
             type="text"
             maxlength="250"
-            v-model="position"
+            v-model.lazy="position"
           />
 
           <span
@@ -66,7 +66,7 @@
         <div class="modal__form-group">
           <input
             class="input input__100"
-            v-model="email"
+            v-model.lazy="email"
             placeholder="E-mail"
             maxlength="250"
             type="text"
@@ -87,7 +87,7 @@
             v-if="passwordShow"
             class="input input__100"
             placeholder="Şifrə"
-            v-model="password"
+            v-model.lazy="password"
             maxlength="64"
             type="text"
           />
@@ -97,19 +97,19 @@
             class="input input__100"
             placeholder="Şifrə"
             maxlength="64"
-            v-model="password"
+            v-model.lazy="password"
             type="password"
           />
 
           <div class="modal__form-img" @click="showPass()">
-            <img
+            <img  loading="lazy"
               v-if="passwordShow"
               class="formBox__img"
               src="../../../../assets/images/svg/passwordShowEye.svg"
               alt="meetSet Icon"
             />
 
-            <img
+            <img  loading="lazy"
               v-else
               class="formBox__img"
               src="../../../../assets/images/svg/passwordEye.svg"

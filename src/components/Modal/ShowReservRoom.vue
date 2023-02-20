@@ -18,7 +18,7 @@
         </h6>
 
         <span class="modal__head-close" @click="$emit('close-modal')"
-          ><img src="../../assets/images/svg/modalClose.svg" alt=""
+          ><img  loading="lazy" src="../../assets/images/svg/modalClose.svg" alt=""
         /></span>
       </div>
       <form action="" class="modal__form" @submit.prevent="uppdateHandler">
@@ -34,7 +34,7 @@
               id="date"
               class="input"
               placeholder="Tarix"
-              v-model="updateReservation.start_date"
+              v-model.lazy="updateReservation.start_date"
               onfocus="(this.type='date')"
               @blur="onBlur"
               :min="minDate"
@@ -54,7 +54,7 @@
           <div class="modal__flex modal__form-group">
             <div class="input" style="margin-right: 10px">
               <ejs-timepicker
-                v-model="updateReservation.start_time"
+                v-model.lazy="updateReservation.start_time"
                 id="startPicker"
                 :change="onEnableEndTime"
                 :enabled="startEnable"
@@ -76,7 +76,7 @@
 
             <div class="input">
               <ejs-timepicker
-                v-model="updateReservation.end_time"
+                v-model.lazy="updateReservation.end_time"
                 id="endPicker"
                 :placeholder="waterMark"
                 :enabled="endEnable"
@@ -103,7 +103,7 @@
               id="roomSelect"
               :disabled="disabled == 1"
               class="input input__100"
-              v-model="updateReservation.room_id"
+              v-model.lazy="updateReservation.room_id"
             >
               <option
                 v-for="item in useStoreRoom.getRoom"
@@ -127,7 +127,7 @@
             <label for="user" class="label">İclası təşkil edən şəxs</label>
             <input
               :disabled="disabled == 1"
-              v-model="updateReservation.organizer_name"
+              v-model.lazy="updateReservation.organizer_name"
               class="input input__100"
               id="user"
               type="text"
@@ -202,7 +202,7 @@
               placeholder="Görüşün başlığı"
               type="text"
               maxlength="250"
-              v-model="updateReservation.title"
+              v-model.lazy="updateReservation.title"
             />
 
             <span
@@ -220,7 +220,7 @@
               placeholder="Görüşlə bağlı qeydlər"
               id="messg"
               :disabled="disabled == 1"
-              v-model="updateReservation.comment"
+              v-model.lazy="updateReservation.comment"
               v-on:input="check"
             />
 
@@ -272,14 +272,14 @@
             id="messg"
             aria-label="Sil"
           >
-            Sil <img src="../../assets/images/svg/delet.svg" alt="delet" />
+            Sil <img  loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet" />
           </button>
         </div>
 
         <div v-else class="modal__form-group modal__flex">
           <button type="button" class="submitWhite " aria-label="Silmək" @click="activeDelet">
             Silmək
-            <img src="../../assets/images/svg/delet.svg" alt="delet" />
+            <img  loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet" />
           </button>
 
           <button
@@ -290,7 +290,7 @@
             @click="activeDisable()"
           >
             Redaktə etmək
-            <img src="../../assets/images/svg/edit.svg" alt="edit" />
+            <img  loading="lazy" src="../../assets/images/svg/edit.svg" alt="edit" />
           </button>
         </div>
 

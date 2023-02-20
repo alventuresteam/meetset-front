@@ -1,7 +1,7 @@
  <template>
   <header class="container header">
 
-    <img
+    <img  loading="lazy"
       class="header__img"
       src="../../assets/images/logo/logo.png"
       alt="logo"
@@ -10,7 +10,9 @@
     <div class="flex">
       <div @click="showModal = true" class="submit flex center__flex">
         Otaq rezerv et
-        <img
+        <img  loading="lazy"
+        width="17"
+        height="17"
           class="fix__img"
           src="../../assets/images/svg/pulus.svg"
           alt="pulus"
@@ -22,7 +24,7 @@
       <div class="">
         <div class="submitWhite flex center__flex" @click="closeDropDown">
           {{ userStore.getUser.name }}
-          <img
+          <img  loading="lazy"
             class="fix__img"
             src="../../assets/images/svg/dropdown.svg"
             alt="dropdown"
@@ -30,7 +32,7 @@
         </div>
 
         <ul v-if='hideDropdown' class="dropDown">
-            <li class="dropDown__item"  @click="logout()"><img src="../../assets/images/svg/exitBold.svg" alt="exit"> Çıxış</li>
+            <li class="dropDown__item"  @click="logout()"><img  loading="lazy" src="../../assets/images/svg/exitBold.svg" alt="exit"> Çıxış</li>
         </ul>
       </div>
     </div>

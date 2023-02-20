@@ -9,20 +9,20 @@
       >
         <span>İstifadəçi əlavə et</span>
 
-        <img class="" src="../../assets/images/svg/blackPulus.svg" alt="blackPulus" />
+        <img  loading="lazy" class="" src="../../assets/images/svg/blackPulus.svg" alt="blackPulus" />
       </div>
       <div
         @click="showModalRoom = true"
         class="adminHeader__modules-rooms modalButton"
       >
         <span>Otaq yarat</span>
-        <img src="../../assets/images/svg/pulus.svg" alt="pulus" />
+        <img  loading="lazy" src="../../assets/images/svg/pulus.svg" alt="pulus" />
       </div>
 
          <div class="header" style="padding:0; display:block">
         <div class="submitWhite flex center__flex" @click="closeDropDown">
           {{ userStore.getUser.name }}
-          <img
+          <img  loading="lazy"
             class="fix__img"
             src="../../assets/images/svg/dropdown.svg"
             alt="dropdown"
@@ -30,7 +30,7 @@
         </div>
 
         <ul v-if='hideDropdown' class="dropDown">
-            <li class="dropDown__item"  @click="logout()"><img src="../../assets/images/svg/exitBold.svg" alt="exit"> Çıxış</li>
+            <li class="dropDown__item"  @click="logout()"><img  loading="lazy" src="../../assets/images/svg/exitBold.svg" alt="exit"> Çıxış</li>
         </ul>
       </div>
 

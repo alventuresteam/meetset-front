@@ -4,7 +4,7 @@
       <div class="modal__head">
         <h6 class="modal__head-title">Otaq rezerv et</h6>
         <span class="modal__head-close" @click="$emit('close-modal')"
-          ><img src="../../assets/images/svg/modalClose.svg" alt=""
+          ><img  loading="lazy" src="../../assets/images/svg/modalClose.svg" alt=""
         /></span>
       </div>
       <form class="modal__form" @submit.prevent="addPerson()">
@@ -13,7 +13,7 @@
             id="date"
             class="input"
             placeholder="Tarix"
-            v-model="start_date"
+            v-model.lazy="start_date"
             onfocus="(this.type='date')"
             :min="minDate"
             @blur="onBlur"
@@ -35,7 +35,7 @@
         <div class="modal__flex modal__form-group">
           <div class="input" style="margin-right: 12px">
             <ejs-timepicker
-              v-model="start_time"
+              v-model.lazy="start_time"
               id="startPicker"
               :change="onEnableEndTime"
               :step="step"
@@ -57,7 +57,7 @@
           </div>
           <div class="input">
             <ejs-timepicker
-              v-model="end_time"
+              v-model.lazy="end_time"
               id="endPicker"
               :placeholder="waterMark"
               :enabled="endEnable"
@@ -84,7 +84,7 @@
             style="margin-top: 20px"
             id="roomSelect"
             class="input input__100"
-            v-model="room_id"
+            v-model.lazy="room_id"
           >
             <option v-for="item in getRoom" :key="item.id" :value="item.id">
               {{ item.name }}
@@ -103,7 +103,7 @@
         <div class="modal__form-group">
           <label for="user" class="label">İclası təşkil edən şəxs</label>
           <input
-            v-model="organizer_name"
+            v-model.lazy="organizer_name"
             class="input input__100"
             id="user"
             type="text"
@@ -171,7 +171,7 @@
             placeholder="Görüşün başlığı"
             type="text"
             maxlength="250"
-            v-model="title"
+            v-model.lazy="title"
           />
           <span
             class="errorText"
@@ -187,7 +187,7 @@
             class="input input__100 input__height"
             placeholder="Görüşlə bağlı qeydlər"
             id="messg"
-            v-model="comment"
+            v-model.lazy="comment"
             v-on:input="check"
           >
           </textarea>
