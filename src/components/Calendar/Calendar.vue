@@ -1,6 +1,6 @@
 <template>
   <CalendarHeader />
-  <div  class="calendar">
+  <div class="calendar">
     <div class="container">
       <div class="flexCalendar">
         <DatePicker
@@ -11,6 +11,7 @@
           @dayclick="dayClicked"
           :attributes="attrs"
           title-position="left"
+          is-inline
           :rows="2"
         />
 
@@ -23,7 +24,7 @@
           <Table
           @success="download"
             :key="componentKey"
-            :itemLable="selectedDay?.ariaLabel"
+            :itemLable="formattedDate"
             :itemDate="selectedDay?.id"
           />
         </div>
@@ -71,40 +72,44 @@ export default {
 
 
 
-   
+   computed: {
+    formattedDate() {
+      return moment(this.date).format("LL")
+    }
+  },
 
   data() {
     return {
       selectedDay: { id: moment().format(), ariaLabel: moment().format("LL") }, // Add state to store selected day
 
-      date: new Date(),
-      dates: new Date(),
+      date: moment().format("LL"),
+      dates: moment().format("LL"),
       loader: true,
       attrs: [
         {
           key: "today",
 
           highlight: true,
-          dates: new Date(),
+          dates: moment().format("LL"),
         },
 
         {
           dot: true,
           dates: [
-            new Date(), // Jan 1st
+            moment().format("LL"), // Jan 1st
           ],
         },
 
         {
           dot: true,
           dates: [
-            new Date(), // Jan 1st
+            moment().format("LL"), // Jan 1st
           ],
         },
         {
           dot: true,
           dates: [
-            new Date(), // Jan 1st
+            moment().format("LL"), // Jan 1st
           ],
         },
       ],

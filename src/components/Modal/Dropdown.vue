@@ -1,7 +1,8 @@
 <template>
   <div class="custom-select" :tabindex="tabindex" @blur="open = false">
-    <div class="selected" :class="{ open: open }" @click="open = !open">
+    <div class="selected"  :class="{ open: open }" @click="open = !open">
       {{ selected }}
+      <img    src="../../assets/images/chevron-down.png" alt=" meetset dropdown" />   
     </div>
 
     <div class="items" :class="{ selectHide: !open }">
@@ -51,7 +52,10 @@ export default {
         this.options?.forEach(item => {
             if (item.id === this.default) {
                 this.selected = item.name;
-            }
+            }else{
+                
+            }                this.selected = 'Otağı seçin';
+
         })
     }, 10)
   },
@@ -78,6 +82,9 @@ export default {
   height:56px;
   cursor: pointer;
   padding:16px;
+
+  display: flex;
+    justify-content: space-between;
 
   font-family: TTInterfaces-Regular;
 font-size: 16px;

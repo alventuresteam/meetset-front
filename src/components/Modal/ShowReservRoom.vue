@@ -117,7 +117,9 @@
                  <CustomSelect
                     :options="useStoreRoom.getRoom"
                     :default="updateReservation?.room_id"
-                    class="select"
+                    class="select "
+
+                    :class="disabled == 1 ?  'customDisable' : ''"
                     @selectValue="updateReservation.room_id = $event.id"
                 />
 
@@ -556,3 +558,11 @@ export default {
   },
 };
 </script>
+
+<style>
+
+    .customDisable{
+        pointer-events: none;
+    opacity: 0.4;
+    }
+</style>
