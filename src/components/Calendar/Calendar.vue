@@ -1,6 +1,6 @@
 <template>
   <CalendarHeader />
-  <div class="calendar">
+  <div  class="calendar">
     <div class="container">
       <div class="flexCalendar">
         <DatePicker

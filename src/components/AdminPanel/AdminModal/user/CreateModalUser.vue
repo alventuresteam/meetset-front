@@ -184,7 +184,7 @@ export default {
           setTimeout(() => {
             this.$emit("close-modal");
             this.success = false;
-this.clickLoad = false
+this.clickLoad = false;
             this.name = "";
             this.fin_code = "";
             this.position = "";

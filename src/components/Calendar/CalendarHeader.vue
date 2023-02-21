@@ -22,7 +22,8 @@
 
       </div>
       <div class="">
-        <div class="submitWhite flex center__flex" @click="closeDropDown">
+        <div id="dropDownBox" class="submitWhite flex center__flex " @click.stop="        hideDropdown = true;
+">
           {{ userStore.getUser.name }}
           <img  loading="lazy"
             class="fix__img"
@@ -31,7 +32,7 @@
           />
         </div>
 
-        <ul v-if='hideDropdown' class="dropDown">
+        <ul id="dropDown"  v-if='hideDropdown' class="dropDown">
             <li class="dropDown__item"  @click="logout()"><img  loading="lazy" src="../../assets/images/svg/exitBold.svg" alt="exit"> Çıxış</li>
         </ul>
       </div>
@@ -60,6 +61,9 @@ export default {
     };
   },
 
+
+ 
+
   methods: {
    async logout() {
      await this.userStore.signOut();
@@ -67,13 +71,25 @@ export default {
     },
 
     closeDropDown(){
-        this.hideDropdown = !this.hideDropdown;
+        this.hideDropdown = false;
     }
   },
 
-  setup() {
-   
 
+
+   mounted() {
+    document.querySelector("body").addEventListener("click", this.closeDropDown);
+
+
+  },
+  beforeDestroy() {
+ document.querySelector("body").removeEventListener("click", this.closeDropDown)
+   },
+
+
+
+
+  setup() {
     const ReserveRoom = defineAsyncComponent({
       loader: () => import("../../components/Modal/ShowReservRoom.vue"),
       delay: 1000,
@@ -84,5 +100,7 @@ export default {
     const userStore = useUserStore();
     return { userStore, ReserveRoom };
   },
+
+
 };
 </script>
