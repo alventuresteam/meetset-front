@@ -19,8 +19,9 @@
           <div class="loaderGif" v-if="loader">
             <img  loading="lazy" src="../../assets/images/gif/load.gif" alt="gif" />
           </div>
+          
           <Table
-            v-else
+          @success="download"
             :key="componentKey"
             :itemLable="selectedDay?.ariaLabel"
             :itemDate="selectedDay?.id"
@@ -53,28 +54,23 @@ export default {
   },
 
   methods: {
+
+    download(){
+        this.loader = false
+
+       
+    },
     dayClicked(day) {
       this.selectedDay = day;
       this.componentKey += this.selectedDay.day;
-      this.loader = true;
+       this.loader = true;
 
- setTimeout(() => {
-        this.loader = false;
       
-      }, 2000);
     },
   },
 
 
-mounted(){
-    this.$nextTick(() => {
 
-    setTimeout(() => {
-     this.loader=false
-    }, 2000);
-    })
-
-},
    
 
   data() {

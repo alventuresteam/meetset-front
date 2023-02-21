@@ -91,7 +91,12 @@
             İmtina
           </button>
 
-          <button  aria-label="Əlavə et" class="submit" type="submit">Əlavə et</button>
+          <button  aria-label="Əlavə et" class="submit" type="submit">
+            
+              <div v-show="success" class="loading-dots">
+  <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
+</div>
+           <span v-show="!success">Əlavə et</span></button>
         </div>
         <div v-show="success" class="success">
           <p>Otaq uğurla yaradıldı</p>

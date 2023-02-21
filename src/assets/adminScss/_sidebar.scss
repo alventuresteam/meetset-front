@@ -2,7 +2,8 @@
     width: 246px;
     border-radius: 0px 16px 16px 0px;
     padding: 24px 16px 24px 16px;
-    height: 100vh;
+    position: fixed;
+    height: 100%;
     background-color: #364152;
     &__logo {
         height: 68px;

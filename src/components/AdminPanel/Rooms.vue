@@ -66,7 +66,10 @@
                   class="submitWhite"
                   id="messg"
                 >
-                  Sil
+                  <div v-show="success" class="loading-dots">
+  <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
+</div>
+           <span v-show="!success">Sil</span> 
                   <img  loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet" />
                 </button>
               </div>

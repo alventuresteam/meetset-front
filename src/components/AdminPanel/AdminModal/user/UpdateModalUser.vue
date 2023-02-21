@@ -2,7 +2,7 @@
   <div class="modal-overlay">
     <div class="modal modal__user" @click.stop>
       <div class="modal__head">
-        <h6 class="modal__head-title">İstifadəçini redaktə et</h6>
+        <h6 class="modal__head-title">İstifadəçini redakte et</h6>
         <span class="modal__head-close" @click="close()"
           ><img src="../../../../assets/images/svg/modalClose.svg" alt=""
         /></span>
@@ -126,8 +126,10 @@
             type="submit"
             placeholder="Görüşlə bağlı qeydlər"
           >
-            Yadda Saxla
-          </button>
+  <div v-show="success" class="loading-dots">
+  <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
+</div>
+           <span v-show="!success">Yadda saxla</span>            </button>
         </div>
 
         <div v-show="success" class="success">

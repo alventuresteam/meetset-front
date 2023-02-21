@@ -182,11 +182,14 @@ for (let i=0; i < elementsList.length; i++) {
         events: this.events,
       };
     },
+    
   },
   async mounted() {
-    await this.useStoreRoom.fetchRoom();
 
-
+    try{
+  await this.useStoreRoom.fetchRoom();
+this.$emit("success")
+ console.log('login')
     this.emitter.on("refresh", () => {
       this.refetch();
       this.val++;
@@ -196,6 +199,10 @@ for (let i=0; i < elementsList.length; i++) {
     this.useUserStores.fetchUser();
     this.showCalendar = true;
     this.refetch();
+    }catch (err){
+console.log(err)
+    }
+  
   },
 });
 </script>

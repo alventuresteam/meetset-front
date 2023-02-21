@@ -27,6 +27,7 @@
 
     <button aria-label="Yadda saxla" type="submit" class="setting__save">
       Yadda saxla
+      
       <span><img  loading="lazy" src="../../assets/images/svg/check.svg" alt="check" /></span>
     </button>
   </form>

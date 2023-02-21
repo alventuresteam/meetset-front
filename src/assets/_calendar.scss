@@ -2,114 +2,130 @@
     background: #f8fafc;
     padding-top: 54px;
     border-top: 1px solid #e3e8ef;
+}
 
-  }
-
-  
-
- .is-right{
-    .vc-svg-icon{
+.is-right {
+    .vc-svg-icon {
         position: relative;
         left: -3px;
     }
-  }
-  
-  .vc {
+}
+
+.vc {
     &-header {
-      margin-bottom: 30px;
+        margin-bottom: 30px;
     }
 
-    
-  
     &-dot {
-      background-color: white !important;
-      width: 4px !important;
-      height: 4px !important;
+        background-color: white !important;
+        width: 4px !important;
+        height: 4px !important;
     }
-  
+
     &-day {
-      min-height: 40px !important;
-  
-      &-box-center-bottom {
-        margin-bottom: 9px !important;
-        margin-left: 2px !important;
-      }
+        min-height: 40px !important;
 
-      &-content{
-        margin-bottom:2px !important;
-      }
+        &-box-center-bottom {
+            margin-bottom: 9px !important;
+            margin-left: 2px !important;
+        }
+
+        &-content {
+            margin-bottom: 2px !important;
+        }
     }
-  
+
     &-container {
-      border: 1px solid transparent !important;
-      border-radius: 10px;
-      width: 444px !important;
-      padding: 36px 24px;
+        border: 1px solid transparent !important;
+        border-radius: 10px;
+        width: 444px !important;
+        padding: 36px 24px;
     }
-  
+
     &-highlight {
-      background: #155eef !important;
-      width: 38px !important;
-      height: 38px !important;
-      border-radius: 12px !important;
+        background: #155eef !important;
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 12px !important;
 
-      font-family: TTInterfaces-Medium, sans-serif !important;
-font-size: 16px !important;
-font-weight: 500 !important;
-line-height: 20px !important;
-text-align: center !important;
-
+        font-family: TTInterfaces-Medium, sans-serif !important;
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        line-height: 20px !important;
+        text-align: center !important;
     }
-  
+
     &-arrow {
-      &.is-left {
-        transform: rotate(90deg);
-        margin-right: 10px;
-        border: 1px solid #cdd5df;
-      }
-  
-      &.is-right {
-        transform: rotate(90deg);
-        border: 1px solid #cdd5df;
-      }
+        &.is-left {
+            transform: rotate(90deg);
+            margin-right: 10px;
+            border: 1px solid #cdd5df;
+        }
+
+        &.is-right {
+            transform: rotate(90deg);
+            border: 1px solid #cdd5df;
+        }
     }
-  }
+}
 
-
-
-  .vue__time-picker{
+.vue__time-picker {
     width: 48% !important;
-& input.vue__time-picker-input{
-height: 56px !important;
-    border: 1px solid #cdd5df;
-    border-radius: 8px;
-    padding: 0 16px !important;
-    width: 100% !important;
-    font-size: 16px;
-    line-height: 22px;
-    color: #364152;
-    font-weight: 400;
-    font-family: TTInterfaces-Regular, sans-serif;
+    & input.vue__time-picker-input {
+        height: 56px !important;
+        border: 1px solid #cdd5df;
+        border-radius: 8px;
+        padding: 0 16px !important;
+        width: 100% !important;
+        font-size: 16px;
+        line-height: 22px;
+        color: #364152;
+        font-weight: 400;
+        font-family: TTInterfaces-Regular, sans-serif;
 
-    &:disabled{
-        color: $black;
+        &:disabled {
+            color: $black;
+        }
+    }
+
+    .active {
+        background-color: #155eef !important;
     }
 }
 
-.active{
-    background-color: #155eef !important;
-}
-
-}
-
-.fc-scrollgrid-section{
+.fc-scrollgrid-section {
     background-color: $white;
 }
 
-
-
-.fc .fc-timeline-slot-cushion{
-    color: #1E1E1E !important;
+.fc .fc-timeline-slot-cushion {
+    color: #1e1e1e !important;
     text-decoration: none !important;
     margin: auto !important;
+}
+
+.fc {
+    /* width */
+    ::-webkit-scrollbar {
+        height: 6px;
+        width: auto;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        border-bottom: 1px solid #EEF2F6;
+        height: 1px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #e3e8ef;
+        height: 6px;
+        width: 200px;
+
+        border-radius: 4px;
+    }
+}
+
+.e-active {
+    display: none !important;
 }

@@ -80,7 +80,7 @@
           </div>
         </div>
         <div class="modal__form-group">
-          <select
+          <!-- <select
             style="margin-top: 20px"
             id="roomSelect"
             class="input input__100"
@@ -89,7 +89,17 @@
             <option v-for="item in getRoom" :key="item.id" :value="item.id">
               {{ item.name }}
             </option>
-          </select>
+          </select> -->
+
+          <!-- <pre>
+            {{getRoom}}
+          </pre> -->
+             <CustomSelect
+                :options="getRoom"
+                :default="room_id" 
+                @selectValue="room_id = $event.id"
+                class="select"
+            />
 
           <span
             class="errorText"
@@ -218,7 +228,10 @@
             placeholder="Görüşlə bağlı qeydlər"
             id="messg"
           >
-            Yadda saxla
+          <div v-show="success" class="loading-dots">
+  <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
+</div>
+           <span v-show="!success">Yadda saxla</span>  
           </button>
         </div>
 
@@ -241,10 +254,12 @@ import { useRoomStore } from "../../stores/room";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, minLength, helpers } from "@vuelidate/validators";
 import { storeToRefs } from "pinia";
+import CustomSelect from "@/components/Modal/Dropdown.vue";
 
 export default {
   components: {
     "ejs-timepicker": TimePickerComponent,
+    CustomSelect
   },
 
   data() {
@@ -252,7 +267,7 @@ export default {
       start_date: "",
       start_time: "",
       end_time: "",
-      room_id: this.useStoreRoom.id,
+      room_id: '',
       organizer_name: "",
       emails: [],
       checkEmails: [],
@@ -281,7 +296,7 @@ export default {
       start_date: { required },
       start_time: { required },
       end_time: { required },
-      room_id: { required },
+       room_id: { required },
       organizer_name: { required },
       emails: {
         minLength: minLength(1),
@@ -357,7 +372,7 @@ setTimeout(() => {
     this.userStore.errorMsg = ''
         this.userStore.error = ''
 
-}, 1500);
+}, 2000);
 
         if (!this.userStore.error  && !this.userStore.errorMsg) {
           this.success = true;
@@ -369,11 +384,7 @@ setTimeout(() => {
             }, 1500);
           }
         }
-
-       
       }
-
-
     },
 
     changeValue: function (args) {
@@ -410,12 +421,17 @@ setTimeout(() => {
     let dtToday = new Date();
 
     let month = dtToday.getMonth() + 1;
-    let day = dtToday.getDate();
+    let day = dtToday.getDate(); 
     let year = dtToday.getFullYear();
     if (month < 10) month = "0" + month.toString();
     if (day < 10) day = "0" + day.toString();
     let maxDate = year + "-" + month + "-" + day;
     document.getElementById("date").setAttribute("min", maxDate);
+
+
+
+const clearTime = document.getElementsByClassName('e-clear-icon-hide')
+const clock =  document.getElementsByClassName('e-time-icon') 
 
 
 

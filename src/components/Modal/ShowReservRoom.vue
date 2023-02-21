@@ -10,7 +10,7 @@
         </h6>
 
         <h6 v-else-if="showEditButtons" class="modal__head-title">
-          Otaq rezervasiyasını redaktə et
+          Otaq rezervasiyasını e et
         </h6>
 
         <h6 v-else class="modal__head-title">
@@ -99,7 +99,7 @@
           </div>
 
           <div class="modal__form-group">
-            <select
+            <!-- <select
               id="roomSelect"
               :disabled="disabled == 1"
               class="input input__100"
@@ -112,7 +112,17 @@
               >
                 {{ item.name }}
               </option>
-            </select>
+            </select> -->
+
+                 <CustomSelect
+
+      :options="useStoreRoom.getRoom"
+      :default="updateReservation.room_id"
+      class="select"
+      @selectValue="updateReservation.room_id = $event.id"
+
+
+    />
 
             <span
               class="errorText"
@@ -251,8 +261,11 @@
             id="messg"
             aria-label="Yadda Saxla"
           >
-            Yadda Saxla
-          </button>
+          <div v-show="success" class="loading-dots">
+  <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
+</div>
+           <span v-show="!success">Yadda saxla</span>    
+                   </button>
         </div>
 
         <div v-else-if="showDeletButtons" class="modal__form-group modal__flex">
@@ -272,7 +285,11 @@
             id="messg"
             aria-label="Sil"
           >
-            Sil <img  loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet" />
+ <div v-show="success" class="loading-dots">
+  <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
+</div>
+           <span v-show="!success">Sil</span>             
+            <img  loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet" />
           </button>
         </div>
 
@@ -285,11 +302,11 @@
           <button
             type="button"
             class="submitWhite"
-            aria-label="Redaktə etmək"
+            aria-label="Redakte etmək"
             id="messg"
             @click="activeDisable()"
           >
-            Redaktə etmək
+            Redakte etmək
             <img  loading="lazy" src="../../assets/images/svg/edit.svg" alt="edit" />
           </button>
         </div>
@@ -313,11 +330,14 @@ import { TimePickerComponent } from "@syncfusion/ej2-vue-calendars";
 import moment from "moment";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, minLength, helpers } from "@vuelidate/validators";
+import CustomSelect from "@/components/Modal/Dropdown.vue";
 
 export default {
   props: ["item", "itemRoom"],
   components: {
     "ejs-timepicker": TimePickerComponent,
+        CustomSelect
+
   },
   data() {
     return {

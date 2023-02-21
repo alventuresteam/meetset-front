@@ -81,6 +81,8 @@ export default {
     CreateModalRoom,
   },
 
+ 
+
   methods: {
    async logout() {
      await this.userStore.signOut();
