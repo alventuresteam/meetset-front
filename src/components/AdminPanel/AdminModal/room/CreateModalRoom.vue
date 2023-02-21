@@ -96,9 +96,10 @@
               <div v-show="success" class="loading-dots">
   <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
 </div>
-           <span v-show="!success">Əlavə et</span></button>
+           <span v-show="!this.clickLoad = false
+">Əlavə et</span></button>
         </div>
-        <div v-show="success" class="success">
+        <div v-show="clickLoad" class="success">
           <p>Otaq uğurla yaradıldı</p>
         </div>
       </form>
@@ -121,7 +122,7 @@ export default {
           this.address,
           this.floor
         );
-
+this.clickLoad = true;
         await this.userStore.fetchRoom();
 
         this.success = true;
@@ -130,6 +131,7 @@ export default {
           setTimeout(() => {
             this.$emit("close-modal");
             this.success = false;
+            this.clickLoad = false;
             this.name = "";
             this.capacity = "";
             this.address = "";
@@ -149,6 +151,7 @@ export default {
       address: "",
       floor: "",
       success: false,
+      clickLoad:false,
     };
   },
 

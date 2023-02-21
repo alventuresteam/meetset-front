@@ -8,7 +8,8 @@
       alt="logo"
     />
 </a>
-    <div class="flex" >
+<div v-if="userStore.token !== '' ">
+  <div class="flex" >
   
       <div >
         <div class="submitWhite flex center__flex" @click="closeDropDown">
@@ -25,6 +26,8 @@
         </ul>
       </div>
     </div>
+</div>
+  
 
   </header>
 

@@ -137,9 +137,9 @@
 <div v-show="success" class="loading-dots">
   <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
 </div>
-           <span v-show="!success">Əlavə et</span>          </button>
+           <span v-show="!clickLoad">Əlavə et</span>          </button>
         </div>
-        <div v-show="success" class="success">
+        <div v-show="clickLoad" class="success">
           <p>Istifadəçi uğurla yarandıldı</p>
         </div>
       </form>
@@ -161,6 +161,7 @@ export default {
       fin_code: "",
       position: "",
       success: false,
+      clickLoad:false,
     };
   },
   methods: {
@@ -177,11 +178,13 @@ export default {
 
         await this.userStore.fetchPerson();
         this.success = true;
+        this.clickLoad = true
+
         if ((this.success = true)) {
           setTimeout(() => {
             this.$emit("close-modal");
             this.success = false;
-
+this.clickLoad = false
             this.name = "";
             this.fin_code = "";
             this.position = "";

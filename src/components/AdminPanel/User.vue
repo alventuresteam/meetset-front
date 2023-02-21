@@ -60,10 +60,10 @@
                       class="submitWhite"
                       id="messg"
                     >
-                       <div v-show="success" class="loading-dots">
+                       <div v-show="clickLoad" class="loading-dots">
   <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
 </div>
-           <span v-show="!success">Sil</span> 
+           <span v-show="!clickLoad">Sil</span> 
                       <img  loading="lazy"
                         src="../../assets/images/svg/delet.svg"
                         alt="delet"
@@ -108,6 +108,7 @@ export default {
       updateDataPerson: {},
       showDeletButtons: false,
       success: false,
+      clickLoad:false,
     };
   },
 
@@ -121,10 +122,12 @@ export default {
       await this.userStore.deletePerson(item);
       await this.userStore.fetchPerson();
       this.success = true;
+      this.clickLoad = true
       if ((this.success = true)) {
         setTimeout(() => {
           this.showDeletButtons = false;
           this.success = false;
+          this.clickLoad = false
         }, 1500);
       }
       console.log(item);

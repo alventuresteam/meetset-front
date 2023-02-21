@@ -69,11 +69,11 @@
                   <div v-show="success" class="loading-dots">
   <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
 </div>
-           <span v-show="!success">Sil</span> 
+           <span v-show="!clickLoad">Sil</span> 
                   <img  loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet" />
                 </button>
               </div>
-              <div v-show="success" class="success">
+              <div v-show="clickLoad" class="success">
                 <p>Otaqlar uğurla silindi</p>
               </div>
             </div>
@@ -113,6 +113,7 @@ export default {
       updateDataRoom: {},
       showDeletButtons: false,
       success: false,
+      clickLoad:false,
     };
   },
 
@@ -126,12 +127,14 @@ export default {
     async handleDelete(item) {
       await this.userStore.deleteRoom(item);
       await this.userStore.fetchRoom();
-
+this.clickLoad = true
       this.success = true;
       if ((this.success = true)) {
         setTimeout(() => {
           this.showDeletButtons = false;
           this.success = false;
+          this.clickLoad = false
+
         }, 1500);
       }
     },

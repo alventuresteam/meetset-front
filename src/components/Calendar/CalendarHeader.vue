@@ -72,9 +72,7 @@ export default {
   },
 
   setup() {
-    onMounted(() => {
-      //userStore.fetchUser();
-    });
+   
 
     const ReserveRoom = defineAsyncComponent({
       loader: () => import("../../components/Modal/ShowReservRoom.vue"),

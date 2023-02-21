@@ -89,18 +89,18 @@
           <button aria-label="İmtina" type="button" class="submitWhite" @click="close()">
             İmtina
           </button>
+            <!-- @click="handleUpdate(item)" -->
 
           <button
             class="submit"
             type="submit"
             aria-label="Yadda saxla"
-            @click="handleUpdate(item)"
             placeholder="Görüşlə bağlı qeydlər"
           >
-  <div v-show="success" class="loading-dots">
+  <div v-show="clickLoad" class="loading-dots">
   <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
 </div>
-           <span v-show="!success">Yadda saxla</span>            </button>
+           <span v-show="!clickLoad">Yadda saxla</span>            </button>
         </div>
 
          <div v-show="success" class="success">
@@ -126,7 +126,8 @@ export default {
   data() {
     return {
       updateDataRoom: {},
-      success:false
+      success:false,
+      clickLoad:false,
     };
   },
 
@@ -148,6 +149,7 @@ export default {
   methods: {
     async uppdateHandler() {
       const result = await this.v$.$validate();
+      this.clickLoad = true
       if (result) {
         await this.userStore.updateRoom(this.updateDataRoom);
         await this.userStore.fetchRoom();
@@ -157,6 +159,8 @@ export default {
           setTimeout(() => {
             this.$emit("close-modal");
                     this.success = false;
+                          this.clickLoad = false
+
 
           }, 1500);
         }

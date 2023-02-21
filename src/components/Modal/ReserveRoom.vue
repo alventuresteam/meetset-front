@@ -228,10 +228,10 @@
             placeholder="Görüşlə bağlı qeydlər"
             id="messg"
           >
-          <div v-show="success" class="loading-dots">
+          <div v-show="clickLoad" class="loading-dots">
   <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
 </div>
-           <span v-show="!success">Yadda saxla</span>  
+           <span v-show="!clickLoad">Yadda saxla</span>  
           </button>
         </div>
 
@@ -272,7 +272,8 @@ export default {
       emails: [],
       checkEmails: [],
       title: "",
-      comment: "",
+      comment: "",             
+      clickLoad: false,
 
       limit: 250,
       success: false,
@@ -351,10 +352,9 @@ export default {
           email: item,
         };
       });
+        this.clickLoad= true
 
       if (result) {
-
-      
         await this.userStore.createReservation(
           this.start_date,
           this.formattedTime,
@@ -381,6 +381,7 @@ setTimeout(() => {
             setTimeout(() => {
               this.$emit("close-modal");
               this.success = false;
+             this.clickLoad= false
             }, 1500);
           }
         }

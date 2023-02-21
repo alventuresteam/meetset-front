@@ -115,14 +115,11 @@
             </select> -->
 
                  <CustomSelect
-
-      :options="useStoreRoom.getRoom"
-      :default="updateReservation.room_id"
-      class="select"
-      @selectValue="updateReservation.room_id = $event.id"
-
-
-    />
+                    :options="useStoreRoom.getRoom"
+                    :default="updateReservation?.room_id"
+                    class="select"
+                    @selectValue="updateReservation.room_id = $event.id"
+                />
 
             <span
               class="errorText"
@@ -261,10 +258,10 @@
             id="messg"
             aria-label="Yadda Saxla"
           >
-          <div v-show="success" class="loading-dots">
+          <div v-show="clickLoad" class="loading-dots">
   <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
 </div>
-           <span v-show="!success">Yadda saxla</span>    
+           <span v-show="!clickLoad">Yadda saxla</span>    
                    </button>
         </div>
 
@@ -285,10 +282,10 @@
             id="messg"
             aria-label="Sil"
           >
- <div v-show="success" class="loading-dots">
+ <div v-show="clickLoad" class="loading-dots">
   <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
 </div>
-           <span v-show="!success">Sil</span>             
+           <span v-show="!clickLoad">Sil</span>             
             <img  loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet" />
           </button>
         </div>
@@ -341,6 +338,8 @@ export default {
   },
   data() {
     return {
+              clickLoad: false,
+
       updateReservation: {},
       updateReservationRoom: {},
       showEditButtons: false,
@@ -489,6 +488,8 @@ export default {
           };
         }
       );
+
+      this.clickLoad = true
       if (result) {
         this.updateReservation.start_time = this.formattedTime;
         this.updateReservation.end_time = this.formattedEndTime;
@@ -509,6 +510,7 @@ export default {
               this.$emit("close-modal");
               this.success = false;
               this.emitter.emit("refresh");
+              this.clickLoad=false
             }, 1500);
           }
         }

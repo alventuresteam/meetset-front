@@ -1,7 +1,7 @@
 <template>
   <div class="custom-select" :tabindex="tabindex" @blur="open = false">
     <div class="selected" :class="{ open: open }" @click="open = !open">
-      {{ selected.name }}
+      {{ selected }}
     </div>
 
     <div class="items" :class="{ selectHide: !open }">
@@ -20,11 +20,9 @@
 export default {
     methods: {
         selectVal(val) {
-            this.selected = val;
+            this.selected = val.name;
             this.open = false; 
             this.$emit('selectValue', val);
-
-            console.log('val',val)
         }
     },
   props: {
@@ -33,13 +31,11 @@ export default {
       required: true,
     },
     default: {
-      type: String,
-      required: false,
+      type: Number,
       default: '',
     },
     tabindex: {
       type: Number,
-      required: false,
       default: 0,
     },
   },
@@ -51,7 +47,13 @@ export default {
   },
 
   mounted() {
-    // this.selected =  this.default ? this.default : this.options.length > 0 ? this.options[0] : null,
+    setTimeout(() =>{
+        this.options?.forEach(item => {
+            if (item.id === this.default) {
+                this.selected = item.name;
+            }
+        })
+    }, 10)
   },
 
 };
@@ -76,6 +78,11 @@ export default {
   height:56px;
   cursor: pointer;
   padding:16px;
+
+  font-family: TTInterfaces-Regular;
+font-size: 16px;
+font-weight: 400;
+line-height: 22px;
 
   user-select: none;
 }

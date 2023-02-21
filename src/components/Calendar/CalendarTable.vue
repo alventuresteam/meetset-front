@@ -136,7 +136,7 @@ export default defineComponent({
         },
         eventDidMount: function (info) {
           tippy(info.el, {
-            content: `Təşkilatçı:${info.event.title} <br> Başlama və bitmə: ${info.event.extendedProps.description}`,
+            content: `Təşkilatçı:  ${info.event.title} <br> Başlama və bitmə: ${info.event.extendedProps.description}`,
             placement: "top",
             allowHTML: true,
             appendTo: document.querySelector(".fc-timeline-lane-frame"),
