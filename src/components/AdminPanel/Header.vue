@@ -20,7 +20,7 @@
       </div>
 
          <div class="header" style="padding:0; display:block">
-        <div class="submitWhite flex center__flex" @click="closeDropDown">
+        <div class="submitWhite flex center__flex" @click.stop="hideDropdown = true">
           {{ userStore.getUser.name }}
           <img  loading="lazy"
             class="fix__img"
@@ -81,7 +81,14 @@ export default {
     CreateModalRoom,
   },
 
- 
+ mounted() {
+    document.querySelector("body").addEventListener("click", this.closeDropDown);
+
+
+  },
+  beforeDestroy() {
+ document.querySelector("body").removeEventListener("click", this.closeDropDown)
+   },
 
   methods: {
    async logout() {
@@ -91,7 +98,7 @@ export default {
     },
 
        closeDropDown(){
-        this.hideDropdown = !this.hideDropdown;
+        this.hideDropdown = false;
     }
   },
   setup() {

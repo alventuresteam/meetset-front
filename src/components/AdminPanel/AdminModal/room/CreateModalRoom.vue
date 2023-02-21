@@ -96,7 +96,7 @@
               <div v-show="success" class="loading-dots">
   <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
 </div>
-           <span v-show="!this.clickLoad = false
+           <span v-show="!clickLoad
 ">Əlavə et</span></button>
         </div>
         <div v-show="clickLoad" class="success">
