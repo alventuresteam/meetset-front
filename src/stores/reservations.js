@@ -11,7 +11,9 @@ export const useReservationStore = defineStore("reservation", {
   state: () => ({
     reservation: [],
     error: [],
-    errorMsg:'',
+    errorMsg: "",
+    successMess: false,
+
     token: localStorage.getItem("token") || "",
   }),
 
@@ -38,11 +40,10 @@ export const useReservationStore = defineStore("reservation", {
       title,
       comment
     ) {
+      this.error = null;
+      this.errorMsg = null;
 
-        this.error = null;
-        this.errorMsg = null;
-
-        await axios
+      await axios
         .post("https://meetset.al.ventures/api/reservations/create", {
           start_date,
           start_time,
@@ -53,22 +54,23 @@ export const useReservationStore = defineStore("reservation", {
           title,
           comment,
         })
-        .then((res) => {})
-        .catch((err) => {
-            if (err.response.status === 422) {
-                this.error = err.response.data.errors;
-                if(!this.error) this.errorMsg = err.response.data.message;
+        .then((res) => {
 
-          console.error(err.response);
-
-            }
           
+        })
+        .catch((err) => {
+          if (err.response.status === 422) {
+            this.error = err.response.data.errors;
+            if (!this.error) this.errorMsg = err.response.data.message;
+
+            console.error(err.response);
+          }
         });
     },
 
     async updateReservation(item) {
-        this.error = null;
-        this.errorMsg = null;
+      this.error = null;
+      this.errorMsg = null;
       await axios
         .post(
           `https://meetset.al.ventures/api/reservations/${item.id}/update`,
@@ -83,17 +85,17 @@ export const useReservationStore = defineStore("reservation", {
             comment: item.comment,
           }
         )
-        .then((res) => {
-          console.log(res);
+        .then((response) => {
+        
         })
         .catch((err) => {
-            if (err.response.status === 422) {
-                this.error = err.response.data.errors;
-                if(!this.error) this.errorMsg = err.response.data.message;
+          if (err.response.status === 422) {
+            this.error = err.response.data.errors;
+            if (!this.error) this.errorMsg = err.response.data.message;
 
-          console.error(err.response);
-
-            }        });
+            console.error(err.response);
+          }
+        });
     },
 
     async deletReservation(item) {
@@ -122,6 +124,6 @@ export const useReservationStore = defineStore("reservation", {
 
   getters: {
     getReservations: (state) => state.reservation,
-    getErrors : (state) => state.errors
+    getSuccessMess: (state) => state.successMess,
   },
 });

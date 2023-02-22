@@ -4,7 +4,10 @@
       <div class="modal__head">
         <h6 class="modal__head-title">Otaq rezerv et</h6>
         <span class="modal__head-close" @click="$emit('close-modal')"
-          ><img  loading="lazy" src="../../assets/images/svg/modalClose.svg" alt=""
+          ><img
+            loading="lazy"
+            src="../../assets/images/svg/modalClose.svg"
+            alt=""
         /></span>
       </div>
       <form class="modal__form" @submit.prevent="addPerson()">
@@ -20,7 +23,7 @@
             @blur="onBlur"
           />
 
-          <span class="errorText" v-if=" userStore.errorMsg">{{
+          <span class="errorText" v-if="userStore.errorMsg">{{
             userStore.errorMsg
           }}</span>
 
@@ -95,12 +98,12 @@
           <!-- <pre>
             {{getRoom}}
           </pre> -->
-             <CustomSelect
-                :options="getRoom"
-                :default="room_id" 
-                @selectValue="chooseRoom"
-                class="select"
-            />
+          <CustomSelect
+            :options="getRoom"
+            :default="room_id"
+            @selectValue="chooseRoom"
+            class="select"
+          />
 
           <span
             class="errorText"
@@ -130,10 +133,13 @@
           </span>
         </div>
 
-        <div class="modal__form-group" >
+        <div class="modal__form-group">
           <label for="emails" class="label">Dəvət ediləcəklər</label>
 
-          <div :class="{disabled: !room_id}" class="tag-input input input__100 input__height-auto">
+          <div
+            :class="{ disabled: !room_id }"
+            class="tag-input input input__100 input__height-auto"
+          >
             <div
               v-for="(tag, index) in emails"
               :key="tag"
@@ -143,7 +149,6 @@
               <span @click="removeTag(index)">x</span>
             </div>
             <textarea
-
               maxlength="255"
               class="tag-input__text"
               @keydown.enter="addTag"
@@ -152,29 +157,29 @@
               @keydown.delete="removeLastTag"
             />
           </div>
-
-       
         </div>
 
-          <span class="errorText" v-if="userStore.error && userStore.error.emails">
-            E-maildə səhvlik var
-         </span>
+        <span
+          class="errorText"
+          v-if="userStore.error && userStore.error.emails"
+        >
+          E-maildə səhvlik var
+        </span>
 
-         
-          <span
-            class="errorText"
-            v-for="error in v$.checkEmails.$errors"
-            :key="error.$uid"
-          >
-            <template v-for="err in error.$message">
-              {{ err[0] === "Value is required" ? "Email boşdur" : "" }}
-              {{
-                err[0] === "Value is not a valid email address"
-                  ? "Burda email olmalıdır!"
-                  : ""
-              }}
-            </template>
-          </span>
+        <span
+          class="errorText"
+          v-for="error in v$.checkEmails.$errors"
+          :key="error.$uid"
+        >
+          <template v-for="err in error.$message">
+            {{ err[0] === "Value is required" ? "Email boşdur" : "" }}
+            {{
+              err[0] === "Value is not a valid email address"
+                ? "Burda email olmalıdır!"
+                : ""
+            }}
+          </template>
+        </span>
 
         <div class="modal__form-group">
           <input
@@ -215,7 +220,7 @@
 
         <div class="modal__form-group modal__flex">
           <button
-          aria-label="İmtina"
+            aria-label="İmtina"
             type="button"
             class="submitWhite"
             @click="$emit('close-modal')"
@@ -224,23 +229,20 @@
           </button>
 
           <button
-          aria-label="Yadda saxla"
+            aria-label="Yadda saxla"
             class="submit"
             type="submit"
             placeholder="Görüşlə bağlı qeydlər"
             id="messg"
           >
-          <div v-show="clickLoad" class="loading-dots">
-            <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
-          </div>
-           <span v-show="!clickLoad">Yadda saxla</span>  
+            <span>Yadda saxla</span>
           </button>
         </div>
-
-        <div v-show="success" class="success">
-          <p>Rezerv uğurlu keçdi</p>
-        </div>
       </form>
+
+      <div v-show="clickLoad" class="loading-dots">
+        <img loading="lazy" src="../../assets/images/gif/load.gif" alt="gif" />
+      </div>
     </div>
   </div>
 </template>
@@ -265,7 +267,7 @@ import CustomSelect from "@/components/Modal/Dropdown.vue";
 export default {
   components: {
     "ejs-timepicker": TimePickerComponent,
-    CustomSelect
+    CustomSelect,
   },
 
   data() {
@@ -273,16 +275,15 @@ export default {
       start_date: "",
       start_time: "",
       end_time: "",
-      room_id: '',
+      room_id: "",
       organizer_name: "",
       emails: [],
       checkEmails: [],
       title: "",
-      comment: "",             
+      comment: "",
       clickLoad: false,
 
       limit: 250,
-      success: false,
 
       waterMark: "Saat",
       endEnable: false,
@@ -303,7 +304,7 @@ export default {
       start_date: { required },
       start_time: { required },
       end_time: { required },
-       room_id: { required },
+      room_id: { required },
       organizer_name: { required },
       emails: {
         minLength: minLength(1),
@@ -322,26 +323,25 @@ export default {
         }),
       },
       title: { required },
-    //   comment: { required },
+      //   comment: { required },
     };
   },
   methods: {
     chooseRoom(event) {
-      this.room_id = event.id
+      this.room_id = event.id;
       this.emails = [];
     },
     addTag(event) {
       event.preventDefault();
-      let room = this.getRoom.find(item => item.id === this.room_id)
-      console.log(room.capacity, this.emails.length)
-      if(room.capacity <= this.emails.length) {
-
+      let room = this.getRoom.find((item) => item.id === this.room_id);
+      console.log(room.capacity, this.emails.length);
+      if (room.capacity <= this.emails.length) {
         return;
       }
 
       let val = event.target.value.trim();
 
-      if(this.emails.includes(val)) {
+      if (this.emails.includes(val)) {
         return;
       }
 
@@ -360,15 +360,16 @@ export default {
     },
 
     async addPerson() {
-    
       const result = await this.v$.$validate();
-    this.checkEmails = this.emails.map((item) => {
+      this.checkEmails = this.emails.map((item) => {
         return {
           email: item,
         };
       });
 
       if (result) {
+        this.clickLoad = true;
+
         await this.userStore.createReservation(
           this.start_date,
           this.formattedTime,
@@ -382,24 +383,13 @@ export default {
         await this.useStoreRoom.fetchRoom();
         this.emitter.emit("refresh");
 
-setTimeout(() => {
-        this.userStore.error = ''
+        if (!this.userStore.error && !this.userStore.errorMsg) {
 
-}, 2000);
-
-        if (!this.userStore.error  && !this.userStore.errorMsg) {
-          this.success = true;
-        this.clickLoad= true
-
-          if ((this.success = true)) {
-            setTimeout(() => {
               this.$emit("close-modal");
-              this.success = false;
-             this.clickLoad= false;
-    this.userStore.errorMsg = ''
-
-            }, 1500);
-          }
+              this.clickLoad = false;
+              this.userStore.errorMsg = "";
+              this.userStore.error = "";
+              this.$toast.success(`Rezerv uğurlu keçdi`);
         }
       }
     },
@@ -438,20 +428,15 @@ setTimeout(() => {
     let dtToday = new Date();
 
     let month = dtToday.getMonth() + 1;
-    let day = dtToday.getDate(); 
+    let day = dtToday.getDate();
     let year = dtToday.getFullYear();
     if (month < 10) month = "0" + month.toString();
     if (day < 10) day = "0" + day.toString();
     let maxDate = year + "-" + month + "-" + day;
     document.getElementById("date").setAttribute("min", maxDate);
 
-
-
-const clearTime = document.getElementsByClassName('e-clear-icon-hide')
-const clock =  document.getElementsByClassName('e-time-icon') 
-
-
-
+    const clearTime = document.getElementsByClassName("e-clear-icon-hide");
+    const clock = document.getElementsByClassName("e-time-icon");
   },
 
   setup() {

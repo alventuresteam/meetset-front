@@ -57,6 +57,8 @@ export default {
     async save() {
       await this.userStore.updateSetting(this.userStore.getSetting);
       await this.userStore.fetchSetting();
+            this.$toast.success(`Yadda saxlanıldı`);
+
     },
   },
 };

@@ -4,7 +4,10 @@
       <div class="modal__head">
         <h6 class="modal__head-title">Otağı redakte et</h6>
         <span class="modal__head-close" @click="close()">
-          <img  loading="lazy" src="../../../../assets/images/svg/modalClose.svg" alt=""
+          <img
+            loading="lazy"
+            src="../../../../assets/images/svg/modalClose.svg"
+            alt=""
         /></span>
       </div>
 
@@ -50,8 +53,7 @@
           <input
             v-model.lazy="updateDataRoom.address"
             class="input input__100"
-                        max="9999"
-
+            max="9999"
             min="1"
             placeholder="Yerləşdiyi bina"
             type="number"
@@ -71,8 +73,7 @@
             v-model.lazy="updateDataRoom.floor"
             class="input input__100"
             min="1"
-                        max="25"
-
+            max="25"
             placeholder="Yerləşdiyi mərtəbə"
             type="number"
           />
@@ -86,10 +87,15 @@
         </div>
 
         <div class="modal__form-group modal__flex">
-          <button aria-label="İmtina" type="button" class="submitWhite" @click="close()">
+          <button
+            aria-label="İmtina"
+            type="button"
+            class="submitWhite"
+            @click="close()"
+          >
             İmtina
           </button>
-            <!-- @click="handleUpdate(item)" -->
+          <!-- @click="handleUpdate(item)" -->
 
           <button
             class="submit"
@@ -97,16 +103,14 @@
             aria-label="Yadda saxla"
             placeholder="Görüşlə bağlı qeydlər"
           >
-  <div v-show="clickLoad" class="loading-dots">
-  <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
-</div>
-           <span v-show="!clickLoad">Yadda saxla</span>            </button>
-        </div>
-
-         <div v-show="success" class="success">
-          <p>Otaqlar uğurla redakt olundu</p>
+            <span>Yadda saxla</span>
+          </button>
         </div>
       </form>
+
+      <div v-show="clickLoad" class="loading-dots">
+        <img loading="lazy" src="../../../../assets/images/gif/load.gif" alt="gif" />
+      </div>
     </div>
   </div>
 </template>
@@ -126,8 +130,7 @@ export default {
   data() {
     return {
       updateDataRoom: {},
-      success:false,
-      clickLoad:false,
+      clickLoad: false,
     };
   },
 
@@ -150,20 +153,15 @@ export default {
     async uppdateHandler() {
       const result = await this.v$.$validate();
       if (result) {
+        this.clickLoad = true;
+
         await this.userStore.updateRoom(this.updateDataRoom);
         await this.userStore.fetchRoom();
-      this.clickLoad = true
 
-        this.success = true;
-        if ((this.success = true)) {
-          setTimeout(() => {
-            this.$emit("close-modal");
-                    this.success = false;
-                          this.clickLoad = false
+        this.$toast.success(`Otaqlar uğurla redakt olundu`);
+        this.clickLoad = false;
 
-
-          }, 1500);
-        }
+        this.$emit("close-modal");
       }
     },
 

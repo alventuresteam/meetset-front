@@ -4,7 +4,10 @@
       <div class="modal__head">
         <h6 class="modal__head-title">Otaq əlavə et</h6>
         <span class="modal__head-close" @click="$emit('close-modal')"
-          ><img  loading="lazy" src="../../../../assets/images/svg/modalClose.svg" alt=""
+          ><img
+            loading="lazy"
+            src="../../../../assets/images/svg/modalClose.svg"
+            alt=""
         /></span>
       </div>
 
@@ -83,7 +86,7 @@
         </span>
         <div class="modal__form-group modal__flex">
           <button
-           aria-label="İmtina"
+            aria-label="İmtina"
             type="button"
             class="submitWhite"
             @click="$emit('close-modal')"
@@ -91,22 +94,24 @@
             İmtina
           </button>
 
-          <button  aria-label="Əlavə et" class="submit" type="submit">
-            
-              <div v-show="success" class="loading-dots">
-  <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
-</div>
-           <span v-show="!clickLoad
-">Əlavə et</span></button>
-        </div>
-        <div v-show="clickLoad" class="success">
-          <p>Otaq uğurla yaradıldı</p>
+          <button aria-label="Əlavə et" class="submit" type="submit">
+          
+            <span>Əlavə et</span>
+          </button>
         </div>
       </form>
+
+        <div v-show="clickLoad" class="loading-dots">
+               <img
+            loading="lazy"
+            src="../../../../assets/images/gif/load.gif"
+            alt="gif"
+          />
+            </div>
     </div>
   </div>
 </template>
- 
+
 <script>
 import { useRoomStore } from "../../../../stores/room";
 import { useVuelidate } from "@vuelidate/core";
@@ -116,6 +121,8 @@ export default {
     async addRoom() {
       const result = await this.v$.$validate();
       if (result) {
+        this.clickLoad = true;
+
         await this.userStore.createRoom(
           this.name,
           this.capacity,
@@ -123,23 +130,16 @@ export default {
           this.floor
         );
         await this.userStore.fetchRoom();
-this.clickLoad = true;
 
-        this.success = true;
+        this.$emit("close-modal");
+        this.clickLoad = false;
+        this.name = "";
+        this.capacity = "";
+        this.address = "";
+        this.floor = "";
+        this.$toast.success(`Otaq uğurla yaradıldı`);
 
-        if ((this.success = true)) {
-          setTimeout(() => {
-            this.$emit("close-modal");
-            this.success = false;
-            this.clickLoad = false;
-            this.name = "";
-            this.capacity = "";
-            this.address = "";
-            this.floor = "";
-
-            this.v$.$reset();
-          }, 1500);
-        }
+        this.v$.$reset();
       }
     },
   },
@@ -150,8 +150,7 @@ this.clickLoad = true;
       capacity: "",
       address: "",
       floor: "",
-      success: false,
-      clickLoad:false,
+      clickLoad: false,
     };
   },
 

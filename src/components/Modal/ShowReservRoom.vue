@@ -1,9 +1,6 @@
 <template>
   <div class="modal-overlay">
-    <div
-      :class="showDeletButtons ? 'modal modal__remove' : 'modal modal__rezerv'"
-      @click.stop
-    >
+    <div class="modal" @click.stop>
       <div class="modal__head">
         <h6 v-if="showDeletButtons" class="modal__head-title">
           Otaq rezervasiyasını sil
@@ -46,6 +43,7 @@
             <span class="errorText" v-if="userStore.errorMsg">{{
               userStore.errorMsg
             }}</span>
+
             <span
               class="errorText"
               v-for="error in v$.updateReservation.start_date.$errors"
@@ -120,16 +118,12 @@
               </option>
             </select> -->
 
-
-             <CustomSelect
-                :options="useStoreRoom.getRoom"
-                :default="updateReservation.room_id"
-                class="select"
-
-
-                :class="disabled == 1 ?  'customDisable' : ''"
-                @selectValue="chooseRoom"
-
+            <CustomSelect
+              :options="useStoreRoom.getRoom"
+              :default="updateReservation.room_id"
+              class="select"
+              :class="disabled == 1 ? 'customDisable' : ''"
+              @selectValue="chooseRoom"
             />
 
             <span
@@ -246,13 +240,13 @@
               v-on:input="check"
             />
 
-            <span
+            <!-- <span
               class="errorText"
               v-for="error in v$.updateReservation.comment.$errors"
               :key="error.$uid"
             >
               Görüşlə bağlı qeydlər boşdur
-            </span>
+            </span> -->
           </div>
         </div>
 
@@ -277,12 +271,7 @@
             id="messg"
             aria-label="Yadda Saxla"
           >
-            <div v-show="clickLoad" class="loading-dots">
-              <h1 class="dot one">.</h1>
-              <h1 class="dot two">.</h1>
-              <h1 class="dot three">.</h1>
-            </div>
-            <span v-show="!clickLoad">Yadda saxla</span>
+            <span>Yadda saxla</span>
           </button>
         </div>
 
@@ -303,12 +292,7 @@
             id="messg"
             aria-label="Sil"
           >
-            <div v-show="clickLoad" class="loading-dots">
-              <h1 class="dot one">.</h1>
-              <h1 class="dot two">.</h1>
-              <h1 class="dot three">.</h1>
-            </div>
-            <span v-show="!clickLoad">Sil</span>
+            <span>Sil</span>
             <img
               loading="lazy"
               src="../../assets/images/svg/delet.svg"
@@ -316,48 +300,18 @@
             />
           </button>
         </div>
-
-        <div v-else class="modal__form-group modal__flex">
-          <button
-            type="button"
-            class="submitWhite"
-            aria-label="Silmək"
-            @click="activeDelet"
-          >
-            Silmək
-            <img
-              loading="lazy"
-              src="../../assets/images/svg/delet.svg"
-              alt="delet"
-            />
-          </button>
-
-          <button
-            type="button"
-            class="submitWhite"
-            aria-label="Redaktə et"
-            id="messg"
-            @click="activeDisable()"
-          >
-            Redaktə et
-            <img
-              loading="lazy"
-              src="../../assets/images/svg/edit.svg"
-              alt="edit"
-            />
-          </button>
-        </div>
-
-        <div v-if="success && showEditButtons" class="success">
-          <p>Uğurlu redaktə edildi</p>
-        </div>
-
-        <div v-if="success && showDeletButtons" class="success">
-          <p>Uğurla silindi</p>
+        <div v-show="clickLoad" class="loading-dots">
+          <img
+            loading="lazy"
+            src="../../assets/images/gif/load.gif"
+            alt="gif"
+          />
         </div>
       </form>
     </div>
   </div>
+
+
 </template>
 
 <script>
@@ -386,7 +340,6 @@ export default {
       timeFormat: "HH:mm",
       limit: 250,
       disabled: 0,
-      success: false,
       waterMark: "Saat",
 
       endEnable: false,
@@ -480,18 +433,9 @@ export default {
       }
     },
 
-    activeDisable() {
-      this.showEditButtons = true;
-      this.disabled = 0;
-      this.startEnable = true;
-    },
-
     activeDelet() {
       this.showDeletButtons = true;
-    },
-
-    unActiveDelet() {
-      this.showDeletButtons = false;
+      this.showEditButtons = false;
     },
 
     check() {
@@ -517,14 +461,8 @@ export default {
     async handleDelete(item) {
       await this.userStore.deletReservation(item);
       await this.useStoreRoom.fetchRoom();
-      this.success = true;
-      if ((this.success = true)) {
-        this.emitter.emit("refresh");
-        setTimeout(() => {
-          this.success = false;
-          this.$emit("close-modal");
-        }, 1500);
-      }
+      this.emitter.emit("refresh");
+      this.$emit("close-modal");
     },
 
     async uppdateHandler(e) {
@@ -538,29 +476,37 @@ export default {
       );
 
       if (result) {
+        this.clickLoad = true;
+
         this.updateReservation.start_time = this.formattedTime;
         this.updateReservation.end_time = this.formattedEndTime;
 
         await this.userStore.updateReservation(this.updateReservation);
         await this.useStoreRoom.fetchRoom();
 
-        setTimeout(() => {
-          this.userStore.errorMsg = "";
-          this.userStore.error = "";
-        }, 1500);
+
+  
 
         if (!this.userStore.error && !this.userStore.errorMsg) {
-          this.success = true;
-          this.clickLoad = true;
 
-          if ((this.success = true)) {
-            setTimeout(() => {
-              this.$emit("close-modal");
-              this.success = false;
-              this.emitter.emit("refresh");
-              this.clickLoad = false;
-            }, 1500);
-          }
+
+            
+
+          
+            this.clickLoad = false;
+            this.userStore.errorMsg = "";
+            this.userStore.error = "";
+            this.emitter.emit("refresh");
+
+            if(this.showEditButtons){
+            this.$toast.success(`Uğurlu redaktə edildi`) 
+            }
+
+            if(this.showDeletButtons){
+              this.$toast.success(`Uğurla silindi`) 
+            }
+
+            this.$emit("close-modal");
         }
       }
     },

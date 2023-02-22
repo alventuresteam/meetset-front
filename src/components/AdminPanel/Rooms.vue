@@ -2,7 +2,8 @@
   <div class="user">
     <div class="user__item" v-for="item in userStore?.getRoom" :key="item?.id">
       <div class="user__info">
-        <img  loading="lazy"
+        <img
+          loading="lazy"
           src="../../assets/images/svg/user.svg"
           class="user__info-img"
           alt="user"
@@ -26,7 +27,13 @@
           <div class="user__info-edit" @click="handleUpdate(item)">
             Redakt et
           </div>
-          <div class="user__info-remove" @click="showDeletButtons = true">
+          <div
+            class="user__info-remove"
+            @click="
+              showDeletButtons = true;
+              id = item.id;
+            "
+          >
             Sil
           </div>
         </div>
@@ -43,38 +50,45 @@
                 <h6 class="modal__head-title">Otaq rezervasiyasını sil</h6>
               </div>
 
-              <div>
-                <p class="modal__form-delete">
-                  Bu otaq rezervasiyasını silmək istədiyinizə əminsiniz?
-                </p>
-              </div>
+              <form class="modal__form" @submit.prevent="handleDelete(id)">
+                <div>
+                  <p class="modal__form-delete">
+                    Bu otaq rezervasiyasını silmək istədiyinizə əminsiniz?
+                  </p>
+                </div>
 
-              <div class="modal__form-group modal__flex">
-                <button
-                  aria-label="Imtina et"
-                  type="button"
-                  class="submitWhite"
-                  @click="showDeletButtons = false"
-                >
-                  Imtina et
-                </button>
+                <div class="modal__form-group modal__flex">
+                  <button
+                    aria-label="Imtina et"
+                    type="button"
+                    class="submitWhite"
+                    @click="showDeletButtons = false"
+                  >
+                    Imtina et
+                  </button>
 
-                <button
-                  aria-label="Sil"
-                  @click="handleDelete(item)"
-                  type="submit"
-                  class="submitWhite"
-                  id="messg"
-                >
-                  <div v-show="success" class="loading-dots">
-  <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
-</div>
-           <span v-show="!clickLoad">Sil</span> 
-                  <img  loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet" />
-                </button>
-              </div>
-              <div v-show="clickLoad" class="success">
-                <p>Otaqlar uğurla silindi</p>
+                  <button
+                    aria-label="Sil"
+                    type="submit"
+                    class="submitWhite"
+                    id="messg"
+                  >
+                    <span>Sil</span>
+                    <img
+                      loading="lazy"
+                      src="../../assets/images/svg/delet.svg"
+                      alt="delet"
+                    />
+                  </button>
+                </div>
+              </form>
+
+              <div v-show="clickLoad" class="loading-dots">
+                <img
+                  loading="lazy"
+                  src="../../assets/images/gif/load.gif"
+                  alt="gif"
+                />
               </div>
             </div>
           </div>
@@ -112,8 +126,8 @@ export default {
     return {
       updateDataRoom: {},
       showDeletButtons: false,
-      success: false,
-      clickLoad:false,
+      clickLoad: false,
+      id: "",
     };
   },
 
@@ -124,19 +138,14 @@ export default {
       console.log("item", this.updateDataRoom);
     },
 
-    async handleDelete(item) {
-      await this.userStore.deleteRoom(item);
-      await this.userStore.fetchRoom();
-this.clickLoad = true
-      this.success = true;
-      if ((this.success = true)) {
-        setTimeout(() => {
-          this.showDeletButtons = false;
-          this.success = false;
-          this.clickLoad = false
+    async handleDelete(id) {
+      this.clickLoad = true;
 
-        }, 1500);
-      }
+      await this.userStore.deleteRoom(id);
+      await this.userStore.fetchRoom();
+      this.showDeletButtons = false;
+      this.clickLoad = false;
+      this.$toast.success(`Otaqlar uğurla silindi`);
     },
   },
 

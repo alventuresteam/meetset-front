@@ -4,7 +4,8 @@
       <div class="modal__head">
         <h6 class="modal__head-title">İstifadəçi yarat</h6>
         <span class="modal__head-close" @click="close()"
-          ><img  loading="lazy"
+          ><img
+            loading="lazy"
             src="../../../../assets/images/svg/modalClose.svg"
             alt="modalClose"
         /></span>
@@ -102,14 +103,16 @@
           />
 
           <div class="modal__form-img" @click="showPass()">
-            <img  loading="lazy"
+            <img
+              loading="lazy"
               v-if="passwordShow"
               class="formBox__img"
               src="../../../../assets/images/svg/passwordShowEye.svg"
               alt="meetSet Icon"
             />
 
-            <img  loading="lazy"
+            <img
+              loading="lazy"
               v-else
               class="formBox__img"
               src="../../../../assets/images/svg/passwordEye.svg"
@@ -134,15 +137,14 @@
             type="submit"
             placeholder="Görüşlə bağlı qeydlər"
           >
-<div v-show="success" class="loading-dots">
-  <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
-</div>
-           <span v-show="!clickLoad">Əlavə et</span>          </button>
-        </div>
-        <div v-show="clickLoad" class="success">
-          <p>Istifadəçi uğurla yarandıldı</p>
+            <span>Əlavə et</span>
+          </button>
         </div>
       </form>
+
+      <div v-show="clickLoad" class="loading-dots">
+        <img loading="lazy" src="../../../../assets/images/gif/load.gif" alt="gif" />
+      </div>
     </div>
   </div>
 </template>
@@ -160,14 +162,15 @@ export default {
       password: "",
       fin_code: "",
       position: "",
-      success: false,
-      clickLoad:false,
+      clickLoad: false,
     };
   },
   methods: {
     async addPerson(event) {
       const result = await this.v$.$validate();
       if (result) {
+        this.clickLoad = true;
+
         await this.userStore.createPerson(
           this.name,
           this.fin_code,
@@ -177,23 +180,19 @@ export default {
         );
 
         await this.userStore.fetchPerson();
-        this.success = true;
-        this.clickLoad = true
 
-        if ((this.success = true)) {
-          setTimeout(() => {
-            this.$emit("close-modal");
-            this.success = false;
-this.clickLoad = false;
-            this.name = "";
-            this.fin_code = "";
-            this.position = "";
-            this.email = "";
-            this.password = "";
+          this.clickLoad = false;
 
-            this.v$.$reset();
-          }, 1500);
-        }
+          this.$toast.success(`Istifadəçi uğurla yarandıldı`);
+
+          this.name = "";
+          this.fin_code = "";
+          this.position = "";
+          this.email = "";
+          this.password = "";
+          this.$emit("close-modal");
+
+          this.v$.$reset();
       }
     },
     showPass() {
@@ -223,4 +222,3 @@ this.clickLoad = false;
   },
 };
 </script>
-

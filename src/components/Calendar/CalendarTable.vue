@@ -11,6 +11,7 @@
 
       <template #fallback>Load...</template>
     </Suspense>
+
     <Suspense v-if="showUpdateModalUser">
       <template #default>
         <ShowReservRoom
@@ -26,7 +27,6 @@
     </Suspense>
   </div>
 </template>
-
 
 <script>
 import ClientOnly from "vue-client-only";
@@ -143,10 +143,10 @@ export default defineComponent({
             interactive: true,
           });
 
-          let elementsList = document.querySelectorAll('a');
-for (let i=0; i < elementsList.length; i++) {
-    elementsList[i].setAttribute('href', '#');
-}
+          let elementsList = document.querySelectorAll("a");
+          for (let i = 0; i < elementsList.length; i++) {
+            elementsList[i].setAttribute("href", "#");
+          }
         },
 
         // eventTimeFormat: {
@@ -162,9 +162,7 @@ for (let i=0; i < elementsList.length; i++) {
           const room = this.useStoreRoom?.getRoom?.find(
             (item) => item.id == roomId
           );
-          const reservation = room.reservations.find(
-            (item) => item.id == reservId
-          );
+          const reservation = room.reservations.find((item) => item.id == reservId);
 
           if (reservation.user_id === this.useUserStores.getUser.id) {
             this.handle(reservation);
@@ -182,27 +180,24 @@ for (let i=0; i < elementsList.length; i++) {
         events: this.events,
       };
     },
-    
   },
   async mounted() {
+    try {
+      await this.useStoreRoom.fetchRoom();
+      this.$emit("success");
+      console.log("login");
+      this.emitter.on("refresh", () => {
+        this.refetch();
+        this.val++;
+      });
 
-    try{
-  await this.useStoreRoom.fetchRoom();
-this.$emit("success")
- console.log('login')
-    this.emitter.on("refresh", () => {
+      this.useStore.fetchReservation();
+      this.useUserStores.fetchUser();
+      this.showCalendar = true;
       this.refetch();
-      this.val++;
-    });
-
-    this.useStore.fetchReservation();
-    this.useUserStores.fetchUser();
-    this.showCalendar = true;
-    this.refetch();
-    }catch (err){
-console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  
   },
 });
 </script>

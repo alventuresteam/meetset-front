@@ -62,14 +62,10 @@ export const useRoomStore = defineStore("rooms", {
                 });
         },
 
-        async deleteRoom(item) {
+        async deleteRoom(id) {
+            console.log('qunduz',id)
             await axios
-                .post(`https://meetset.al.ventures/api/rooms/${item.id}/delete`, {
-                    name: item.name,
-                    capacity: item.capacity,
-                    address: item.address,
-                    floor: item.floor,
-                })
+                .post(`https://meetset.al.ventures/api/rooms/${id}/delete`)
                 .then((res) => {
                     console.log(res);
                 })

@@ -24,11 +24,14 @@
           <div class="user__info-edit" @click="handleUpdate(item)">
             Redakt et
           </div>
-          <div class="user__info-remove" @click="showDeletButtons = true; id= item.id">
+          <div
+            class="user__info-remove"
+            @click="
+              showDeletButtons = true;
+              id = item.id;
+            "
+          >
             Sil
-          </div>
-          <div v-show="success" class="success">
-            <p>Istifadəçi uğurla silindi</p>
           </div>
         </div>
       </div>
@@ -40,47 +43,45 @@
           <div class="modal modal__remove" @click.stop>
             <div class="modal__head" v-show="showDeletButtons">
               <h6 class="modal__head-title">İstifadəçini sil</h6>
-              <pre>{{ item }}</pre>
             </div>
-
-            <div>
+            <form class="modal__form" @submit.prevent="handleDelete(id)">
               <p class="modal__form-delete">
                 Bu istifadəçini silmək istədiyinizə əminsiniz?
               </p>
-            </div>
 
-            <div class="modal__form-group modal__flex">
-              <button
-                aria-label="Imtina et"
-                type="button"
-                class="submitWhite"
-                @click="showDeletButtons = false"
-              >
-                Imtina et
-              </button>
+              <div class="modal__form-group modal__flex">
+                <button
+                  aria-label="Imtina et"
+                  type="button"
+                  class="submitWhite"
+                  @click="showDeletButtons = false"
+                >
+                  Imtina et
+                </button>
 
-              <button
-                aria-label="Sil"
-                @click="handleDelete(id)"
-                type="submit"
-                class="submitWhite"
-                id="messg"
-              >
-                <div v-show="clickLoad" class="loading-dots">
-                  <h1 class="dot one">.</h1>
-                  <h1 class="dot two">.</h1>
-                  <h1 class="dot three">.</h1>
-                </div>
+                <button
+                  aria-label="Sil"
+                  type="submit"
+                  class="submitWhite"
+                  id="messg"
+                >
+                  <span>Sil</span>
 
-                <span v-show="!clickLoad">Sil</span>
+                  <img
+                    loading="lazy"
+                    src="../../assets/images/svg/delet.svg"
+                    alt="delet"
+                  />
+                </button>
+              </div>
+            </form>
 
-                <img
-                  loading="lazy"
-                  src="../../assets/images/svg/delet.svg"
-                  alt="delet"
-                  v-show="!clickLoad"
-                />
-              </button>
+            <div v-show="clickLoad" class="loading-dots">
+              <img
+                loading="lazy"
+                src="../../assets/images/gif/load.gif"
+                alt="delet"
+              />
             </div>
           </div>
         </div>
@@ -116,9 +117,8 @@ export default {
     return {
       updateDataPerson: {},
       showDeletButtons: false,
-      success: false,
       clickLoad: false,
-      id: ''
+      id: "",
     };
   },
 
@@ -129,17 +129,13 @@ export default {
     },
 
     async handleDelete(id) {
-        await this.userStore.deletePerson(id);
-        await this.userStore.fetchPerson();
-        this.success = true;
-        this.clickLoad = true;
-        if ((this.success = true)) {
-          setTimeout(() => {
-            this.showDeletButtons = false;
-            this.success = false;
-            this.clickLoad = false;
-          }, 1500);
-        }
+      this.clickLoad = true;
+
+      await this.userStore.deletePerson(id);
+      await this.userStore.fetchPerson();
+      this.showDeletButtons = false;
+      this.clickLoad = false;
+      this.$toast.success(`Istifadəçi uğurla silindi`);
     },
   },
 

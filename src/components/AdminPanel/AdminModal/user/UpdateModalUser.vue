@@ -18,6 +18,7 @@
           />
 
           <span
+          class="errorText"
             v-for="error in v$.updateDataPerson.name.$errors"
             :key="error.$uid"
           >
@@ -35,6 +36,7 @@
           />
 
           <span
+          class="errorText"
             v-for="error in v$.updateDataPerson.fin_code.$errors"
             :key="error.$uid"
           >
@@ -51,6 +53,7 @@
             v-model.lazy="updateDataPerson.position"
           />
           <span
+          class="errorText"
             v-for="error in v$.updateDataPerson.position.$errors"
             :key="error.$uid"
           >
@@ -68,6 +71,7 @@
           />
 
           <span
+          class="errorText"
             v-for="error in v$.updateDataPerson.email.$errors"
             :key="error.$uid"
           >
@@ -111,6 +115,7 @@
           </div>
 
           <span
+          class="errorText"
             v-for="error in v$.updateDataPerson.password.$errors"
             :key="error.$uid"
           >
@@ -128,19 +133,14 @@
             type="submit"
             placeholder="Görüşlə bağlı qeydlər"
           >
-            <div v-show="clickLoad" class="loading-dots">
-              <h1 class="dot one">.</h1>
-              <h1 class="dot two">.</h1>
-              <h1 class="dot three">.</h1>
-            </div>
-            <span v-show="!clickLoad">Yadda saxla</span>
+            <span>Yadda saxla</span>
           </button>
         </div>
-
-        <div v-show="success" class="success">
-          <p>Istifadəçi redakt edildi</p>
-        </div>
       </form>
+
+      <div v-show="clickLoad" class="loading-dots">
+        <img loading="lazy" src="../../../../assets/images/gif/load.gif" alt="gif" />
+      </div>
     </div>
   </div>
 </template>
@@ -157,7 +157,6 @@ export default {
   data() {
     return {
       updateDataPerson: {},
-      success: false,
       clickLoad: false,
     };
   },
@@ -178,19 +177,16 @@ export default {
     async uppdateHandler() {
       const result = await this.v$.$validate();
       if (result) {
+        this.clickLoad = true;
+
         await this.userStore.updatePerson(this.updateDataPerson);
         await this.userStore.fetchPerson();
 
-        this.success = true;
-        this.clickLoad = true;
+        this.$toast.success(`Istifadəçi redakt edildi`);
 
-        if ((this.success = true)) {
-          setTimeout(() => {
-            this.$emit("close-modal");
-            this.success = false;
-            this.clickLoad = false;
-          }, 1500);
-        }
+        this.clickLoad = false;
+
+        this.$emit("close-modal");
       }
     },
 
