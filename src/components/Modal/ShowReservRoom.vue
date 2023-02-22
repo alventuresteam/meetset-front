@@ -249,15 +249,11 @@
         </div>
 
         <div v-if="showEditButtons" class="modal__form-group modal__flex">
-          <button
-            type="button"
-            class="submitWhite"
-            @click="$emit('close-modal')"
-            aria-label="Imtina"
-          >
-            Imtina
-          </button>
 
+          <button type="button" class="submitWhite " aria-label="Silmək" @click="activeDelet">
+            Sil
+            <img  loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet" />
+          </button>
           <button
             type="submit"
             class="submit"
@@ -298,10 +294,6 @@
         </div>
 
         <div v-else class="modal__form-group modal__flex">
-          <button type="button" class="submitWhite " aria-label="Silmək" @click="activeDelet">
-            Silmək
-            <img  loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet" />
-          </button>
 
           <button
             type="button"
@@ -310,13 +302,13 @@
             id="messg"
             @click="activeDisable()"
           >
-            Redakte etmək
+            Redaktə et
             <img  loading="lazy" src="../../assets/images/svg/edit.svg" alt="edit" />
           </button>
         </div>
 
         <div v-if="success && showEditButtons" class="success">
-          <p>Uğurlu redakt edildi</p>
+          <p>Uğurlu redaktə edildi</p>
         </div>
 
         <div v-if="success && showDeletButtons" class="success">
