@@ -120,7 +120,6 @@
               </option>
             </select> -->
 
-<<<<<<< HEAD
             <CustomSelect
               :options="useStoreRoom.getRoom"
               :default="updateReservation?.room_id"
@@ -128,7 +127,6 @@
               :class="disabled == 1 ? 'customDisable' : ''"
               @selectValue="updateReservation.room_id = $event.id"
             />
-=======
                  <CustomSelect
                     :options="useStoreRoom.getRoom"
                     :default="updateReservation.room_id"
@@ -139,7 +137,6 @@
                     @selectValue="chooseRoom"
 
                 />
->>>>>>> ca63df44c4310e2dc7ea8ebb4d49b671d034d127
 
             <span
               class="errorText"
@@ -340,12 +337,8 @@
             id="messg"
             @click="activeDisable()"
           >
-            Redaktə et
-            <img
-              loading="lazy"
-              src="../../assets/images/svg/edit.svg"
-              alt="edit"
-            />
+            Redakte etmək
+            <img  loading="lazy" src="../../assets/images/svg/edit.svg" alt="edit" />
           </button>
         </div>
 
