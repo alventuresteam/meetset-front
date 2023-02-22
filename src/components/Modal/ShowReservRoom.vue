@@ -120,19 +120,16 @@
               </option>
             </select> -->
 
-            <CustomSelect
-              :options="useStoreRoom.getRoom"
-              :default="updateReservation?.room_id"
-              class="select"
-              :class="disabled == 1 ? 'customDisable' : ''"
-              @selectValue="updateReservation.room_id = $event.id"
-            />
-            <CustomSelect
-              :options="useStoreRoom.getRoom"
-              :default="updateReservation.room_id"
-              class="select"
-              :class="disabled == 1 ? 'customDisable' : ''"
-              @selectValue="chooseRoom"
+
+             <CustomSelect
+                :options="useStoreRoom.getRoom"
+                :default="updateReservation.room_id"
+                class="select"
+
+
+                :class="disabled == 1 ?  'customDisable' : ''"
+                @selectValue="chooseRoom"
+
             />
 
             <span
