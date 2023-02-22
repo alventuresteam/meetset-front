@@ -21,6 +21,8 @@
             v-model.lazy="name"
           />
 
+          <span class="errorText" v-if="userStore.errorMsg">Bu adda artx otaq var</span>
+
           <span
             class="errorText"
             v-for="error in v$.name.$errors"
@@ -95,19 +97,18 @@
           </button>
 
           <button aria-label="Əlavə et" class="submit" type="submit">
-          
             <span>Əlavə et</span>
           </button>
         </div>
       </form>
 
-        <div v-show="clickLoad" class="loading-dots">
-               <img
-            loading="lazy"
-            src="../../../../assets/images/gif/load.gif"
-            alt="gif"
-          />
-            </div>
+      <div v-show="clickLoad" class="loading-dots">
+        <img
+          loading="lazy"
+          src="../../../../assets/images/gif/load.gif"
+          alt="gif"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -121,7 +122,7 @@ export default {
     async addRoom() {
       const result = await this.v$.$validate();
       if (result) {
-        this.clickLoad = true;
+         this.clickLoad = true;
 
         await this.userStore.createRoom(
           this.name,
@@ -131,15 +132,24 @@ export default {
         );
         await this.userStore.fetchRoom();
 
-        this.$emit("close-modal");
-        this.clickLoad = false;
-        this.name = "";
-        this.capacity = "";
-        this.address = "";
-        this.floor = "";
-        this.$toast.success(`Otaq uğurla yaradıldı`);
 
-        this.v$.$reset();
+
+        if (this.userStore.errorMsg) {
+          this.clickLoad = false;
+        }
+
+        if (!this.userStore.error && !this.userStore.errorMsg) {
+
+          this.name = "";
+          this.capacity = "";
+          this.address = "";
+          this.floor = "";
+          this.$toast.success(`Otaq uğurla yaradıldı`);
+          this.userStore.errorMsg = "";
+          this.userStore.error = "";
+          this.v$.$reset();
+          this.$emit("close-modal");
+        }
       }
     },
   },

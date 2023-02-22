@@ -161,6 +161,10 @@ line-height: 52px;
     margin: auto !important;
 }
 
+.fullcalendar .fc{
+    border-radius: 100px !important;
+}
+
 .fc {
     /* width */
     ::-webkit-scrollbar {
@@ -186,4 +190,9 @@ line-height: 52px;
 
 .e-active {
     display: none !important;
+}
+
+
+thead .fc-scroller {
+  overflow: hidden !important;
 }

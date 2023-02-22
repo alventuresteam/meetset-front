@@ -25,7 +25,7 @@
             v-for="error in v$.name.$errors"
             :key="error.$uid"
           >
-            Ad boşdu
+            Ad boş ola bilməz
           </span>
         </div>
 
@@ -42,7 +42,7 @@
             v-for="error in v$.fin_code.$errors"
             :key="error.$uid"
           >
-            Fin boşdur
+            Fin boş ola bilməz
           </span>
         </div>
 
@@ -60,7 +60,7 @@
             v-for="error in v$.position.$errors"
             :key="error.$uid"
           >
-            Vəzifə boşdu
+            Vəzifə boş ola bilməz
           </span>
         </div>
 
@@ -79,7 +79,7 @@
             v-for="error in v$.email.$errors"
             :key="error.$uid"
           >
-            Email boşdu
+            Email boş ola bilməz
           </span>
         </div>
 
@@ -125,7 +125,7 @@
             v-for="error in v$.password.$errors"
             :key="error.$uid"
           >
-            Paroll boşdu
+            {{error.$message === 'Value is required' ? 'Şifrə boş ola bilməz' : 'Şifrədə ən azı 6 xana dolmalı'}}
           </span>
         </div>
         <div class="modal__form-group modal__flex">
@@ -143,7 +143,11 @@
       </form>
 
       <div v-show="clickLoad" class="loading-dots">
-        <img loading="lazy" src="../../../../assets/images/gif/load.gif" alt="gif" />
+        <img
+          loading="lazy"
+          src="../../../../assets/images/gif/load.gif"
+          alt="gif"
+        />
       </div>
     </div>
   </div>
@@ -152,7 +156,7 @@
 <script>
 import { usePersonStore } from "../../../../stores/user";
 import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import { required, minLength  } from "@vuelidate/validators";
 import { ref } from "vue";
 export default {
   data() {
@@ -181,18 +185,18 @@ export default {
 
         await this.userStore.fetchPerson();
 
-          this.clickLoad = false;
+        this.clickLoad = false;
 
-          this.$toast.success(`Istifadəçi uğurla yarandıldı`);
+        this.$toast.success(`Istifadəçi uğurla yarandıldı`);
 
-          this.name = "";
-          this.fin_code = "";
-          this.position = "";
-          this.email = "";
-          this.password = "";
-          this.$emit("close-modal");
+        this.name = "";
+        this.fin_code = "";
+        this.position = "";
+        this.email = "";
+        this.password = "";
+        this.$emit("close-modal");
 
-          this.v$.$reset();
+        this.v$.$reset();
       }
     },
     showPass() {
@@ -208,7 +212,8 @@ export default {
     return {
       name: { required },
       email: { required },
-      password: { required },
+      password: { required,         minLength: minLength(6)
+ },
       fin_code: { required },
       position: { required },
     };

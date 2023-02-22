@@ -2,11 +2,13 @@
   <div>
     <Suspense v-if="showCalendar">
       <template #default>
+        <div class='fullcalendar'> 
         <FullCalendar
           :key="val"
           v-if="showCalendar"
           :options="options"
         ></FullCalendar>
+        </div>  
       </template>
 
       <template #fallback>Load...</template>
@@ -123,7 +125,6 @@ export default defineComponent({
         slotMinWidth: 88,
         slotMinHeight: 68,
         initialDate: this.itemDate,
-
         locale: "en-GB",
 
         resourceAreaHeaderContent: `İclas otaqları - ${this.itemLable}`,

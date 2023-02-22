@@ -19,7 +19,7 @@
         {{ item.name }}
       </router-link>
     </div>
-    <span @click="logout()" class="sidebar__item">
+    <span style="cursor:pointer" @click="logout()" class="sidebar__item">
       <img  loading="lazy"
         class="sidebar__item-img"
         src="../../assets/images/svg/exit.svg"

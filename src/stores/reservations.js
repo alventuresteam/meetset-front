@@ -12,7 +12,6 @@ export const useReservationStore = defineStore("reservation", {
     reservation: [],
     error: [],
     errorMsg: "",
-    successMess: false,
 
     token: localStorage.getItem("token") || "",
   }),
@@ -124,6 +123,5 @@ export const useReservationStore = defineStore("reservation", {
 
   getters: {
     getReservations: (state) => state.reservation,
-    getSuccessMess: (state) => state.successMess,
   },
 });

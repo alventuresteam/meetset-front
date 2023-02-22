@@ -61,8 +61,11 @@
         v-for="error in v$.password.$errors"
         :key="error.$uid"
       >
-        Şifrə boş ola bilməz
-      </span>
+ {{
+              error.$message === "Value is required"
+                ? "Şifrə boş ola bilməz"
+                : "Şifrədə ən azı 6 xana dolmalı"
+            }}      </span>
 
       <span class="errorText" v-if="userStore.error"
         >Email və ya şifrə yanlışdır</span
@@ -78,7 +81,7 @@
 // import { onMounted } from "vue";
 import { useUserStore } from "../stores/auth";
 import { useVuelidate } from "@vuelidate/core";
-import { required, email } from "@vuelidate/validators";
+import { required, email, minLength } from "@vuelidate/validators";
 export default {
   data() {
     return {
@@ -93,9 +96,7 @@ export default {
       if (result) {
         await this.userStore.signIn(this.email, this.password);
 
-// setTimeout(() => {
-//     this.userStore.error = ''
-// }, 1500);
+
 
 
         if (!this.userStore.error) {
@@ -112,7 +113,7 @@ export default {
   validations() {
     return {
       email: { required, email },
-      password: { required },
+      password: { required, minLength:minLength(6) },
     };
   },
   setup() {

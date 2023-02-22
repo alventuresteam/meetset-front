@@ -25,7 +25,7 @@
 
         <div class="user__info">
           <div class="user__info-edit" @click="handleUpdate(item)">
-            Redakt et
+            Redaktə et
           </div>
           <div
             class="user__info-remove"

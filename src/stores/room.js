@@ -10,8 +10,8 @@ if (localStorage.getItem("token")) {
 export const useRoomStore = defineStore("rooms", {
     state: () => ({
         rooms: [],
-        errors: {},
-
+        error: [],
+        errorMsg: "",
         token: localStorage.getItem("token") || "",
     }),
 
@@ -29,6 +29,8 @@ export const useRoomStore = defineStore("rooms", {
         },
 
         async createRoom(name, capacity, address, floor) {
+            this.error = null;
+      this.errorMsg = null;
             await axios
                 .post("https://meetset.al.ventures/api/rooms/create", {
                     name,
@@ -40,13 +42,18 @@ export const useRoomStore = defineStore("rooms", {
                     console.log(res);
                 })
                 .catch((err) => {
-                    this.errors = err.response.data.errors
-
-                    console.error(err);
+                    if (err.response.status === 422) {
+                        this.error = err.response.data.errors;
+                         this.errorMsg = err.response.data.message;
+            
+                        console.error(err.response.data.message);
+                      }
                 });
         },
 
         async updateRoom(item) {
+            this.error = null;
+            this.errorMsg = null;
             await axios
                 .post(`https://meetset.al.ventures/api/rooms/${item.id}/update`, {
                     name: item.name,
@@ -56,10 +63,13 @@ export const useRoomStore = defineStore("rooms", {
                 })
                 .then((res) => {
                     console.log(res);
-                })
-                .catch((err) => {
-                    console.error(err);
-                });
+                })  .catch((err) => {
+                    if (err.response.status === 422) {
+                      this.errorMsg = err.response.data.message;
+          
+                      console.error(err.response);
+                    }
+                  });
         },
 
         async deleteRoom(id) {

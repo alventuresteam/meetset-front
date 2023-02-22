@@ -18,11 +18,11 @@
           />
 
           <span
-          class="errorText"
+            class="errorText"
             v-for="error in v$.updateDataPerson.name.$errors"
             :key="error.$uid"
           >
-            {{ error.$message }}
+            Ad boş ola bilməz
           </span>
         </div>
 
@@ -36,11 +36,11 @@
           />
 
           <span
-          class="errorText"
+            class="errorText"
             v-for="error in v$.updateDataPerson.fin_code.$errors"
             :key="error.$uid"
           >
-            {{ error.$message }}
+            Fin boş ola bilməz
           </span>
         </div>
 
@@ -53,11 +53,11 @@
             v-model.lazy="updateDataPerson.position"
           />
           <span
-          class="errorText"
+            class="errorText"
             v-for="error in v$.updateDataPerson.position.$errors"
             :key="error.$uid"
           >
-            {{ error.$message }}
+            Vəzifə boş ola bilməz
           </span>
         </div>
 
@@ -71,11 +71,11 @@
           />
 
           <span
-          class="errorText"
+            class="errorText"
             v-for="error in v$.updateDataPerson.email.$errors"
             :key="error.$uid"
           >
-            {{ error.$message }}
+            Email boş ola bilməz
           </span>
         </div>
 
@@ -115,11 +115,15 @@
           </div>
 
           <span
-          class="errorText"
+            class="errorText"
             v-for="error in v$.updateDataPerson.password.$errors"
             :key="error.$uid"
           >
-            {{ error.$message }}
+            {{
+              error.$message === "Value is required"
+                ? "Şifrə boş ola bilməz"
+                : "Şifrədə ən azı 6 xana dolmalı"
+            }}
           </span>
         </div>
 
@@ -139,7 +143,11 @@
       </form>
 
       <div v-show="clickLoad" class="loading-dots">
-        <img loading="lazy" src="../../../../assets/images/gif/load.gif" alt="gif" />
+        <img
+          loading="lazy"
+          src="../../../../assets/images/gif/load.gif"
+          alt="gif"
+        />
       </div>
     </div>
   </div>
@@ -150,7 +158,7 @@ import { usePersonStore } from "../../../../stores/user";
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useVuelidate } from "@vuelidate/core";
-import { required, email } from "@vuelidate/validators";
+import { required, email, minLength } from "@vuelidate/validators";
 export default {
   props: ["item"],
 
@@ -166,7 +174,7 @@ export default {
       updateDataPerson: {
         name: { required },
         email: { email, required },
-        password: { required },
+        password: { required, minLength: minLength(6) },
         fin_code: { required },
         position: { required },
       },
@@ -182,7 +190,7 @@ export default {
         await this.userStore.updatePerson(this.updateDataPerson);
         await this.userStore.fetchPerson();
 
-        this.$toast.success(`Istifadəçi redakt edildi`);
+        this.$toast.success(`Istifadəçi redaktə edildi`);
 
         this.clickLoad = false;
 

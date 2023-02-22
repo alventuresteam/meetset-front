@@ -20,7 +20,7 @@
         v-for="error in v$.email.$errors"
         :key="error.$uid"
       >
-        Email Shevdi
+        Email boş ola bilməz
       </span>
       <div class="formBox">
         <input
@@ -62,17 +62,14 @@
         v-for="error in v$.password.$errors"
         :key="error.$uid"
       >
-        Password shevdi
+        {{
+          error.$message === "Value is required"
+            ? "Şifrə boş ola bilməz"
+            : "Şifrədə ən azı 6 xana dolmalı"
+        }}
       </span>
 
-      <div v-show="clickLoad" class="loading-dots">
-        <h1 class="dot one">.</h1>
-        <h1 class="dot two">.</h1>
-        <h1 class="dot three">.</h1>
-      </div>
-
-      <button v-show="!clickLoad" class="submit" type="submit">Daxil ol</button>
-      <!-- <input v-show="!clickLoad" type="submit" class="submit" value="Daxil ol " /> -->
+      <button class="submit" type="submit">Daxil ol</button>
     </form>
   </div>
 </template>
@@ -81,12 +78,10 @@
 // import { onMounted } from "vue";
 import { useUserStore } from "../stores/auth";
 import { useVuelidate } from "@vuelidate/core";
-import { required, email } from "@vuelidate/validators";
+import { required, email, minLength } from "@vuelidate/validators";
 export default {
   data() {
     return {
-      clickLoad: false,
-
       passwordShow: true,
     };
   },
@@ -94,7 +89,7 @@ export default {
   validations() {
     return {
       email: { required, email },
-      password: { required },
+      password: { required, minLength: minLength(6) },
     };
   },
   methods: {
@@ -104,7 +99,6 @@ export default {
       await this.userStore.signIn(this.email, this.password);
       if (this.userStore.user.role === 1) {
         this.$router.push("/user");
-        this.clickLoad = true;
       } else {
         alert("Sizin bura girmə icazəniz yoxdur");
       }

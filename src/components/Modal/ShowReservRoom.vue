@@ -489,9 +489,6 @@ export default {
 
         if (!this.userStore.error && !this.userStore.errorMsg) {
 
-
-            
-
           
             this.clickLoad = false;
             this.userStore.errorMsg = "";

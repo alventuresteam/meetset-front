@@ -1,8 +1,22 @@
-@media screen and (max-width:1500px){
+@media screen and (max-height:850px){
     .modal{
         height: 80%;
     }
+
+
+
 }
+
+@media screen and (max-width:1900px){
+ // &__rezerv {
+    //     height: auto;
+    // }
+
+
+
+}
+
+
 
 .modal {
     background-color: white;
@@ -23,9 +37,7 @@ transform: translate(-50%, -50%);
     //     height: 484px;
     // }
 
-    // &__rezerv {
-    //     height: auto;
-    // }
+    
 
  
 
