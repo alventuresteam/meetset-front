@@ -19,7 +19,7 @@
         v-for="error in v$.email.$errors"
         :key="error.$uid"
       >
-        Email Shevdi
+        Email boş ola bilməz
       </span>
       <div class="formBox">
         <input
@@ -61,11 +61,11 @@
         v-for="error in v$.password.$errors"
         :key="error.$uid"
       >
-        Password shevdi
+        Şifrə boş ola bilməz
       </span>
 
       <span class="errorText" v-if="userStore.error"
-        >Siz də ya e-mail yaxudda passport səhvlik var</span
+        >Email və ya şifrə yanlışdır</span
       >
 
       <input type="submit" class="submit" value="Daxil ol " />
@@ -93,9 +93,9 @@ export default {
       if (result) {
         await this.userStore.signIn(this.email, this.password);
 
-setTimeout(() => {
-    this.userStore.error = ''
-}, 1500);
+// setTimeout(() => {
+//     this.userStore.error = ''
+// }, 1500);
 
 
         if (!this.userStore.error) {

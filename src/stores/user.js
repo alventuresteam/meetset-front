@@ -65,15 +65,9 @@ export const usePersonStore = defineStore("person", {
     },
 
 
-    async deletePerson(item) {
+    async deletePerson(id) {
         await axios
-          .post(`https://meetset.al.ventures/api/users/${item.id}/delete`, {
-            name: item.name,
-            fin_code: item.fin_code,
-            position: item.position,
-            email: item.email,
-            password: item.password,
-          })
+          .post(`https://meetset.al.ventures/api/users/${id}/delete`)
           .then((res) => {
             console.log(res);
           })

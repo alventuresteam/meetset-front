@@ -1,6 +1,7 @@
 <template>
   <div class="login__box">
-    <img  loading="lazy"
+    <img
+      loading="lazy"
       src="../assets/images/logo/logo.png"
       alt="meet-set logoin"
       class="login__box-img"
@@ -39,41 +40,42 @@
         />
 
         <div @click="showPass()">
-          <img  loading="lazy"
+          <img
+            loading="lazy"
             v-if="passwordShow"
             class="formBox__img"
             src="../assets/images/svg/passwordEye.svg"
             alt="meetSet Icon"
           />
 
-          <img  loading="lazy"
+          <img
+            loading="lazy"
             v-else
             class="formBox__img"
             src="../assets/images/svg/passwordShowEye.svg"
             alt="meetSet Icon"
           />
         </div>
-
-         
-
       </div>
-  <span
+      <span
         class="errorText"
         v-for="error in v$.password.$errors"
         :key="error.$uid"
       >
         Password shevdi
       </span>
-      <input
-        type="submit"
-        class="submit"
-        value="Daxil ol "
-      />
 
+      <div v-show="clickLoad" class="loading-dots">
+        <h1 class="dot one">.</h1>
+        <h1 class="dot two">.</h1>
+        <h1 class="dot three">.</h1>
+      </div>
+
+      <button v-show="!clickLoad" class="submit" type="submit">Daxil ol</button>
+      <!-- <input v-show="!clickLoad" type="submit" class="submit" value="Daxil ol " /> -->
     </form>
   </div>
 </template>
-
 
 <script>
 // import { onMounted } from "vue";
@@ -83,11 +85,13 @@ import { required, email } from "@vuelidate/validators";
 export default {
   data() {
     return {
+      clickLoad: false,
+
       passwordShow: true,
     };
   },
 
-   validations() {
+  validations() {
     return {
       email: { required, email },
       password: { required },
@@ -95,17 +99,15 @@ export default {
   },
   methods: {
     async login() {
-            const result = await this.v$.$validate();
-
+      const result = await this.v$.$validate();
 
       await this.userStore.signIn(this.email, this.password);
-        if(this.userStore.user.role === 1){
-      this.$router.push("/user");
-        }else{
-            alert('Sizin bura girmə icazəniz yoxdur')
-        }
-
-
+      if (this.userStore.user.role === 1) {
+        this.$router.push("/user");
+        this.clickLoad = true;
+      } else {
+        alert("Sizin bura girmə icazəniz yoxdur");
+      }
     },
 
     showPass() {
@@ -114,8 +116,6 @@ export default {
   },
 
   setup() {
-   
-
     const userStore = useUserStore();
 
     return { userStore, v$: useVuelidate() };

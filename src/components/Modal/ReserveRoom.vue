@@ -16,6 +16,7 @@
             v-model.lazy="start_date"
             onfocus="(this.type='date')"
             :min="minDate"
+            max="2033-01-01"
             @blur="onBlur"
           />
 
@@ -352,7 +353,6 @@ export default {
           email: item,
         };
       });
-        this.clickLoad= true
 
       if (result) {
         await this.userStore.createReservation(
@@ -376,6 +376,7 @@ setTimeout(() => {
 
         if (!this.userStore.error  && !this.userStore.errorMsg) {
           this.success = true;
+        this.clickLoad= true
 
           if ((this.success = true)) {
             setTimeout(() => {

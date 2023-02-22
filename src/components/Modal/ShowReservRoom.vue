@@ -10,7 +10,7 @@
         </h6>
 
         <h6 v-else-if="showEditButtons" class="modal__head-title">
-          Otaq rezervasiyasını e et
+          Otaq rezervasiyasını redaktə et
         </h6>
 
         <h6 v-else class="modal__head-title">
@@ -18,7 +18,10 @@
         </h6>
 
         <span class="modal__head-close" @click="$emit('close-modal')"
-          ><img  loading="lazy" src="../../assets/images/svg/modalClose.svg" alt=""
+          ><img
+            loading="lazy"
+            src="../../assets/images/svg/modalClose.svg"
+            alt=""
         /></span>
       </div>
       <form action="" class="modal__form" @submit.prevent="uppdateHandler">
@@ -114,14 +117,13 @@
               </option>
             </select> -->
 
-                 <CustomSelect
-                    :options="useStoreRoom.getRoom"
-                    :default="updateReservation?.room_id"
-                    class="select "
-
-                    :class="disabled == 1 ?  'customDisable' : ''"
-                    @selectValue="updateReservation.room_id = $event.id"
-                />
+            <CustomSelect
+              :options="useStoreRoom.getRoom"
+              :default="updateReservation?.room_id"
+              class="select"
+              :class="disabled == 1 ? 'customDisable' : ''"
+              @selectValue="updateReservation.room_id = $event.id"
+            />
 
             <span
               class="errorText"
@@ -163,7 +165,11 @@
                 class="tag-input__tag"
               >
                 {{ tag }}
-                <button aria-label="x" :disabled="disabled == 1" @click="removeTag(index)">
+                <button
+                  aria-label="x"
+                  :disabled="disabled == 1"
+                  @click="removeTag(index)"
+                >
                   x
                 </button>
               </div>
@@ -260,11 +266,13 @@
             id="messg"
             aria-label="Yadda Saxla"
           >
-          <div v-show="clickLoad" class="loading-dots">
-  <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
-</div>
-           <span v-show="!clickLoad">Yadda saxla</span>    
-                   </button>
+            <div v-show="clickLoad" class="loading-dots">
+              <h1 class="dot one">.</h1>
+              <h1 class="dot two">.</h1>
+              <h1 class="dot three">.</h1>
+            </div>
+            <span v-show="!clickLoad">Yadda saxla</span>
+          </button>
         </div>
 
         <div v-else-if="showDeletButtons" class="modal__form-group modal__flex">
@@ -272,7 +280,7 @@
             type="button"
             class="submitWhite"
             @click="$emit('close-modal')"
-             aria-label="Imtina et"
+            aria-label="Imtina et"
           >
             Imtina et
           </button>
@@ -284,18 +292,33 @@
             id="messg"
             aria-label="Sil"
           >
- <div v-show="clickLoad" class="loading-dots">
-  <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
-</div>
-           <span v-show="!clickLoad">Sil</span>             
-            <img  loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet" />
+            <div v-show="clickLoad" class="loading-dots">
+              <h1 class="dot one">.</h1>
+              <h1 class="dot two">.</h1>
+              <h1 class="dot three">.</h1>
+            </div>
+            <span v-show="!clickLoad">Sil</span>
+            <img
+              loading="lazy"
+              src="../../assets/images/svg/delet.svg"
+              alt="delet"
+            />
           </button>
         </div>
 
         <div v-else class="modal__form-group modal__flex">
-          <button type="button" class="submitWhite " aria-label="Silmək" @click="activeDelet">
+          <button
+            type="button"
+            class="submitWhite"
+            aria-label="Silmək"
+            @click="activeDelet"
+          >
             Silmək
-            <img  loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet" />
+            <img
+              loading="lazy"
+              src="../../assets/images/svg/delet.svg"
+              alt="delet"
+            />
           </button>
 
           <button
@@ -306,7 +329,11 @@
             @click="activeDisable()"
           >
             Redakte etmək
-            <img  loading="lazy" src="../../assets/images/svg/edit.svg" alt="edit" />
+            <img
+              loading="lazy"
+              src="../../assets/images/svg/edit.svg"
+              alt="edit"
+            />
           </button>
         </div>
 
@@ -335,12 +362,11 @@ export default {
   props: ["item", "itemRoom"],
   components: {
     "ejs-timepicker": TimePickerComponent,
-        CustomSelect
-
+    CustomSelect,
   },
   data() {
     return {
-              clickLoad: false,
+      clickLoad: false,
 
       updateReservation: {},
       updateReservationRoom: {},
@@ -491,7 +517,6 @@ export default {
         }
       );
 
-      this.clickLoad = true
       if (result) {
         this.updateReservation.start_time = this.formattedTime;
         this.updateReservation.end_time = this.formattedEndTime;
@@ -506,13 +531,15 @@ export default {
 
         if (!this.userStore.error && !this.userStore.errorMsg) {
           this.success = true;
+      this.clickLoad = true;
+
 
           if ((this.success = true)) {
             setTimeout(() => {
               this.$emit("close-modal");
               this.success = false;
               this.emitter.emit("refresh");
-              this.clickLoad=false
+              this.clickLoad = false;
             }, 1500);
           }
         }
@@ -560,9 +587,8 @@ export default {
 </script>
 
 <style>
-
-    .customDisable{
-        pointer-events: none;
-    opacity: 0.4;
-    }
+.customDisable {
+  pointer-events: none;
+  opacity: 0.4;
+}
 </style>

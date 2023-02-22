@@ -52,7 +52,7 @@
             min="1"
             max="9999"
             placeholder="Yerləşdiyi bina"
-            type="number"
+            type="text"
           />
 
           <span
@@ -122,8 +122,8 @@ export default {
           this.address,
           this.floor
         );
-this.clickLoad = true;
         await this.userStore.fetchRoom();
+this.clickLoad = true;
 
         this.success = true;
 

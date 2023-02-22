@@ -149,10 +149,10 @@ export default {
   methods: {
     async uppdateHandler() {
       const result = await this.v$.$validate();
-      this.clickLoad = true
       if (result) {
         await this.userStore.updateRoom(this.updateDataRoom);
         await this.userStore.fetchRoom();
+      this.clickLoad = true
 
         this.success = true;
         if ((this.success = true)) {

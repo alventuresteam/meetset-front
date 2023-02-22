@@ -1,39 +1,48 @@
- <template>
+<template>
   <header class="container header">
-
-    <img  loading="lazy"
+    <img
+      loading="lazy"
       class="header__img"
       src="../../assets/images/logo/logo.png"
       alt="logo"
     />
-
     <div class="flex">
       <div @click="showModal = true" class="submit flex center__flex">
         Otaq rezerv et
-        <img  loading="lazy"
-        width="17"
-        height="17"
+        <img
+          loading="lazy"
+          width="17"
+          height="17"
           class="fix__img"
           src="../../assets/images/svg/pulus.svg"
           alt="pulus"
         />
-
-
-
       </div>
       <div class="">
-        <div id="dropDownBox" class="submitWhite flex center__flex " @click.stop="        hideDropdown = true;
-">
-          {{ userStore.getUser.name }}
-          <img  loading="lazy"
+        <div
+          id="dropDownBox"
+          class="submitWhite flex center__flex"
+          @click.stop="hideDropdown = true"
+        >
+          <!-- {{ userStore.getUser.name }} -->
+          {{ user.name }}
+          <img
+            loading="lazy"
             class="fix__img"
             src="../../assets/images/svg/dropdown.svg"
             alt="dropdown"
           />
         </div>
 
-        <ul id="dropDown"  v-if='hideDropdown' class="dropDown">
-            <li class="dropDown__item"  @click="logout()"><img  loading="lazy" src="../../assets/images/svg/exitBold.svg" alt="exit"> Çıxış</li>
+        <ul id="dropDown" v-if="hideDropdown" class="dropDown">
+          <li class="dropDown__item" @click="logout()">
+            <img
+              loading="lazy"
+              src="../../assets/images/svg/exitBold.svg"
+              alt="exit"
+            />
+            Çıxış
+          </li>
         </ul>
       </div>
     </div>
@@ -57,37 +66,32 @@ export default {
   data() {
     return {
       showModal: false,
-      hideDropdown:false,
+      hideDropdown: false,
+      user: ''
     };
   },
 
-
- 
-
   methods: {
-   async logout() {
-     await this.userStore.signOut();
+    async logout() {
+      await this.userStore.signOut();
       this.$router.push("/");
     },
 
-    closeDropDown(){
-        this.hideDropdown = false;
-    }
+    closeDropDown() {
+      this.hideDropdown = false;
+    },
   },
 
-
-
-   mounted() {
+  mounted() {
     document.querySelector("body").addEventListener("click", this.closeDropDown);
 
-
+    this.user = JSON.parse(localStorage.getItem('user'));
   },
   beforeDestroy() {
- document.querySelector("body").removeEventListener("click", this.closeDropDown)
-   },
-
-
-
+    document
+      .querySelector("body")
+      .removeEventListener("click", this.closeDropDown);
+  },
 
   setup() {
     const ReserveRoom = defineAsyncComponent({
@@ -97,10 +101,12 @@ export default {
       suspensible: true,
     });
 
+    onMounted(() => {
+      userStore.fetchUser();
+    });
+
     const userStore = useUserStore();
     return { userStore, ReserveRoom };
   },
-
-
 };
 </script>

@@ -127,7 +127,7 @@ export default defineComponent({
         locale: "en-GB",
 
         resourceAreaHeaderContent: `İclas otaqları - ${this.itemLable}`,
-        resourceAreaWidth: "35%",
+        resourceAreaWidth: "38%",
         slotLabelFormat: {
           hour: "numeric",
           minute: "2-digit",

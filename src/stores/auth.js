@@ -20,6 +20,8 @@ export const useUserStore = defineStore("user", {
         await axios
           .get("https://meetset.al.ventures/api/auth/user")
           .then((res) => {
+            console.log(res);
+            
             const user = res.data.user;
             return (this.user = user);
           });

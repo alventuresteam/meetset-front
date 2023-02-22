@@ -119,17 +119,22 @@
         </div>
 
         <div class="modal__form-group modal__flex">
-          <button  aria-label="İmtina" class="submitWhite" @click="close()">İmtina</button>
+          <button aria-label="İmtina" class="submitWhite" @click="close()">
+            İmtina
+          </button>
           <button
-          aria-label="Yadda Saxla"
+            aria-label="Yadda Saxla"
             class="submit"
             type="submit"
             placeholder="Görüşlə bağlı qeydlər"
           >
- <div v-show="clickLoad" class="loading-dots">
-  <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
-</div>
-           <span v-show="!clickLoad">Yadda saxla</span>              </button>
+            <div v-show="clickLoad" class="loading-dots">
+              <h1 class="dot one">.</h1>
+              <h1 class="dot two">.</h1>
+              <h1 class="dot three">.</h1>
+            </div>
+            <span v-show="!clickLoad">Yadda saxla</span>
+          </button>
         </div>
 
         <div v-show="success" class="success">
@@ -172,19 +177,18 @@ export default {
   methods: {
     async uppdateHandler() {
       const result = await this.v$.$validate();
-      this.clickLoad= true
       if (result) {
         await this.userStore.updatePerson(this.updateDataPerson);
         await this.userStore.fetchPerson();
 
         this.success = true;
+        this.clickLoad = true;
 
         if ((this.success = true)) {
           setTimeout(() => {
             this.$emit("close-modal");
             this.success = false;
-                  this.clickLoad= false
-
+            this.clickLoad = false;
           }, 1500);
         }
       }
@@ -211,4 +215,3 @@ export default {
   },
 };
 </script>
-
