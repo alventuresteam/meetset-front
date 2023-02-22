@@ -127,16 +127,13 @@
               :class="disabled == 1 ? 'customDisable' : ''"
               @selectValue="updateReservation.room_id = $event.id"
             />
-                 <CustomSelect
-                    :options="useStoreRoom.getRoom"
-                    :default="updateReservation.room_id"
-                    class="select"
-
-
-                    :class="disabled == 1 ?  'customDisable' : ''"
-                    @selectValue="chooseRoom"
-
-                />
+            <CustomSelect
+              :options="useStoreRoom.getRoom"
+              :default="updateReservation.room_id"
+              class="select"
+              :class="disabled == 1 ? 'customDisable' : ''"
+              @selectValue="chooseRoom"
+            />
 
             <span
               class="errorText"
@@ -263,10 +260,18 @@
         </div>
 
         <div v-if="showEditButtons" class="modal__form-group modal__flex">
-
-          <button type="button" class="submitWhite " aria-label="Silmək" @click="activeDelet">
+          <button
+            type="button"
+            class="submitWhite"
+            aria-label="Silmək"
+            @click="activeDelet"
+          >
             Sil
-            <img  loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet" />
+            <img
+              loading="lazy"
+              src="../../assets/images/svg/delet.svg"
+              alt="delet"
+            />
           </button>
           <button
             type="submit"
@@ -333,12 +338,16 @@
           <button
             type="button"
             class="submitWhite"
-            aria-label="Redakte etmək"
+            aria-label="Redaktə et"
             id="messg"
             @click="activeDisable()"
           >
-            Redakte etmək
-            <img  loading="lazy" src="../../assets/images/svg/edit.svg" alt="edit" />
+            Redaktə et
+            <img
+              loading="lazy"
+              src="../../assets/images/svg/edit.svg"
+              alt="edit"
+            />
           </button>
         </div>
 
@@ -446,16 +455,17 @@ export default {
       this.updateReservation.emails = [];
     },
     addTag(event) {
-      let room = this.getRoom.find(item => item.id === this.updateReservation.room_id)
+      let room = this.getRoom.find(
+        (item) => item.id === this.updateReservation.room_id
+      );
 
-      if(room.capacity <= this.updateReservation.emails.length) {
-
+      if (room.capacity <= this.updateReservation.emails.length) {
         return;
       }
 
       let val = event.target.value.trim();
 
-      if(this.updateReservation.emails.includes(val)) {
+      if (this.updateReservation.emails.includes(val)) {
         return;
       }
       event.preventDefault();
@@ -544,8 +554,7 @@ export default {
 
         if (!this.userStore.error && !this.userStore.errorMsg) {
           this.success = true;
-      this.clickLoad = true;
-
+          this.clickLoad = true;
 
           if ((this.success = true)) {
             setTimeout(() => {

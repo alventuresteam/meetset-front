@@ -10,7 +10,6 @@
         />
         <div class="user__info-box">
           <h2 class="user__info-title name">{{ item.name }}</h2>
-          <h2 class="user__info-title name">{{ item.id }}</h2>
           <span class="user__info-subtitle">{{ item.position }}</span>
         </div>
       </div>

@@ -204,13 +204,13 @@
           >
           </textarea>
 
-          <span
+          <!-- <span
             class="errorText"
             v-for="error in v$.comment.$errors"
             :key="error.$uid"
           >
             Görüşlə bağlı qeydlər boşdur
-          </span>
+          </span> -->
         </div>
 
         <div class="modal__form-group modal__flex">
@@ -322,7 +322,7 @@ export default {
         }),
       },
       title: { required },
-      comment: { required },
+    //   comment: { required },
     };
   },
   methods: {
@@ -383,7 +383,6 @@ export default {
         this.emitter.emit("refresh");
 
 setTimeout(() => {
-    this.userStore.errorMsg = ''
         this.userStore.error = ''
 
 }, 2000);
@@ -396,7 +395,9 @@ setTimeout(() => {
             setTimeout(() => {
               this.$emit("close-modal");
               this.success = false;
-             this.clickLoad= false
+             this.clickLoad= false;
+    this.userStore.errorMsg = ''
+
             }, 1500);
           }
         }

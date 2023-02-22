@@ -2,7 +2,7 @@
   <div class="modal-overlay">
     <div class="modal modal__user" @click.stop>
       <div class="modal__head">
-        <h6 class="modal__head-title">İstifadəçini redakte et</h6>
+        <h6 class="modal__head-title">İstifadəçini redaktə et</h6>
         <span class="modal__head-close" @click="close()"
           ><img src="../../../../assets/images/svg/modalClose.svg" alt=""
         /></span>
