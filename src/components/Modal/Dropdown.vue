@@ -1,16 +1,12 @@
 <template>
   <div class="custom-select" :tabindex="tabindex" @blur="open = false">
-    <div class="selected"  :class="{ open: open }" @click="open = !open">
+    <div class="selected" :class="{ open: open }" @click="open = !open">
       {{ selected }}
-      <img    src="../../assets/images/chevron-down.png" alt=" meetset dropdown" />   
+      <img src="../../assets/images/chevron-down.png" alt=" meetset dropdown" />
     </div>
 
     <div class="items" :class="{ selectHide: !open }">
-      <div
-        v-for="(option, i) of options"
-        :key="i"
-        @click="selectVal(option)"
-      >
+      <div v-for="(option, i) of options" :key="i" @click="selectVal(option)">
         {{ option.name }}
       </div>
     </div>
@@ -19,13 +15,13 @@
 
 <script>
 export default {
-    methods: {
-        selectVal(val) {
-            this.selected = val.name;
-            this.open = false; 
-            this.$emit('selectValue', val);
-        }
+  methods: {
+    selectVal(val) {
+      this.selected = val.name;
+      this.open = false;
+      this.$emit("selectValue", val);
     },
+  },
   props: {
     options: {
       type: Array,
@@ -33,7 +29,7 @@ export default {
     },
     default: {
       type: Number,
-      default: '',
+      default: "",
     },
     tabindex: {
       type: Number,
@@ -42,25 +38,23 @@ export default {
   },
   data() {
     return {
-      selected: '',
+      selected: "",
       open: false,
     };
   },
 
   mounted() {
-    setTimeout(() =>{
-        this.options?.forEach(item => {
-          console.log(this.default, item.id);
-            if (item.id === this.default) {
-                this.selected = item.name;
-            }else {
-                
-            }                this.selected = 'Otağı seçin';
-
-        })
-    }, 10)
+    setTimeout(() => {
+      this.options?.forEach((item) => {
+        console.log(this.default, item.id);
+        if (item.id === this.default) {
+          this.selected = item.name;
+        } else {
+        }
+        this.selected = "Otağı seçin";
+      });
+    }, 10);
   },
-
 };
 </script>
 
@@ -72,7 +66,6 @@ export default {
   outline: none;
   height: 56px;
   line-height: 22px;
-  
 }
 
 .custom-select .selected {
@@ -80,17 +73,17 @@ export default {
   border-radius: 6px;
   border: 1px solid #cdd5df;
   color: #364152;
-  height:56px;
+  height: 56px;
   cursor: pointer;
-  padding:16px;
+  padding: 16px;
 
   display: flex;
-    justify-content: space-between;
+  justify-content: space-between;
 
   font-family: TTInterfaces-Regular;
-font-size: 16px;
-font-weight: 400;
-line-height: 22px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
 
   user-select: none;
 }
@@ -127,18 +120,18 @@ line-height: 22px;
 
 .custom-select .items div {
   color: #364152;
-   padding:16px;
+  padding: 16px;
   cursor: pointer;
   user-select: none;
 
-font-family: TTInterfaces-Regular;
-font-size: 16px;
-font-weight: 400;
-line-height: 22px;
+  font-family: TTInterfaces-Regular;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
 }
 
 .custom-select .items div:hover {
-  background-color: #EEF2F6;
+  background-color: #eef2f6;
 }
 
 .selectHide {

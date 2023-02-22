@@ -36,7 +36,7 @@
           </span>
         </div>
 
-        <div class="modal__flex modal__form-group">
+        <div class="modal__flex modal__form-group"   style="margin-bottom:40px">
           <div class="input" style="margin-right: 12px">
             <ejs-timepicker
               v-model.lazy="start_time"
@@ -53,6 +53,7 @@
 
             <span
               class="errorText"
+              style="margin:14px"
               v-for="error in v$.start_time.$errors"
               :key="error.$uid"
             >
@@ -76,6 +77,8 @@
 
             <span
               class="errorText"
+                            style="margin:14px"
+
               v-for="error in v$.end_time.$errors"
               :key="error.$uid"
             >
