@@ -414,6 +414,9 @@ export default {
       }
     },
 
+
+    
+
     check() {
       this.comment = this.comment.substr(0, this.limit);
     },
@@ -440,6 +443,8 @@ export default {
 
     const clearTime = document.getElementsByClassName("e-clear-icon-hide");
     const clock = document.getElementsByClassName("e-time-icon");
+
+    
   },
 
   setup() {
