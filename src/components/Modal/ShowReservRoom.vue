@@ -310,8 +310,6 @@
       </form>
     </div>
   </div>
-
-
 </template>
 
 <script>
@@ -484,26 +482,25 @@ export default {
         await this.userStore.updateReservation(this.updateReservation);
         await this.useStoreRoom.fetchRoom();
 
-
-  
+        if (this.userStore.error || this.userStore.errorMsg) {
+          this.clickLoad = false;
+        }
 
         if (!this.userStore.error && !this.userStore.errorMsg) {
+          this.clickLoad = false;
+          this.userStore.errorMsg = "";
+          this.userStore.error = "";
+          this.emitter.emit("refresh");
 
-          
-            this.clickLoad = false;
-            this.userStore.errorMsg = "";
-            this.userStore.error = "";
-            this.emitter.emit("refresh");
+          if (this.showEditButtons) {
+            this.$toast.success(`Uğurlu redaktə edildi`);
+          }
 
-            if(this.showEditButtons){
-            this.$toast.success(`Uğurlu redaktə edildi`) 
-            }
+          if (this.showDeletButtons) {
+            this.$toast.success(`Uğurla silindi`);
+          }
 
-            if(this.showDeletButtons){
-              this.$toast.success(`Uğurla silindi`) 
-            }
-
-            this.$emit("close-modal");
+          this.$emit("close-modal");
         }
       }
     },

@@ -122,7 +122,7 @@
             {{
               error.$message === "Value is required"
                 ? "Şifrə boş ola bilməz"
-                : "Şifrədə ən azı 6 xana dolmalı"
+                : "Şifrə min 6 simvol olmalıdır"
             }}
           </span>
         </div>

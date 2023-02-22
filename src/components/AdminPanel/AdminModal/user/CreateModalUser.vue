@@ -125,7 +125,7 @@
             v-for="error in v$.password.$errors"
             :key="error.$uid"
           >
-            {{error.$message === 'Value is required' ? 'Şifrə boş ola bilməz' : 'Şifrədə ən azı 6 xana dolmalı'}}
+            {{error.$message === 'Value is required' ? 'Şifrə boş ola bilməz' : 'Şifrə min 6 simvol olmalıdır'}}
           </span>
         </div>
         <div class="modal__form-group modal__flex">
