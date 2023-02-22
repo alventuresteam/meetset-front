@@ -331,12 +331,8 @@
             id="messg"
             @click="activeDisable()"
           >
-            Redaktə et
-            <img
-              loading="lazy"
-              src="../../assets/images/svg/edit.svg"
-              alt="edit"
-            />
+            Redakte etmək
+            <img  loading="lazy" src="../../assets/images/svg/edit.svg" alt="edit" />
           </button>
         </div>
 
