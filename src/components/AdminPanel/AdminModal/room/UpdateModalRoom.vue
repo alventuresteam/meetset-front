@@ -155,6 +155,8 @@ export default {
       const result = await this.v$.$validate();
       if (result) {
         this.clickLoad = true;
+          await this.userStore.updateRoom(this.updateDataRoom);
+        await this.userStore.fetchRoom();
 
          if (this.userStore.errorMsg) {
           this.clickLoad = false;
@@ -162,8 +164,7 @@ export default {
 
 
 
-        await this.userStore.updateRoom(this.updateDataRoom);
-        await this.userStore.fetchRoom();
+      
 
 
         if (!this.userStore.error && !this.userStore.errorMsg) {
@@ -179,6 +180,8 @@ export default {
 
     close() {
       this.$emit("close-modal");
+        this.userStore.errorMsg = "";
+
     },
   },
 };
