@@ -39,7 +39,7 @@
               id="startPicker"
               :change="onEnableEndTime"
               :step="step"
-              :enabled="startEnable"
+              :enabled="true"
               :readonly="startRead"
               :placeholder="waterMark"
               :openOnFocus="true"
@@ -60,7 +60,7 @@
               v-model.lazy="end_time"
               id="endPicker"
               :placeholder="waterMark"
-              :enabled="endEnable"
+              :enabled="true"
               :readonly="endRead"
               :min="min"
               :openOnFocus="true"
@@ -97,7 +97,7 @@
              <CustomSelect
                 :options="getRoom"
                 :default="room_id" 
-                @selectValue="room_id = $event.id"
+                @selectValue="chooseRoom"
                 class="select"
             />
 
@@ -129,10 +129,10 @@
           </span>
         </div>
 
-        <div class="modal__form-group">
+        <div class="modal__form-group" >
           <label for="emails" class="label">Dəvət ediləcəklər</label>
 
-          <div class="tag-input input input__100 input__height-auto">
+          <div :class="{disabled: !room_id}" class="tag-input input input__100 input__height-auto">
             <div
               v-for="(tag, index) in emails"
               :key="tag"
@@ -142,6 +142,7 @@
               <span @click="removeTag(index)">x</span>
             </div>
             <textarea
+
               maxlength="255"
               class="tag-input__text"
               @keydown.enter="addTag"
@@ -229,8 +230,8 @@
             id="messg"
           >
           <div v-show="clickLoad" class="loading-dots">
-  <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
-</div>
+            <h1 class="dot one">.</h1><h1 class="dot two">.</h1><h1 class="dot three">.</h1>
+          </div>
            <span v-show="!clickLoad">Yadda saxla</span>  
           </button>
         </div>
@@ -243,7 +244,11 @@
   </div>
 </template>
 
-
+<style>
+.disabled {
+  background: rgb(204 204 204 / 38%);
+}
+</style>
 
 <script>
 import moment from "moment";
@@ -320,17 +325,26 @@ export default {
     };
   },
   methods: {
+    chooseRoom(event) {
+      this.room_id = event.id
+      this.emails = [];
+    },
     addTag(event) {
       event.preventDefault();
+      let room = this.getRoom.find(item => item.id === this.room_id)
+      console.log(room.capacity, this.emails.length)
+      if(room.capacity <= this.emails.length) {
+
+        return;
+      }
+
       let val = event.target.value.trim();
+
+      if(this.emails.includes(val)) {
+        return;
+      }
+
       if (val.length > 0) {
-        if (this.emails.length >= 1) {
-          for (let i = 0; i < this.emails.length; i++) {
-            if (this.emails[i] === val) {
-              return false;
-            }
-          }
-        }
         this.emails.push(val);
         event.target.value = "";
       }

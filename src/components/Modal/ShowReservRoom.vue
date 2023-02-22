@@ -32,6 +32,7 @@
             <input
               :disabled="disabled == 1"
               id="date"
+              type="date"
               class="input"
               placeholder="Tarix"
               v-model.lazy="updateReservation.start_date"
@@ -57,7 +58,8 @@
                 v-model.lazy="updateReservation.start_time"
                 id="startPicker"
                 :change="onEnableEndTime"
-                :enabled="startEnable"
+                :enabled="true"
+                :openOnFocus="true"
                 :readonly="startRead"
                 :placeholder="waterMark"
                 :format="timeFormat"
@@ -79,7 +81,8 @@
                 v-model.lazy="updateReservation.end_time"
                 id="endPicker"
                 :placeholder="waterMark"
-                :enabled="endEnable"
+                :enabled="true"
+                :openOnFocus="true"
                 :readonly="endRead"
                 :min="min"
                 :step="step"
@@ -116,11 +119,13 @@
 
                  <CustomSelect
                     :options="useStoreRoom.getRoom"
-                    :default="updateReservation?.room_id"
-                    class="select "
+                    :default="updateReservation.room_id"
+                    class="select"
+
 
                     :class="disabled == 1 ?  'customDisable' : ''"
-                    @selectValue="updateReservation.room_id = $event.id"
+                    @selectValue="chooseRoom"
+
                 />
 
             <span
@@ -344,11 +349,11 @@ export default {
 
       updateReservation: {},
       updateReservationRoom: {},
-      showEditButtons: false,
+      showEditButtons: true,
       showDeletButtons: false,
       timeFormat: "HH:mm",
       limit: 250,
-      disabled: 1,
+      disabled: 0,
       success: false,
       waterMark: "Saat",
 
@@ -410,17 +415,25 @@ export default {
     document.getElementById("date").setAttribute("min", maxDate);
   },
   methods: {
+    chooseRoom(event) {
+      this.updateReservation.room_id = event.id;
+      this.updateReservation.emails = [];
+    },
     addTag(event) {
-      event.preventDefault();
+      let room = this.getRoom.find(item => item.id === this.updateReservation.room_id)
+
+      if(room.capacity <= this.updateReservation.emails.length) {
+
+        return;
+      }
+
       let val = event.target.value.trim();
+
+      if(this.updateReservation.emails.includes(val)) {
+        return;
+      }
+      event.preventDefault();
       if (val.length > 0) {
-        if (this.updateReservation.emails.length >= 1) {
-          for (let i = 0; i < this.updateReservation.emails.length; i++) {
-            if (this.updateReservation.emails[i] === val) {
-              return false;
-            }
-          }
-        }
         this.updateReservation.emails.push(val);
         event.target.value = "";
       }
@@ -545,6 +558,9 @@ export default {
   },
 
   computed: {
+    getRoom() {
+      return this.useStoreRoom.getRoom;
+    },
     minDate() {
       return new Date().toISOString().split("T")[0];
     },
