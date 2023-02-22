@@ -23,14 +23,20 @@
       </div>
     </div>
 
-                  
-
     <button aria-label="Yadda saxla" type="submit" class="setting__save">
       Yadda saxla
-      
-      <span><img  loading="lazy" src="../../assets/images/svg/check.svg" alt="check" /></span>
+
+      <span
+        ><img
+          loading="lazy"
+          src="../../assets/images/svg/check.svg"
+          alt="check"
+      /></span>
     </button>
   </form>
+  <div v-show="clickLoad" class="loading-dots">
+    <img loading="lazy" src="../../assets/images/gif/load.gif" alt="gif" />
+  </div>
 </template>
 
 <script>
@@ -39,7 +45,7 @@ import { useSettingStore } from "../../stores/setting.js";
 export default {
   data() {
     return {
-   
+      clickLoad: false,
     };
   },
   setup() {
@@ -47,18 +53,16 @@ export default {
       userStore.fetchSetting();
     });
     const userStore = useSettingStore();
-
     return { userStore };
-
-       
   },
 
   methods: {
     async save() {
+      this.clickLoad = true;
       await this.userStore.updateSetting(this.userStore.getSetting);
       await this.userStore.fetchSetting();
-            this.$toast.success(`Yadda saxlanıldı`);
-
+      this.clickLoad = false;
+      this.$toast.success(`Yadda saxlanıldı`);
     },
   },
 };
