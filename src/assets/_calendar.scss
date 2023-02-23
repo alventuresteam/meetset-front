@@ -4,85 +4,87 @@
     border-top: 1px solid #e3e8ef;
     min-height: 100vh;
 }
-
-.is-right {
-    .vc-svg-icon {
-        position: relative;
-        left: -3px;
-    }
-}
-
-
-.row-from-end-1 {
-    .vc-title {
-        color: #121926 !important;
-        font-family: TTInterfaces-Bold, sans-serif;
-        font-size: 18px;
-        font-weight: 600;
-        line-height: 23px;
-        position: relative;
-
-        &:after {
-            position: absolute;
-            content: "";
-            margin: 10px 24px 0;
-            width: 250px;
-            height: 2px;
-            background-color: #e3e8ef;
-        }
-    }
-}
-
-.vc {
-    &-title {
-        position: relative;
-        font-family: TTInterfaces-Bold, sans-serif;
-        font-size: 18px;
-        font-weight: 600;
-        line-height: 23px;
-        color: #121926;
-        width: 100%;
-        &:after {
-            position: absolute;
-            content: "";
-            margin: 10px 24px 0;
-            width: calc(100% - 250px);
-            height: 1px;
-            background-color: #e3e8ef;
+.v-calendarAll {
+    .is-right {
+        .vc-svg-icon {
+            position: relative;
+            left: -3px;
         }
     }
 
-    &-header {
-        margin-bottom: 30px;
-        padding: 4.5px 0 0 0;
-    }
 
-    &-dot {
-        background-color: white !important;
-        width: 4px !important;
-        height: 4px !important;
-    }
+    .row-from-end-1 {
+        .vc-title {
+            color: #121926 !important;
+            font-family: TTInterfaces-Bold, sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 23px;
+            position: relative;
 
-    &-day {
-        min-height: 40px !important;
-
-        &-box-center-bottom {
-            margin-bottom: 9px !important;
-            //margin-left: 2px !important;
-        }
-
-        &-content {
-            //margin-bottom: 6px !important;
-
-            font-family: TTInterfaces-Regular, sans-serif;
-            font-size: 16px;
-            font-weight: 400 !important;
-            line-height: 52px;
-            &:hover, &:focus {
-                background-color: unset;
+            &:after {
+                position: absolute;
+                content: "";
+                margin: 10px 24px 0;
+                width: 250px;
+                height: 2px;
+                background-color: #e3e8ef;
             }
         }
     }
+
+    .vc {
+        &-title {
+            position: relative;
+            font-family: TTInterfaces-Bold, sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 23px;
+            color: #121926;
+            width: 100%;
+
+            &:after {
+                position: absolute;
+                content: "";
+                margin: 10px 24px 0;
+                width: calc(100% - 250px);
+                height: 1px;
+                background-color: #e3e8ef;
+            }
+        }
+
+        &-header {
+            margin-bottom: 30px;
+            padding: 4.5px 0 0 0;
+        }
+
+        &-dot {
+            background-color: white !important;
+            width: 4px !important;
+            height: 4px !important;
+        }
+
+        &-day {
+            min-height: 40px !important;
+
+            &-box-center-bottom {
+                margin-bottom: 9px !important;
+                //margin-left: 2px !important;
+            }
+
+            &-content {
+                //margin-bottom: 6px !important;
+
+                font-family: TTInterfaces-Regular, sans-serif;
+                font-size: 16px;
+                font-weight: 400 !important;
+                line-height: 52px;
+
+                &:hover, &:focus {
+                    background-color: unset;
+                }
+            }
+        }
 
     &-container {
         border: none;
@@ -92,48 +94,53 @@
         padding: 32px 24px;
     }
 
-    &-highlight {
-        background: #155eef !important;
-        width: 38px !important;
-        height: 38px !important;
-        border-radius: 12px !important;
+        &-highlight {
+            background: #155eef !important;
+            width: 38px !important;
+            height: 38px !important;
+            border-radius: 12px !important;
 
-        font-family: TTInterfaces-Medium, sans-serif !important;
-        font-size: 16px !important;
-        font-weight: 500 !important;
-        line-height: 20px !important;
-        text-align: center !important;
-    }
-
-    &-arrows{
-        &-container {
-            padding: 0;
+            font-family: TTInterfaces-Medium, sans-serif !important;
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            line-height: 20px !important;
+            text-align: center !important;
         }
-    }
 
-    &-arrow {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 8px;
-        width: 32px;
-        height: 32px;
-        border: 1px solid #cdd5df;
-        svg {
-            width: 10px;
-        }
-        &.is-left {
-            transform: rotate(90deg);
-            margin-right: 10px;
-            svg {
-                margin: 0 0 2px 2px;
+        &-arrows {
+            &-container {
+                padding: 0;
             }
         }
 
-        &.is-right {
-            transform: rotate(90deg);
+        &-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            border: 1px solid #cdd5df;
+
             svg {
-                margin: 0 0 2px 3px;
+                width: 10px;
+            }
+
+            &.is-left {
+                transform: rotate(90deg);
+                margin-right: 10px;
+
+                svg {
+                    margin: 0 0 2px 2px;
+                }
+            }
+
+            &.is-right {
+                transform: rotate(90deg);
+
+                svg {
+                    margin: 0 0 2px 3px;
+                }
             }
         }
     }

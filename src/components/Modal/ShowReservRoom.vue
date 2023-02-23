@@ -26,16 +26,17 @@
 
                 <div v-else>
                     <div class="modal__form-group">
-                        <input
-                            id="date"
-                            type="date"
-                            class="input"
-                            placeholder="Tarix"
-                            v-model.lazy="updateReservation.start_date"
-                            onfocus="(this.type='date')"
-                            @blur="onBlur"
-                            :min="minDate"
-                        />
+                      <DatePicker
+                          :popover="{ visibility: 'focus' }"
+                          :min-date="new Date()"
+                          :max-date="new Date(2030, 1, 4)"
+                          v-model.lazy="start_date"
+                      >
+                        <template #default="{ inputValue, inputEvents }">
+                          <input class="input " placeholder="Tarix" :value="inputValue" v-on="inputEvents"/>
+                          <img class='input-icon' src="../../assets/images/svg/calendar.svg"/>
+                        </template>
+                      </DatePicker>
 
                         <span class="errorText" v-if="userStore.errorMsg">
                             {{ userStore.errorMsg }}

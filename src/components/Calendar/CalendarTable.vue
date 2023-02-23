@@ -103,6 +103,26 @@ export default defineComponent({
           });
         });
       });
+
+
+        this.$nextTick(() => {
+             if (this.events.length > 0) {
+                const lastEvent = this.events.find(item => {
+                    let a = moment(this.itemDate).startOf('day');
+                    let b = moment(item.start).startOf('day');
+                    return a.diff(b,'days') === 0
+                });
+                
+                const lastEventDate = moment(lastEvent.start).format("HH:mm");
+            
+
+
+                this.$refs.calendar.getApi().scrollToTime(lastEventDate);
+
+
+                }
+        })
+      
     },
   },
 
@@ -212,23 +232,8 @@ export default defineComponent({
     }
   },
 
-  updated(){
-           if (this.events.length > 0) {
-      const lastEvent = this.events[this.events.length - 1];
-      const lastEventDate = moment(lastEvent.end).format("HH:mm");
-console.log(this.events.length,'sssssssssssss')
-console.log(lastEventDate,'aaaaaaaa')
-
-console.log(lastEvent,'aaaaaaaa')
+          
 
 
-
-
-    this.$refs.calendar.getApi().scrollToTime('23:59:59');
-
-
-      this.$refs.calendar.getApi().scrollToTime(lastEventDate);
-    }
-  }
 });
 </script>
