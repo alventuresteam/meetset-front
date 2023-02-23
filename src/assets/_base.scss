@@ -17,9 +17,14 @@ $white: #ffffff;
 @include FontFace(TTInterfaces-DemiBold, "./font/TTInterfaces-DemiBold.ttf");
 
 .container {
-    // max-width: 1440px;
-    max-width: 80%;
+    max-width: 1960px;
+    width: 100%;
     margin: 0 auto;
+    padding: 0 20px;
+}
+
+.p-relative {
+    position: relative;
 }
 
 .flex {
@@ -45,6 +50,7 @@ $white: #ffffff;
         width: 16px;
         left: -30px;
     }
+
     font-family: TTInterfaces-Regular, sans-serif;
     font-weight: 400;
     font-size: 14px;
@@ -61,6 +67,7 @@ $white: #ffffff;
     flex-direction: column;
     height: 500px;
 }
+
 .success {
     position: absolute;
     right: 20px;
@@ -88,7 +95,7 @@ html {
 }
 
 
-.notFound{
+.notFound {
     margin: auto;
     text-align: center;
     display: flex;
