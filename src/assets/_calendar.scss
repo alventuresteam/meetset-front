@@ -2,7 +2,7 @@
     background: #f8fafc;
     padding-top: 54px;
     border-top: 1px solid #e3e8ef;
-    height: 100vh;
+    min-height: 100vh;
 }
 .v-calendarAll {
     .is-right {
@@ -86,13 +86,13 @@
             }
         }
 
-        &-container {
-            border: none;
-            border-radius: 12px;
-            max-width: 444px;
-            width: 100%;
-            padding: 32px 24px;
-        }
+    &-container {
+        border: none;
+        border-radius: 12px;
+        max-width: 444px;
+        min-width: 444px;
+        padding: 32px 24px;
+    }
 
         &-highlight {
             background: #155eef !important;
@@ -145,6 +145,7 @@
         }
     }
 }
+
 .vue__time-picker {
     width: 48% !important;
 
@@ -189,8 +190,27 @@
     cursor: auto;
 }
 
-.fullcalendar .fc {
-    border-radius: 100px !important;
+.fullcalendar {
+    .fc {
+        border-radius: 100px !important;
+        table {
+            tfoot {
+                .fc-scrollgrid-section {
+                    th {
+                        &:first-child {
+                            border-right: none;
+                            .fc-scroller-harness {
+                                display: none;
+                            }
+                        }
+                        .fc-scroller-harness {
+                            margin-top: 25px;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 .fc {
