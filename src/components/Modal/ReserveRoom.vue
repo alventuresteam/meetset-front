@@ -36,7 +36,7 @@
           </span>
         </div>
 
-        <div class="modal__flex modal__form-group"   style="margin-bottom:40px">
+        <div class="modal__flex modal__form-group" style="margin-bottom: 40px">
           <div class="input" style="margin-right: 12px">
             <ejs-timepicker
               v-model.lazy="start_time"
@@ -53,7 +53,7 @@
 
             <span
               class="errorText"
-              style="margin:14px"
+              style="margin: 14px"
               v-for="error in v$.start_time.$errors"
               :key="error.$uid"
             >
@@ -77,8 +77,7 @@
 
             <span
               class="errorText"
-                            style="margin:14px"
-
+              style="margin: 14px"
               v-for="error in v$.end_time.$errors"
               :key="error.$uid"
             >
@@ -386,13 +385,16 @@ export default {
         await this.useStoreRoom.fetchRoom();
         this.emitter.emit("refresh");
 
-        if (!this.userStore.error && !this.userStore.errorMsg) {
+        if (this.userStore.error || this.userStore.errorMsg) {
+          this.clickLoad = false;
+        }
 
-              this.$emit("close-modal");
-              this.clickLoad = false;
-              this.userStore.errorMsg = "";
-              this.userStore.error = "";
-              this.$toast.success(`Rezerv uğurlu keçdi`);
+        if (!this.userStore.error && !this.userStore.errorMsg) {
+          this.$emit("close-modal");
+          this.clickLoad = false;
+          this.userStore.errorMsg = "";
+          this.userStore.error = "";
+          this.$toast.success(`Rezerv uğurlu keçdi`);
         }
       }
     },
@@ -413,9 +415,6 @@ export default {
         this.isStartTimeChange = true;
       }
     },
-
-
-    
 
     check() {
       this.comment = this.comment.substr(0, this.limit);
@@ -443,8 +442,6 @@ export default {
 
     const clearTime = document.getElementsByClassName("e-clear-icon-hide");
     const clock = document.getElementsByClassName("e-time-icon");
-
-    
   },
 
   setup() {

@@ -30,7 +30,6 @@
         <div v-else>
           <div class="modal__form-group">
             <input
-              :disabled="disabled == 1"
               id="date"
               type="date"
               class="input"
@@ -105,7 +104,6 @@
           <div class="modal__form-group">
             <!-- <select
               id="roomSelect"
-              :disabled="disabled == 1"
               class="input input__100"
               v-model.lazy="updateReservation.room_id"
             >
@@ -122,7 +120,6 @@
               :options="useStoreRoom.getRoom"
               :default="updateReservation.room_id"
               class="select"
-              :class="disabled == 1 ? 'customDisable' : ''"
               @selectValue="chooseRoom"
             />
 
@@ -138,7 +135,6 @@
           <div class="modal__form-group">
             <label for="user" class="label">İclası təşkil edən şəxs</label>
             <input
-              :disabled="disabled == 1"
               v-model.lazy="updateReservation.organizer_name"
               class="input input__100"
               id="user"
@@ -160,7 +156,6 @@
 
             <div class="tag-input input input__100 input__height-auto">
               <div
-                :disabled="disabled == 1"
                 v-for="(tag, index) in updateReservation.emails"
                 :key="tag"
                 class="tag-input__tag"
@@ -168,7 +163,6 @@
                 {{ tag }}
                 <button
                   aria-label="x"
-                  :disabled="disabled == 1"
                   @click="removeTag(index)"
                 >
                   x
@@ -176,7 +170,6 @@
               </div>
 
               <textarea
-                :disabled="disabled == 1"
                 class="tag-input__text"
                 maxlength="50"
                 @keydown.enter="addTag"
@@ -214,7 +207,6 @@
             <input
               class="input input__100"
               id="title"
-              :disabled="disabled == 1"
               placeholder="Görüşün başlığı"
               type="text"
               maxlength="250"
@@ -235,9 +227,7 @@
               class="input input__100 input__height"
               placeholder="Görüşlə bağlı qeydlər"
               id="messg"
-              :disabled="disabled == 1"
               v-model.lazy="updateReservation.comment"
-              v-on:input="check"
             />
 
             <!-- <span
@@ -300,6 +290,9 @@
             />
           </button>
         </div>
+
+     
+
         <div v-show="clickLoad" class="loading-dots">
           <img
             loading="lazy"
@@ -307,8 +300,20 @@
             alt="gif"
           />
         </div>
+
+        
       </form>
+
+               <div v-if="clickLoad" class="loading-dots">
+          <img
+            loading="lazy"
+            src="../../assets/images/gif/load.gif"
+            alt="gif"
+          />
+        </div>
     </div>
+
+     
   </div>
 </template>
 
@@ -337,7 +342,6 @@ export default {
       showDeletButtons: false,
       timeFormat: "HH:mm",
       limit: 250,
-      disabled: 0,
       waterMark: "Saat",
 
       endEnable: false,
@@ -377,7 +381,7 @@ export default {
         },
         room_id: { required },
         title: { required },
-        comment: { required },
+        // comment: { required },
       },
     };
   },
@@ -434,14 +438,10 @@ export default {
     activeDelet() {
       this.showDeletButtons = true;
       this.showEditButtons = false;
+
     },
 
-    check() {
-      this.updateReservation.comment = this.updateReservation.comment.substr(
-        0,
-        this.limit
-      );
-    },
+   
 
     onBlur() {
       let today = new Date().toISOString().split("T")[0];
@@ -451,16 +451,27 @@ export default {
       }
     },
 
-    Disable() {
-      this.showEditButtons = false;
-      this.disabled = 1;
-      this.startEnable = false;
-    },
+  
     async handleDelete(item) {
+      this.clickLoad = true;
+console.log(this.clickLoad)
       await this.userStore.deletReservation(item);
       await this.useStoreRoom.fetchRoom();
-      this.emitter.emit("refresh");
-      this.$emit("close-modal");
+
+
+
+      if (this.userStore.error || this.userStore.errorMsg) {
+        this.clickLoad = false;
+      }
+
+      if (!this.userStore.error && !this.userStore.errorMsg) {
+        this.clickLoad = false;
+
+        this.emitter.emit("refresh");
+        this.$emit("close-modal");
+
+        this.$toast.success(`Uğurla silindi`);
+      }
     },
 
     async uppdateHandler(e) {
@@ -473,6 +484,7 @@ export default {
         }
       );
 
+
       if (result) {
         this.clickLoad = true;
 
@@ -482,9 +494,9 @@ export default {
         await this.userStore.updateReservation(this.updateReservation);
         await this.useStoreRoom.fetchRoom();
 
-        if (this.userStore.error || this.userStore.errorMsg) {
+         if (this.userStore.error || this.userStore.errorMsg) {
           this.clickLoad = false;
-        }
+         }
 
         if (!this.userStore.error && !this.userStore.errorMsg) {
           this.clickLoad = false;
@@ -492,13 +504,7 @@ export default {
           this.userStore.error = "";
           this.emitter.emit("refresh");
 
-          if (this.showEditButtons) {
-            this.$toast.success(`Uğurlu redaktə edildi`);
-          }
-
-          if (this.showDeletButtons) {
-            this.$toast.success(`Uğurla silindi`);
-          }
+          this.$toast.success(`Uğurlu redaktə edildi`);
 
           this.$emit("close-modal");
         }
@@ -548,9 +554,3 @@ export default {
 };
 </script>
 
-<style>
-.customDisable {
-  pointer-events: none;
-  opacity: 0.4;
-}
-</style>
