@@ -53,7 +53,6 @@ export const useUserStore = defineStore("user", {
     async signOut() {
       await localStorage.removeItem("token");
       await localStorage.removeItem("user");
-
     },
   },
 
