@@ -50,6 +50,7 @@ export default defineComponent({
     FullCalendar, // make the <FullCalendar> tag available
     ShowReservRoom,
     ClientOnly,
+    
   },
 
   props: ["itemDate", "itemLable"],

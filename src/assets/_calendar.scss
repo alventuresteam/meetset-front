@@ -5,6 +5,10 @@
     height: 100vh;
 }
 
+
+.v-calendarAll{
+
+
 .is-right {
     .vc-svg-icon {
         position: relative;
@@ -29,7 +33,7 @@
             position: absolute;
             content: "";
             margin: 10px 24px 0;
-            width: 250px;
+            // width: 250px;
             height: 2px;
             background-color: #e3e8ef;
         }
@@ -50,7 +54,7 @@
             position: absolute;
             content: "";
             margin: 10px 24px 0;
-            width: 100%;
+            // width: 100%;
             height: 2px;
             background-color: #e3e8ef;
         }
@@ -117,6 +121,7 @@ line-height: 52px;
             border: 1px solid #cdd5df;
         }
     }
+}
 }
 
 .vue__time-picker {
@@ -196,3 +201,4 @@ line-height: 52px;
 thead .fc-scroller {
   overflow: hidden !important;
 }
+

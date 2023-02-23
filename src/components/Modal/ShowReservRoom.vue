@@ -29,7 +29,22 @@
         </div>
         <div v-else>
           <div class="modal__form-group">
-            <input
+
+              <DatePicker
+                        :popover="{ visibility: 'focus' }"
+
+            :min-date="new Date()"
+            :max-date="new Date(2030, 1, 4)"
+            v-model.lazy="updateReservation.start_date"
+          >
+            <template #default="{ inputValue, inputEvents }">
+              <input class="input " placeholder="Tarix"  :value="inputValue" v-on="inputEvents" />
+              <img class='input-icon' src="../../assets/images/svg/calendar.svg" />
+            </template>
+          </DatePicker>
+
+
+            <!-- <input
               id="date"
               type="date"
               class="input"
@@ -38,7 +53,7 @@
               onfocus="(this.type='date')"
               @blur="onBlur"
               :min="minDate"
-            />
+            /> -->
             <span class="errorText" v-if="userStore.errorMsg">{{
               userStore.errorMsg
             }}</span>
@@ -325,12 +340,15 @@ import moment from "moment";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, minLength, helpers } from "@vuelidate/validators";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
+import { DatePicker } from "v-calendar";
 
 export default {
   props: ["item", "itemRoom"],
   components: {
     "ejs-timepicker": TimePickerComponent,
     CustomSelect,
+        DatePicker,
+
   },
   data() {
     return {
@@ -391,15 +409,15 @@ export default {
     //Object.assign(this.updateReservation, this.item);
     Object.assign(this.updateReservationRoom, this.itemRoom);
 
-    let dtToday = new Date();
+    // let dtToday = new Date();
 
-    let month = dtToday.getMonth() + 1;
-    let day = dtToday.getDate();
-    let year = dtToday.getFullYear();
-    if (month < 10) month = "0" + month.toString();
-    if (day < 10) day = "0" + day.toString();
-    let maxDate = year + "-" + month + "-" + day;
-    document.getElementById("date").setAttribute("min", maxDate);
+    // let month = dtToday.getMonth() + 1;
+    // let day = dtToday.getDate();
+    // let year = dtToday.getFullYear();
+    // if (month < 10) month = "0" + month.toString();
+    // if (day < 10) day = "0" + day.toString();
+    // let maxDate = year + "-" + month + "-" + day;
+    // document.getElementById("date").setAttribute("min", maxDate);
   },
   methods: {
     chooseRoom(event) {
@@ -488,6 +506,9 @@ console.log(this.clickLoad)
       if (result) {
         this.clickLoad = true;
 
+
+        this.updateReservation.start_date = this.formattedDate;
+
         this.updateReservation.start_time = this.formattedTime;
         this.updateReservation.end_time = this.formattedEndTime;
 
@@ -545,6 +566,11 @@ console.log(this.clickLoad)
     },
     formattedTime() {
       return moment(this.updateReservation.start_time, "H:mm").format("HH:mm");
+    },
+
+
+     formattedDate() {
+      return moment(this.updateReservation.start_date,).format('YYYY-MM-DD');
     },
 
     formattedEndTime() {

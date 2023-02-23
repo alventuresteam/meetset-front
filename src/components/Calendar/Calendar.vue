@@ -3,6 +3,8 @@
   <div class="calendar">
     <div class="container">
       <div class="flexCalendar">
+        <div class='v-calendarAll'>
+
         <DatePicker
           color="blue"
           v-model.lazy="date"
@@ -14,6 +16,7 @@
           is-inline
           :rows="2"
         />
+        </div>
 
 
         <div class="table-wrapper">
