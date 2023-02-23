@@ -84,7 +84,6 @@ const guard = async function (to, from, next, app) {
       .then((response) => {
         useUserStore().user = response.data.user;
 
-        console.log(response);
         next();
       })
       .catch((error) => {
@@ -99,7 +98,7 @@ const guardRoom = async function (to, from, next, app) {
   // check for valid auth token
   if (useUserStore().user) {
     if (!useUserStore().user.id) await useUserStore().fetchUser();
-    console.log(useUserStore().user);
+    (useUserStore().user);
     if (useUserStore().user.role === 1) next();
     else router.push("calendar");
   } else window.location.href = "/";

@@ -317,16 +317,19 @@ import moment from "moment";
 import {useVuelidate} from "@vuelidate/core";
 import {required, email, minLength, helpers} from "@vuelidate/validators";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
+import { DatePicker } from "v-calendar";
 
 export default {
-    props: ["item", "itemRoom"],
-    components: {
-        "ejs-timepicker": TimePickerComponent,
-        CustomSelect,
-    },
-    data() {
-        return {
-            clickLoad: false,
+  props: ["item", "itemRoom"],
+  components: {
+    "ejs-timepicker": TimePickerComponent,
+    CustomSelect,
+        DatePicker,
+
+  },
+  data() {
+    return {
+      clickLoad: false,
 
             updateReservation: {},
             updateReservationRoom: {},
@@ -383,25 +386,16 @@ export default {
         //Object.assign(this.updateReservation, this.item);
         Object.assign(this.updateReservationRoom, this.itemRoom);
 
-        let dtToday = new Date();
-
-        let month = dtToday.getMonth() + 1;
-        let day = dtToday.getDate();
-        let year = dtToday.getFullYear();
-        if (month < 10) month = "0" + month.toString();
-        if (day < 10) day = "0" + day.toString();
-        let maxDate = year + "-" + month + "-" + day;
-        document.getElementById("date").setAttribute("min", maxDate);
+  },
+  methods: {
+    chooseRoom(event) {
+      this.updateReservation.room_id = event.id;
+      this.updateReservation.emails = [];
     },
-    methods: {
-        chooseRoom(event) {
-            this.updateReservation.room_id = event.id;
-            this.updateReservation.emails = [];
-        },
-        addTag(event) {
-            let room = this.getRoom.find(
-                (item) => item.id === this.updateReservation.room_id
-            );
+    addTag(event) {
+      let room = this.getRoom.find(
+        (item) => item.id === this.updateReservation.room_id
+      );
 
             if (room.capacity <= this.updateReservation.emails.length) {
                 return;
@@ -434,20 +428,10 @@ export default {
         },
 
 
-        onBlur() {
-            let today = new Date().toISOString().split("T")[0];
-            if (this.updateReservation.start_date < today) {
-                this.updateReservation.start_date = today;
-                this.type = "text";
-            }
-        },
-
-
-        async handleDelete(item) {
-            this.clickLoad = true;
-            console.log(this.clickLoad)
-            await this.userStore.deletReservation(item);
-            await this.useStoreRoom.fetchRoom();
+    async handleDelete(item) {
+      this.clickLoad = true;
+      await this.userStore.deletReservation(item);
+      await this.useStoreRoom.fetchRoom();
 
 
             if (this.userStore.error || this.userStore.errorMsg) {
@@ -478,8 +462,11 @@ export default {
             if (result) {
                 this.clickLoad = true;
 
-                this.updateReservation.start_time = this.formattedTime;
-                this.updateReservation.end_time = this.formattedEndTime;
+
+        this.updateReservation.start_date = this.formattedDate;
+
+        this.updateReservation.start_time = this.formattedTime;
+        this.updateReservation.end_time = this.formattedEndTime;
 
                 await this.userStore.updateReservation(this.updateReservation);
                 await this.useStoreRoom.fetchRoom();
@@ -537,10 +524,15 @@ export default {
             return moment(this.updateReservation.start_time, "H:mm").format("HH:mm");
         },
 
-        formattedEndTime() {
-            return moment(this.updateReservation.end_time, "H:mm").format("HH:mm");
-        },
+
+     formattedDate() {
+      return moment(this.updateReservation.start_date,).format('YYYY-MM-DD');
     },
+
+    formattedEndTime() {
+      return moment(this.updateReservation.end_time, "H:mm").format("HH:mm");
+    },
+  },
 };
 </script>
 

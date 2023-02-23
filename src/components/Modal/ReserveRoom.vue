@@ -7,21 +7,32 @@
           ><img
             loading="lazy"
             src="../../assets/images/svg/modalClose.svg"
-            alt=""
+            alt="modalClose"
         /></span>
       </div>
       <form class="modal__form" @submit.prevent="addPerson()">
         <div class="modal__form-group">
-          <input
+          <DatePicker
+          :popover="{ visibility: 'focus' }"
+            :min-date="new Date()"
+            :max-date="new Date(2030, 1, 4)"
+            v-model.lazy="start_date"
+          >
+            <template #default="{ inputValue, inputEvents }">
+              <input class="input " placeholder="Tarix"  :value="inputValue" v-on="inputEvents" />
+              <img class='input-icon' src="../../assets/images/svg/calendar.svg" />
+            </template>
+          </DatePicker>
+
+          <!-- <input
             id="date"
             class="input"
             placeholder="Tarix"
-            v-model.lazy="start_date"
             onfocus="(this.type='date')"
             :min="minDate"
             max="2033-01-01"
             @blur="onBlur"
-          />
+          /> -->
 
           <span class="errorText" v-if="userStore.errorMsg">{{
             userStore.errorMsg
@@ -259,6 +270,8 @@
 import moment from "moment";
 import { TimePickerComponent } from "@syncfusion/ej2-vue-calendars";
 import { onMounted } from "vue";
+import { DatePicker } from "v-calendar";
+
 import { useReservationStore } from "../../stores/reservations";
 import { useRoomStore } from "../../stores/room";
 import { useVuelidate } from "@vuelidate/core";
@@ -270,6 +283,7 @@ export default {
   components: {
     "ejs-timepicker": TimePickerComponent,
     CustomSelect,
+    DatePicker,
   },
 
   data() {
@@ -336,7 +350,6 @@ export default {
     addTag(event) {
       event.preventDefault();
       let room = this.getRoom.find((item) => item.id === this.room_id);
-      console.log(room.capacity, this.emails.length);
       if (room.capacity <= this.emails.length) {
         return;
       }
@@ -373,7 +386,7 @@ export default {
         this.clickLoad = true;
 
         await this.userStore.createReservation(
-          this.start_date,
+          this.formattedDate,
           this.formattedTime,
           this.formattedEndTime,
           this.room_id,
@@ -430,18 +443,14 @@ export default {
   },
 
   mounted() {
-    let dtToday = new Date();
-
-    let month = dtToday.getMonth() + 1;
-    let day = dtToday.getDate();
-    let year = dtToday.getFullYear();
-    if (month < 10) month = "0" + month.toString();
-    if (day < 10) day = "0" + day.toString();
-    let maxDate = year + "-" + month + "-" + day;
-    document.getElementById("date").setAttribute("min", maxDate);
-
-    const clearTime = document.getElementsByClassName("e-clear-icon-hide");
-    const clock = document.getElementsByClassName("e-time-icon");
+    // let dtToday = new Date();
+    // let month = dtToday.getMonth() + 1;
+    // let day = dtToday.getDate();
+    // let year = dtToday.getFullYear();
+    // if (month < 10) month = "0" + month.toString();
+    // if (day < 10) day = "0" + day.toString();
+    // let maxDate = year + "-" + month + "-" + day;
+    // document.getElementById("date").setAttribute("min", maxDate);
   },
 
   setup() {
@@ -467,6 +476,10 @@ export default {
 
     formattedTime() {
       return moment(this.start_time, "H:mm").format("HH:mm");
+    },
+
+      formattedDate() {
+      return moment(this.start_date,).format('YYYY-MM-DD');
     },
 
     formattedEndTime() {

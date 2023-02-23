@@ -131,12 +131,12 @@ margin-bottom: 32px;
             height: auto;
         }
 
-         &[type="date"]::-webkit-calendar-picker-indicator {
-            background: url("./images/svg/calendar.svg") no-repeat;
-            width: 20px;
-            height: 20px;
-          
-        }
+     &-icon{
+        position: absolute;
+        top: 13px;
+        cursor: pointer;
+        right: 19px;
+     }
 
         &[type="time"]::-webkit-calendar-picker-indicator {
             background: url("./images/svg/time.svg") no-repeat;
@@ -146,9 +146,7 @@ margin-bottom: 32px;
     }
 
     
-    input[type="date"]::-webkit-calendar-picker-indicator {
-        cursor: pointer;
-    }
+   
     .submit {
         background-color: #155eef;
         color: $white;
