@@ -47,7 +47,7 @@
           </span>
                 </div>
 
-                <div class="modal__flex modal__form-group" style="margin-bottom: 20px">
+                <div class="modal__flex modal__form-group" style="margin-bottom: 35px">
                     <div class="input" style="margin-right: 12px">
                         <ejs-timepicker
                             v-model.lazy="start_time"
@@ -255,8 +255,12 @@
             </form>
 
             <div v-show="clickLoad" class="loading-dots">
-                <img loading="lazy" src="../../assets/images/gif/load.gif" alt="gif"/>
-            </div>
+                <img
+                    class="animationLoad"
+                    loading="lazy"
+                    src="../../assets/images/gif/load.svg"
+                    alt="gif"
+                />            </div>
         </div>
     </div>
 </template>

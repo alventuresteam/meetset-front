@@ -27,6 +27,8 @@
       />
       Çıxış
     </span>
+
+
     <router-view />
   </aside>
 </template>
@@ -49,7 +51,6 @@ export default {
   data() {
     return {
       selected: 1,
-
       nav: [
         {
           id: "1",
@@ -59,7 +60,6 @@ export default {
         },
         {
           id: "2",
-
           name: "Otaqlar",
           route: "/rooms",
           img: "rooms.svg",

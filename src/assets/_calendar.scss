@@ -4,147 +4,144 @@
     border-top: 1px solid #e3e8ef;
     height: 100vh;
 }
-.v-calendarAll {
-    .is-right {
-        .vc-svg-icon {
-            position: relative;
-            left: -3px;
+
+.v-calendarAll{
+
+.is-right {
+    .vc-svg-icon {
+        position: relative;
+        left: -3px;
+    }
+}
+
+
+.row-from-end-1 {
+    .vc-title {
+        color: #121926 !important;
+        font-family: TTInterfaces-Bold, sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 23px;
+        position: relative;
+
+        &:after {
+            position: absolute;
+            content: "";
+            margin: 10px 24px 0;
+            width: 200px;
+            height: 2px;
+            background-color: #e3e8ef;
+        }
+    }
+}
+
+.vc {
+    &-title {
+        position: relative;
+        font-family: TTInterfaces-Bold, sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 23px;
+        color: #121926;
+        width: 100%;
+        &:after {
+            position: absolute;
+            content: "";
+            margin: 10px 24px 0;
+            width: calc(100% - 250px);
+            height: 1px;
+            background-color: #e3e8ef;
         }
     }
 
+    &-header {
+        margin-bottom: 30px;
+        padding: 4.5px 0 0 0;
+    }
 
-    .row-from-end-1 {
-        .vc-title {
-            color: #121926 !important;
-            font-family: TTInterfaces-Bold, sans-serif;
-            font-size: 18px;
-            font-weight: 600;
-            line-height: 23px;
-            position: relative;
+    &-dot {
+        background-color: white !important;
+        width: 4px !important;
+        height: 4px !important;
+    }
 
-            &:after {
-                position: absolute;
-                content: "";
-                margin: 10px 24px 0;
-                width: 250px;
-                height: 2px;
-                background-color: #e3e8ef;
+    &-day {
+        min-height: 40px !important;
+
+        &-box-center-bottom {
+            margin-bottom: 9px !important;
+            //margin-left: 2px !important;
+        }
+
+        &-content {
+            //margin-bottom: 6px !important;
+
+            font-family: TTInterfaces-Regular, sans-serif;
+            font-size: 16px;
+            font-weight: 400 !important;
+            line-height: 52px;
+            &:hover, &:focus {
+                background-color: unset;
             }
         }
     }
 
-    .vc {
-        &-title {
-            position: relative;
-            font-family: TTInterfaces-Bold, sans-serif;
-            font-size: 18px;
-            font-weight: 600;
-            line-height: 23px;
-            color: #121926;
-            width: 100%;
+    &-container {
+        border: none;
+        border-radius: 12px;
+        max-width: 444px;
+        width: 100%;
+        padding: 32px 24px;
+    }
 
-            &:after {
-                position: absolute;
-                content: "";
-                margin: 10px 24px 0;
-                width: calc(100% - 250px);
-                height: 1px;
-                background-color: #e3e8ef;
-            }
-        }
+    &-highlight {
+        background: #155eef !important;
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 12px !important;
 
-        &-header {
-            margin-bottom: 30px;
-            padding: 4.5px 0 0 0;
-        }
+        font-family: TTInterfaces-Medium, sans-serif !important;
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        line-height: 20px !important;
+        text-align: center !important;
+    }
 
-        &-dot {
-            background-color: white !important;
-            width: 4px !important;
-            height: 4px !important;
-        }
-
-        &-day {
-            min-height: 40px !important;
-
-            &-box-center-bottom {
-                margin-bottom: 9px !important;
-                //margin-left: 2px !important;
-            }
-
-            &-content {
-                //margin-bottom: 6px !important;
-
-                font-family: TTInterfaces-Regular, sans-serif;
-                font-size: 16px;
-                font-weight: 400 !important;
-                line-height: 52px;
-
-                &:hover, &:focus {
-                    background-color: unset;
-                }
-            }
-        }
-
+    &-arrows{
         &-container {
-            border: none;
-            border-radius: 12px;
-            max-width: 444px;
-            width: 100%;
-            padding: 32px 24px;
+            padding: 0;
         }
+    }
 
-        &-highlight {
-            background: #155eef !important;
-            width: 38px !important;
-            height: 38px !important;
-            border-radius: 12px !important;
-
-            font-family: TTInterfaces-Medium, sans-serif !important;
-            font-size: 16px !important;
-            font-weight: 500 !important;
-            line-height: 20px !important;
-            text-align: center !important;
+    &-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        width: 32px;
+        height: 32px;
+        border: 1px solid #cdd5df;
+        svg {
+            width: 10px;
         }
-
-        &-arrows {
-            &-container {
-                padding: 0;
-            }
-        }
-
-        &-arrow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            width: 32px;
-            height: 32px;
-            border: 1px solid #cdd5df;
-
+        &.is-left {
+            transform: rotate(90deg);
+            margin-right: 10px;
             svg {
-                width: 10px;
+                margin: 0 0 2px 2px;
             }
+        }
 
-            &.is-left {
-                transform: rotate(90deg);
-                margin-right: 10px;
-
-                svg {
-                    margin: 0 0 2px 2px;
-                }
-            }
-
-            &.is-right {
-                transform: rotate(90deg);
-
-                svg {
-                    margin: 0 0 2px 3px;
-                }
+        &.is-right {
+            transform: rotate(90deg);
+            svg {
+                margin: 0 0 2px 3px;
             }
         }
     }
 }
+}
+
 .vue__time-picker {
     width: 48% !important;
 

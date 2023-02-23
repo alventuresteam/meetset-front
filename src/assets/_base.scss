@@ -23,6 +23,20 @@ $white: #ffffff;
     padding: 0 20px;
 }
 
+
+.animationLoad{
+    animation: loadAnimation 1s infinite;
+}
+
+@keyframes loadAnimation {
+    0%{
+        transform: rotate(0);
+    }
+
+    100%{
+        transform: rotate(360deg);
+    }
+}
 .p-relative {
     position: relative;
 }

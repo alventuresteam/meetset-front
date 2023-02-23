@@ -144,8 +144,10 @@
 
       <div v-show="clickLoad" class="loading-dots">
         <img
-          loading="lazy"
-          src="../../../../assets/images/gif/load.gif"
+            class="animationLoad"
+
+            loading="lazy"
+          src="../../../../assets/images/gif/load.svg"
           alt="gif"
         />
       </div>

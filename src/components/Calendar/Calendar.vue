@@ -21,7 +21,7 @@
 
         <div class="table-wrapper">
           <div class="loaderGif" v-if="loader">
-            <img  loading="lazy" src="../../assets/images/gif/load.gif" alt="gif" />
+            <img class="animationLoad" loading="lazy" src="../../assets/images/gif/load.svg" alt="gif" />
           </div>
           
           <Table

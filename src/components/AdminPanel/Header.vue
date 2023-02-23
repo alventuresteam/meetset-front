@@ -57,7 +57,14 @@
       </div>
     </div>
   </div>
-
+    <div v-if="clickLoad" class="loading-dots">
+        <img
+            class="animationLoad"
+            loading="lazy"
+            src="../../assets/images/gif/load.svg"
+            alt="gif"
+        />
+    </div>
   <Suspense>
     <template #default>
       <CreateModalRoom
@@ -90,6 +97,12 @@ import { onMounted, defineAsyncComponent, ref } from "vue";
 export default {
   props: ["title"],
 
+    data(){
+      return{
+          clickLoad:false
+      }
+    },
+
   components: {
     CreateModalUser,
     CreateModalRoom,
@@ -108,8 +121,14 @@ export default {
 
   methods: {
     async logout() {
-      await this.userStore.signOut();
-      this.$router.push("/admin");
+        this.clickLoad = true;
+
+
+
+            await this.userStore.signOut();
+
+            this.$router.push("/admin");
+
     },
 
     closeDropDown() {

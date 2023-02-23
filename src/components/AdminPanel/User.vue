@@ -78,8 +78,9 @@
 
                         <div v-show="clickLoad" class="loading-dots">
                             <img
+                                class="animationLoad"
                                 loading="lazy"
-                                src="../../assets/images/gif/load.gif"
+                                src="../../assets/images/gif/load.svg"
                                 alt="delet"
                             />
                         </div>

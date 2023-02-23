@@ -36,35 +36,38 @@
         </button>
     </form>
     <div v-show="clickLoad" class="loading-dots">
-        <img loading="lazy" src="../../assets/images/gif/load.gif" alt="gif"/>
+        <img
+            class="animationLoad"
+            loading="lazy" src="../../assets/images/gif/load.svg" alt="gif"/>
     </div>
 </template>
 
 <script>
-    import { onMounted } from "vue";
-    import { useSettingStore } from "../../stores/setting.js";
-    export default {
-        data() {
-            return {
-                clickLoad: false,
-            };
-        },
-        setup() {
-            onMounted(() => {
-                userStore.fetchSetting();
-            });
-            const userStore = useSettingStore();
-            return { userStore };
-        },
+import {onMounted} from "vue";
+import {useSettingStore} from "../../stores/setting.js";
 
-        methods: {
-            async save() {
-                this.clickLoad = true;
-                await this.userStore.updateSetting(this.userStore.getSetting);
-                await this.userStore.fetchSetting();
-                this.clickLoad = false;
-                this.$toast.success('Yadda saxlanıldı');
-            },
+export default {
+    data() {
+        return {
+            clickLoad: false,
+        };
+    },
+    setup() {
+        onMounted(() => {
+            userStore.fetchSetting();
+        });
+        const userStore = useSettingStore();
+        return {userStore};
+    },
+
+    methods: {
+        async save() {
+            this.clickLoad = true;
+            await this.userStore.updateSetting(this.userStore.getSetting);
+            await this.userStore.fetchSetting();
+            this.clickLoad = false;
+            this.$toast.success('Yadda saxlanıldı');
         },
-    };
+    },
+};
 </script>

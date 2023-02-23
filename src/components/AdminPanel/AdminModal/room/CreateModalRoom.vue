@@ -7,7 +7,7 @@
           ><img
             loading="lazy"
             src="../../../../assets/images/svg/modalClose.svg"
-            alt=""
+            alt="close"
         /></span>
       </div>
 
@@ -104,8 +104,10 @@
 
       <div v-show="clickLoad" class="loading-dots">
         <img
-          loading="lazy"
-          src="../../../../assets/images/gif/load.gif"
+            class="animationLoad"
+
+            loading="lazy"
+          src="../../../../assets/images/gif/load.svg"
           alt="gif"
         />
       </div>

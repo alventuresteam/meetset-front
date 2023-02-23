@@ -88,19 +88,20 @@ export default {
       email: "",
       password: "",
       passwordShow: true,
+        clickLoad:false,
     };
   },
   methods: {
     async login() {
       const result = await this.v$.$validate();
+      this.clickLoad = true
       if (result) {
         await this.userStore.signIn(this.email, this.password);
 
-
-
-
         if (!this.userStore.error) {
-          this.$router.push("/calendar");
+            this.clickLoad = true
+
+            this.$router.push("/calendar");
         }
       }
     },
