@@ -121,14 +121,8 @@ export default {
 
   methods: {
     async logout() {
-        this.clickLoad = true;
-
-
-
-            await this.userStore.signOut();
-
-            this.$router.push("/admin");
-
+      await this.userStore.signOut();
+      this.$router.push("/");
     },
 
     closeDropDown() {

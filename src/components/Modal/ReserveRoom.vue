@@ -34,17 +34,17 @@
                       @blur="onBlur"
                     /> -->
 
-                    <span class="errorText" v-if="userStore.errorMsg">{{
-                            userStore.errorMsg
-                        }}</span>
+                    <span class="errorText" v-if="userStore.errorMsg">
+                        {{ userStore.errorMsg }}
+                    </span>
 
                     <span
                         class="errorText"
                         v-for="error in v$.start_date.$errors"
                         :key="error.$uid"
                     >
-            vaxt təyin olunmayıb
-          </span>
+                        vaxt təyin olunmayıb
+                    </span>
                 </div>
 
                 <div class="modal__flex modal__form-group" style="margin-bottom: 35px">

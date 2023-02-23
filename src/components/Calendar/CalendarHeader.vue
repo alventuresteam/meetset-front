@@ -27,8 +27,8 @@
                         class="submitWhite flex center__flex"
                         @click.stop="hideDropdown = true"
                     >
-                        <!-- {{ userStore.getUser.name }} -->
-                        <span>{{ user.name }}</span>
+                         {{ userStore.getUser.name }}
+<!--                        <span>{{ user.name }}</span>-->
 
                         <img
                             loading="lazy"
