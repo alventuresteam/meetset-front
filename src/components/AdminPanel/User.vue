@@ -1,164 +1,165 @@
 <template>
-  <div class="user">
-    <div class="user__item" v-for="item in userStore?.getPerson" :key="item.id">
-      <div class="user__info">
-        <img
-          loading="lazy"
-          src="../../assets/images/svg/user.svg"
-          class="user__info-img"
-          alt="user"
-        />
-        <div class="user__info-box">
-          <h2 class="user__info-title name">{{ item.name }}</h2>
-          <span class="user__info-subtitle">{{ item.position }}</span>
-        </div>
-      </div>
+    <div class="user">
+        <div class="user__item" v-for="item in userStore?.getPerson" :key="item.id">
+            <div class="user__info">
+                <img
+                    loading="lazy"
+                    src="../../assets/images/svg/user.svg"
+                    class="user__info-img"
+                    alt="user"
+                />
+                <div class="user__info-box">
+                    <h2 class="user__info-title name">{{ item.name }}</h2>
+                    <span class="user__info-subtitle">{{ item.position }}</span>
+                </div>
+            </div>
 
-      <div class="user__info">
-        <div class="user__info-box email">
-          <span class="user__info-subtitle email">E-mail</span>
-          <h2 class="user__info-title emailName">{{ item.email }}</h2>
-        </div>
+            <div class="user__info">
+                <div class="user__info-box email">
+                    <span class="user__info-subtitle email">E-mail</span>
+                    <h2 class="user__info-title emailName">{{ item.email }}</h2>
+                </div>
 
-        <div class="user__info">
-          <div class="user__info-edit" @click="handleUpdate(item)">
-            Redaktə et
-          </div>
-          <div
-            class="user__info-remove"
-            @click="
+                <div class="user__info">
+                    <div class="user__info-edit" @click="handleUpdate(item)">
+                        Redaktə et
+                    </div>
+                    <div
+                        class="user__info-remove"
+                        @click="
               showDeletButtons = true;
               id = item.id;
             "
-          >
-            Sil
-          </div>
+                    >
+                        Sil
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <Suspense v-if="showDeletButtons">
+            <template #default>
+                <div class="modal-overlay" style="background: rgb(0 0 0 / 41%)">
+                    <div class="modal modal__remove" @click.stop>
+                        <div class="modal__head" v-show="showDeletButtons">
+                            <h6 class="modal__head-title">İstifadəçini sil</h6>
+                        </div>
+                        <form class="modal__form" @submit.prevent="handleDelete(id)">
+                            <p class="modal__form-delete">
+                                Bu istifadəçini silmək istədiyinizə əminsiniz?
+                            </p>
+
+                            <div class="modal__form-group modal__flex">
+                                <button
+                                    aria-label="Imtina et"
+                                    type="button"
+                                    class="submitWhite"
+                                    @click="showDeletButtons = false"
+                                >
+                                    Imtina et
+                                </button>
+
+                                <button
+                                    aria-label="Sil"
+                                    type="submit"
+                                    class="submitWhite"
+                                    id="messg"
+                                >
+                                    <span>Sil</span>
+
+                                    <img
+                                        loading="lazy"
+                                        src="../../assets/images/svg/delet.svg"
+                                        alt="delet"
+                                    />
+                                </button>
+                            </div>
+                        </form>
+
+                        <div v-show="clickLoad" class="loading-dots">
+                            <img
+                                loading="lazy"
+                                src="../../assets/images/gif/load.gif"
+                                alt="delet"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <template #fallback>Load...</template>
+        </Suspense>
+
+        <Suspense v-if="showUpdateModalUser">
+            <template #default>
+                <UpdateModalUser
+                    :item="updateDataPerson"
+                    v-show="showUpdateModalUser"
+                    @close-modal="showUpdateModalUser = false"
+                />
+            </template>
+
+            <template #fallback>Load...</template>
+        </Suspense>
     </div>
-
-    <Suspense v-if="showDeletButtons">
-      <template #default>
-        <div class="modal-overlay" style="background: rgb(0 0 0 / 41%)">
-          <div class="modal modal__remove" @click.stop>
-            <div class="modal__head" v-show="showDeletButtons">
-              <h6 class="modal__head-title">İstifadəçini sil</h6>
-            </div>
-            <form class="modal__form" @submit.prevent="handleDelete(id)">
-              <p class="modal__form-delete">
-                Bu istifadəçini silmək istədiyinizə əminsiniz?
-              </p>
-
-              <div class="modal__form-group modal__flex">
-                <button
-                  aria-label="Imtina et"
-                  type="button"
-                  class="submitWhite"
-                  @click="showDeletButtons = false"
-                >
-                  Imtina et
-                </button>
-
-                <button
-                  aria-label="Sil"
-                  type="submit"
-                  class="submitWhite"
-                  id="messg"
-                >
-                  <span>Sil</span>
-
-                  <img
-                    loading="lazy"
-                    src="../../assets/images/svg/delet.svg"
-                    alt="delet"
-                  />
-                </button>
-              </div>
-            </form>
-
-            <div v-show="clickLoad" class="loading-dots">
-              <img
-                loading="lazy"
-                src="../../assets/images/gif/load.gif"
-                alt="delet"
-              />
-            </div>
-          </div>
-        </div>
-      </template>
-
-      <template #fallback>Load...</template>
-    </Suspense>
-
-    <Suspense v-if="showUpdateModalUser">
-      <template #default>
-        <UpdateModalUser
-          :item="updateDataPerson"
-          v-show="showUpdateModalUser"
-          @close-modal="showUpdateModalUser = false"
-        />
-      </template>
-
-      <template #fallback>Load...</template>
-    </Suspense>
-  </div>
 </template>
 
 <script>
-import { ref, defineAsyncComponent, onMounted } from "vue";
-import { usePersonStore } from "../../stores/user";
+import {ref, defineAsyncComponent, onMounted} from "vue";
+import {usePersonStore} from "../../stores/user";
 
 import UpdateModalUser from "./AdminModal/user/UpdateModalUser.vue";
+
 export default {
-  components: {
-    UpdateModalUser,
-  },
-  data() {
-    return {
-      updateDataPerson: {},
-      showDeletButtons: false,
-      clickLoad: false,
-      id: "",
-    };
-  },
-
-  methods: {
-    handleUpdate(item) {
-      this.showUpdateModalUser = true;
-      this.updateDataPerson = item;
+    components: {
+        UpdateModalUser,
+    },
+    data() {
+        return {
+            updateDataPerson: {},
+            showDeletButtons: false,
+            clickLoad: false,
+            id: "",
+        };
     },
 
-    async handleDelete(id) {
-      this.clickLoad = true;
+    methods: {
+        handleUpdate(item) {
+            this.showUpdateModalUser = true;
+            this.updateDataPerson = item;
+        },
 
-      await this.userStore.deletePerson(id);
-      await this.userStore.fetchPerson();
-      this.showDeletButtons = false;
-      this.clickLoad = false;
-      this.$toast.success(`Istifadəçi uğurla silindi`);
+        async handleDelete(id) {
+            this.clickLoad = true;
+
+            await this.userStore.deletePerson(id);
+            await this.userStore.fetchPerson();
+            this.showDeletButtons = false;
+            this.clickLoad = false;
+            this.$toast.success(`Istifadəçi uğurla silindi`);
+        },
     },
-  },
 
-  setup() {
-    const UpdateModalUser = defineAsyncComponent({
-      loader: () =>
-        import(
-          "../../components/AdminPanel/AdminModal/user/UpdateModalUser.vue"
-        ),
-      delay: 1000,
-      timeout: 3000,
-      suspensible: true,
-    });
+    setup() {
+        const UpdateModalUser = defineAsyncComponent({
+            loader: () =>
+                import(
+                    "../../components/AdminPanel/AdminModal/user/UpdateModalUser.vue"
+                    ),
+            delay: 1000,
+            timeout: 3000,
+            suspensible: true,
+        });
 
-    onMounted(() => {
-      userStore.fetchPerson();
-    });
+        onMounted(() => {
+            userStore.fetchPerson();
+        });
 
-    const showUpdateModalUser = ref(false);
+        const showUpdateModalUser = ref(false);
 
-    const userStore = usePersonStore();
+        const userStore = usePersonStore();
 
-    return { userStore, showUpdateModalUser, UpdateModalUser };
-  },
+        return {userStore, showUpdateModalUser, UpdateModalUser};
+    },
 };
 </script>
