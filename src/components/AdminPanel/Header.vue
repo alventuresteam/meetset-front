@@ -99,7 +99,6 @@ export default {
     document
       .querySelector("body")
       .addEventListener("click", this.closeDropDown);
-    console.log(this.$route.name);
   },
   beforeDestroy() {
     document

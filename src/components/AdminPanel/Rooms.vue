@@ -135,7 +135,6 @@ export default {
     handleUpdate(item) {
       this.showUpdateModalRoom = true;
       this.updateDataRoom = item;
-      console.log("item", this.updateDataRoom);
     },
 
     async handleDelete(id) {

@@ -350,7 +350,6 @@ export default {
     addTag(event) {
       event.preventDefault();
       let room = this.getRoom.find((item) => item.id === this.room_id);
-      console.log(room.capacity, this.emails.length);
       if (room.capacity <= this.emails.length) {
         return;
       }

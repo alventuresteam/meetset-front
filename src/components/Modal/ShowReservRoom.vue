@@ -409,15 +409,6 @@ export default {
     //Object.assign(this.updateReservation, this.item);
     Object.assign(this.updateReservationRoom, this.itemRoom);
 
-    // let dtToday = new Date();
-
-    // let month = dtToday.getMonth() + 1;
-    // let day = dtToday.getDate();
-    // let year = dtToday.getFullYear();
-    // if (month < 10) month = "0" + month.toString();
-    // if (day < 10) day = "0" + day.toString();
-    // let maxDate = year + "-" + month + "-" + day;
-    // document.getElementById("date").setAttribute("min", maxDate);
   },
   methods: {
     chooseRoom(event) {
@@ -459,20 +450,9 @@ export default {
 
     },
 
-   
-
-    onBlur() {
-      let today = new Date().toISOString().split("T")[0];
-      if (this.updateReservation.start_date < today) {
-        this.updateReservation.start_date = today;
-        this.type = "text";
-      }
-    },
-
   
     async handleDelete(item) {
       this.clickLoad = true;
-console.log(this.clickLoad)
       await this.userStore.deletReservation(item);
       await this.useStoreRoom.fetchRoom();
 

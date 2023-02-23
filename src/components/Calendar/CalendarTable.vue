@@ -5,6 +5,7 @@
         <div class='fullcalendar'> 
         <FullCalendar
           :key="val"
+          ref="calendar"
           v-if="showCalendar"
           :options="options"
         ></FullCalendar>
@@ -35,6 +36,7 @@ import ClientOnly from "vue-client-only";
 import { onMounted, defineComponent, defineAsyncComponent } from "vue";
 import FullCalendar from "@fullcalendar/vue3";
 import ShowReservRoom from "../Modal/ShowReservRoom.vue";
+import moment from "moment";
 
 import interactionPlugin from "@fullcalendar/interaction";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
@@ -127,6 +129,7 @@ export default defineComponent({
         slotMinHeight: 68,
         initialDate: this.itemDate,
         locale: "en-GB",
+        scrollTimeReset :false,
 
         resourceAreaHeaderContent: `İclas otaqları - ${this.itemLable}`,
         resourceAreaWidth: "38%",
@@ -149,6 +152,9 @@ export default defineComponent({
           for (let i = 0; i < elementsList.length; i++) {
             elementsList[i].setAttribute("href", "#");
           }
+
+
+   
         },
 
         // eventTimeFormat: {
@@ -171,6 +177,8 @@ export default defineComponent({
           }
 
           // args.event.remove()
+
+
         },
 
         eventClassNames: this.className,
@@ -187,7 +195,6 @@ export default defineComponent({
     try {
       await this.useStoreRoom.fetchRoom();
       this.$emit("success");
-      console.log("login");
       this.emitter.on("refresh", () => {
         this.refetch();
         this.val++;
@@ -197,9 +204,31 @@ export default defineComponent({
       this.useUserStores.fetchUser();
       this.showCalendar = true;
       this.refetch();
+
+
+       
     } catch (err) {
       console.log(err);
     }
   },
+
+  updated(){
+           if (this.events.length > 0) {
+      const lastEvent = this.events[this.events.length - 1];
+      const lastEventDate = moment(lastEvent.end).format("HH:mm");
+console.log(this.events.length,'sssssssssssss')
+console.log(lastEventDate,'aaaaaaaa')
+
+console.log(lastEvent,'aaaaaaaa')
+
+
+
+
+    this.$refs.calendar.getApi().scrollToTime('23:59:59');
+
+
+      this.$refs.calendar.getApi().scrollToTime(lastEventDate);
+    }
+  }
 });
 </script>

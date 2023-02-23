@@ -46,7 +46,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.options?.forEach((item) => {
-        console.log(this.default, item.id);
+        (this.default, item.id);
         if (item.id === this.default) {
           this.selected = item.name;
         } else {

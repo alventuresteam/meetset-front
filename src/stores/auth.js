@@ -41,7 +41,6 @@ export const useUserStore = defineStore("user", {
           localStorage.setItem("user", JSON.stringify(user));
           this.user = user;
           this.error = null;
-          console.log(user);
         })
         .catch((err) => {
             if (err.response.status === 422) {
@@ -55,7 +54,6 @@ export const useUserStore = defineStore("user", {
       await localStorage.removeItem("token");
       await localStorage.removeItem("user");
 
-      console.log()
     },
   },
 

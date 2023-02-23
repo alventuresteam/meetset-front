@@ -73,7 +73,6 @@ export const useRoomStore = defineStore("rooms", {
         },
 
         async deleteRoom(id) {
-            console.log('qunduz',id)
             await axios
                 .post(`https://meetset.al.ventures/api/rooms/${id}/delete`)
                 .then((res) => {
