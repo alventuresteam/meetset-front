@@ -103,20 +103,15 @@ export default defineComponent({
             });
 
 
-            this.$nextTick(() => {
-                if (this.events.length > 0) {
-                    const lastEvent = this.events.find(item => {
-                        let a = moment(this.itemDate).startOf('day');
-                        let b = moment(item.start).startOf('day');
-                        return a.diff(b, 'days') === 0
-                    });
-
-                    const lastEventDate = moment(lastEvent.start).format("HH:mm");
-
-
-                    this.$refs.calendar.getApi().scrollToTime(lastEventDate);
-
-
+        this.$nextTick(() => {
+             if (this.events.length > 0) {
+                const lastEvent = this.events.find(item => {
+                    let a = moment(this.itemDate).startOf('day');
+                    let b = moment(item.start).startOf('day');
+                    return a.diff(b,'days') === 0
+                });
+                // const lastEventDate = moment(lastEvent.start).format("HH:mm");
+                this.$refs.calendar.getApi().scrollToTime(lastEvent);
                 }
             })
 
@@ -148,22 +143,22 @@ export default defineComponent({
                 locale: "en-GB",
                 scrollTimeReset: false,
 
-                resourceAreaHeaderContent: `İclas otaqları - ${this.itemLable}`,
-                resourceAreaWidth: "25%",
-                slotLabelFormat: {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    omitZeroMinute: false,
-                    hour12: false,
-                },
-                eventDidMount: function (info) {
-                    tippy(info.el, {
-                        content: `Təşkilatçı:  ${info.event.title} <br> Başlama və bitmə: ${info.event.extendedProps.description}`,
-                        placement: "top",
-                        allowHTML: true,
-                        appendTo: document.querySelector(".fc-timeline-lane-frame"),
-                        interactive: true,
-                    });
+        resourceAreaHeaderContent: `İclas otaqları - ${this.itemLable}`,
+        resourceAreaWidth: "25%",
+        slotLabelFormat: {
+          hour: "numeric",
+          minute: "2-digit",
+          omitZeroMinute: false,
+          hour12: false,
+        },
+        eventDidMount: function (info) {
+          tippy(info.el, {
+            content: `Təşkilatçı:  ${info.event.title} <br> Başlama və bitmə: ${info.event.extendedProps.description}`,
+            placement: "top",
+            allowHTML: true,
+            appendTo: document.querySelector(".fc-timeline-lane-frame"),
+            interactive: true,
+          });
 
                     let elementsList = document.querySelectorAll("a");
                     for (let i = 0; i < elementsList.length; i++) {

@@ -55,7 +55,12 @@
 
     <Suspense v-if="showModal">
         <template #default>
+            <Transition name="slide-fade" appear>
+
             <ReserveRoom v-show="showModal" @close-modal="showModal = false"/>
+
+            </Transition>
+
         </template>
 
         <template #fallback>Load...</template>
@@ -116,3 +121,5 @@ export default {
     },
 };
 </script>
+
+
