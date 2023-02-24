@@ -114,9 +114,9 @@ export default {
                 if (!this.userStore.error) {
                     this.clickLoad = false;
                     if (user.role === 1)
-                        this.$router.push("/user");
+                      window.location.href = "/user";
                     else
-                        this.$router.push("/calendar");
+                      window.location.href = "/calendar";
                 }
             }
         },

@@ -172,7 +172,7 @@ export default {
   methods: {
     async addPerson(event) {
       const result = await this.v$.$validate();
-        await this.userStore.fetchPerson();
+
 
       if (result) {
         this.clickLoad = true;
@@ -184,7 +184,7 @@ export default {
           this.email,
           this.password
         );
-
+        await this.userStore.fetchPerson();
 
           if (this.userStore.errorMsg) {
               this.clickLoad = false;
