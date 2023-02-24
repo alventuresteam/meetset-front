@@ -93,7 +93,7 @@
             class="submitWhite"
             @click="$emit('close-modal')"
           >
-            İmtina
+            Xeyir
           </button>
 
           <button aria-label="Əlavə et" class="submit" type="submit">

@@ -30,12 +30,14 @@
                         <DatePicker
                             :popover="{ visibility: 'focus' }"
                             :min-date="new Date()"
+                            ref="datePicker"
                             :max-date="new Date(2030, 1, 4)"
                             v-model.lazy="updateReservation.start_date"
+
                         >
                             <template #default="{ inputValue, inputEvents }">
                                 <input class="input " placeholder="Tarix" :value="inputValue" v-on="inputEvents"/>
-                                <img class='input-icon' src="../../assets/images/svg/calendar.svg"/>
+                                <img @click="$refs.datePicker.togglePopover()" class='input-icon' src="../../assets/images/svg/calendar.svg"/>
                             </template>
                         </DatePicker>
 
@@ -63,6 +65,8 @@
                                 :readonly="startRead"
                                 :placeholder="waterMark"
                                 :format="timeFormat"
+                                :min="currentDateTime"
+                                @beforeOpen="onBeforeOpen"
                                 :value="startVal"
                                 :step="step"
                             ></ejs-timepicker>
@@ -89,6 +93,7 @@
                                 :format="timeFormat"
                                 :value="endVal"
                                 :change="changeValue"
+                                @beforeOpen="onBeforeOpenEnd"
                             ></ejs-timepicker>
 
                             <span
@@ -218,13 +223,7 @@
                 v-model.lazy="updateReservation.comment"
             />
 
-                        <!-- <span
-                          class="errorText"
-                          v-for="error in v$.updateReservation.comment.$errors"
-                          :key="error.$uid"
-                        >
-                          Görüşlə bağlı qeydlər boşdur
-                        </span> -->
+
                     </div>
                 </div>
 
@@ -258,9 +257,9 @@
                         type="button"
                         class="submitWhite"
                         @click="$emit('close-modal')"
-                        aria-label="Imtina et"
+                        aria-label="Xeyir"
                     >
-                        Imtina et
+                        Xeyir
                     </button>
 
                     <button
@@ -270,7 +269,7 @@
                         id="messg"
                         aria-label="Sil"
                     >
-                        <span>Sil</span>
+                        <span>Bəli</span>
                         <img
                             loading="lazy"
                             src="../../assets/images/svg/delet.svg"
@@ -321,7 +320,7 @@ export default {
             timeFormat: "HH:mm",
             limit: 250,
             waterMark: "Saat",
-
+            currentDateTime:new Date(),
             endEnable: false,
             startEnable: false,
             startRead: false,
@@ -375,6 +374,37 @@ export default {
             this.updateReservation.room_id = event.id;
             this.updateReservation.emails = [];
         },
+
+        onBeforeOpenEnd(args) {
+            // Get the entered time
+            const enteredTime = new Date(args.target.value);
+
+            // Check if the entered time is in the past
+            if (enteredTime < this.min) {
+
+                args.preventDefault();
+                // Reset the time to the current time
+                args.target.value = this.min.toLocaleTimeString();
+
+
+            }
+        },
+
+
+        onBeforeOpen(args) {
+            // Get the entered time
+            const enteredTime = new Date(args.target.value);
+
+            // Check if the entered time is in the past
+            if (enteredTime < this.currentDateTime) {
+
+                args.preventDefault();
+                // Reset the time to the current time
+                args.target.value = this.currentDateTime.toLocaleTimeString();
+
+
+            }
+        },
         addTag(event) {
             let room = this.getRoom.find(
                 (item) => item.id === this.updateReservation.room_id
@@ -395,6 +425,7 @@ export default {
                 event.target.value = "";
             }
         },
+
         removeTag(index) {
             this.updateReservation.emails.splice(index, 1);
         },
@@ -494,6 +525,18 @@ export default {
     },
 
     computed: {
+
+        startVal() {
+            // Round the current time to the nearest 10-minute interval
+            const currentMinute = this.currentDateTime.getMinutes();
+            const roundedMinute = Math.ceil(currentMinute / 10) * 10;
+            this.currentDateTime.setMinutes(roundedMinute);
+
+            // Return the rounded time as the start value
+            return this.currentDateTime;
+        },
+
+
         getRoom() {
             return this.useStoreRoom.getRoom;
         },

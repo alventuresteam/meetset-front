@@ -64,7 +64,7 @@
                     class="submitWhite"
                     @click="showDeletButtons = false"
                   >
-                    Imtina et
+                    Xeyir
                   </button>
 
                   <button
@@ -73,7 +73,7 @@
                     class="submitWhite"
                     id="messg"
                   >
-                    <span>Sil</span>
+                    <span>Bəli</span>
                     <img
                       loading="lazy"
                       src="../../assets/images/svg/delet.svg"

@@ -219,7 +219,7 @@
                         class="submitWhite"
                         @click="$emit('close-modal')"
                     >
-                        İmtina
+                        Xeyir
                     </button>
 
                     <button

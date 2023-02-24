@@ -94,7 +94,7 @@
                         class="submitWhite"
                         @click="close()"
                     >
-                        İmtina
+                        Xeyir
                     </button>
                     <!-- @click="handleUpdate(item)" -->
 

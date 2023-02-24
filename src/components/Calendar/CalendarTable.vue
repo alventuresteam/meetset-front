@@ -22,7 +22,7 @@
                     :itemRoom="updateReservationRoom"
                     v-if="showUpdateModalUser"
                     @deletCalendar="showUpdateModalUser = false"
-                    @close-modal="showUpdateModalUser = false"
+                    @close-modal="closeModal"
                 />
             </template>
 
@@ -48,6 +48,22 @@ import tippy from "tippy.js";
 import "tippy.js/dist/tippy.css";
 
 export default defineComponent({
+
+
+    data() {
+        return {
+            showCalendar: false,
+            showUpdateModalUser: false,
+            updateDataPerson: {},
+            resources: [],
+            events: [],
+            updateReservationRoom: {},
+            className: null,
+            delet: false,
+            val: 0,
+        };
+    },
+
     components: {
         FullCalendar, // make the <FullCalendar> tag available
         ShowReservRoom,
@@ -73,8 +89,16 @@ export default defineComponent({
     },
 
     methods: {
+        closeModal(){
+            this.showUpdateModalUser = false;
+
+            document.querySelector("body").style.overflowY = 'auto'
+
+        },
         handle(item) {
             this.showUpdateModalUser = true;
+            document.querySelector("body").style.overflowY = 'hidden'
+
             this.updateReservation = item;
             this.updateReservationRoom = item;
         },
@@ -91,7 +115,8 @@ export default defineComponent({
 
             this.useStoreRoom?.getRoom?.forEach((item) => {
                 item?.reservations?.forEach((res) => {
-                    this.events.push({className : res.user_id == this.useUserStores.getUser.id ? "activeUser" : "",
+                    this.events.push({
+                        className: res.user_id == this.useUserStores.getUser.id ? "activeUser" : "",
                         resourceId: `${item?.id}`,
                         id: res.id,
                         start: `${res?.start_date} ${res?.start_time}`,
@@ -103,36 +128,22 @@ export default defineComponent({
             });
 
 
-        this.$nextTick(() => {
-             if (this.events.length > 0) {
-                const lastEvent = this.events.find(item => {
-                    let a = moment(this.itemDate).startOf('day');
-                    let b = moment(item.start).startOf('day');
-                    return a.diff(b,'days') === 0
-                });
-
-                console.log(lastEvent,'lastEvent');
-                // const lastEventDate = moment(lastEvent.start).format("HH:mm");
-                this.$refs.calendar.getApi().scrollToTime(lastEvent);
+            this.$nextTick(() => {
+                if (this.events.length > 0) {
+                    const lastEvent = this.events.find(item => {
+                        let a = moment(this.itemDate).startOf('day');
+                        let b = moment(item.start).startOf('day');
+                        return a.diff(b, 'days') === 0
+                    });
+    console.log(lastEvent,'lastEvent');                // const lastEventDate = moment(lastEvent.start).format("HH:mm");
+                    this.$refs.calendar.getApi().scrollToTime(lastEvent);
                 }
             })
 
         },
     },
 
-    data() {
-        return {
-            showCalendar: false,
-            showUpdateModalUser: false,
-            updateDataPerson: {},
-            resources: [],
-            events: [],
-            updateReservationRoom: {},
-            className: null,
-            delet: false,
-            val: 0,
-        };
-    },
+
     computed: {
         options() {
             return {
@@ -145,22 +156,22 @@ export default defineComponent({
                 locale: "en-GB",
                 scrollTimeReset: false,
 
-        resourceAreaHeaderContent: `İclas otaqları - ${this.itemLable}`,
-        resourceAreaWidth: "25%",
-        slotLabelFormat: {
-          hour: "numeric",
-          minute: "2-digit",
-          omitZeroMinute: false,
-          hour12: false,
-        },
-        eventDidMount: function (info) {
-          tippy(info.el, {
-            content: `Təşkilatçı:  ${info.event.title} <br> Başlama və bitmə: ${info.event.extendedProps.description}`,
-            placement: "top",
-            allowHTML: true,
-            appendTo: document.querySelector(".fc-timeline-lane-frame"),
-            interactive: true,
-          });
+                resourceAreaHeaderContent: `İclas otaqları - ${this.itemLable}`,
+                resourceAreaWidth: "25%",
+                slotLabelFormat: {
+                    hour: "numeric",
+                    minute: "2-digit",
+                    omitZeroMinute: false,
+                    hour12: false,
+                },
+                eventDidMount: function (info) {
+                    tippy(info.el, {
+                        content: `Təşkilatçı:  ${info.event.title} <br> Başlama və bitmə: ${info.event.extendedProps.description}`,
+                        placement: "top",
+                        allowHTML: true,
+                        appendTo: document.querySelector(".fc-timeline-lane-frame"),
+                        interactive: true,
+                    });
 
                     let elementsList = document.querySelectorAll("a");
                     for (let i = 0; i < elementsList.length; i++) {
