@@ -11,6 +11,7 @@
     width: 584px;
     border-radius: 12px;
     position: absolute;
+    padding-bottom: 20px;
 left: 50%;
 top: 50%;
 transform: translate(-50%, -50%);
@@ -200,14 +201,13 @@ margin-bottom: 32px;
     &-overlay {
         position: fixed;
         top: 0;
-        // bottom: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        // right: 0;
         z-index: 10;
-        // display: flex;
-        // justify-content: center;
         background-color: #000000da;
+        overflow: hidden;
+
+
     }
 }

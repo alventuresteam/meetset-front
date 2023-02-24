@@ -13,6 +13,8 @@
             <form class="modal__form" @submit.prevent="addPerson()">
                 <div class="modal__form-group">
                     <DatePicker
+                        ref="datePicker"
+
                         :popover="{ visibility: 'focus' }"
                         :min-date="new Date()"
                         :max-date="new Date(2030, 1, 4)"
@@ -20,7 +22,7 @@
                     >
                         <template #default="{ inputValue, inputEvents }">
                             <input class="input " placeholder="Tarix" :value="inputValue" v-on="inputEvents"/>
-                            <img class='input-icon' src="../../assets/images/svg/calendar.svg"/>
+                            <img @click="$refs.datePicker.togglePopover()" class='input-icon' src="../../assets/images/svg/calendar.svg"/>
                         </template>
                     </DatePicker>
 
@@ -204,13 +206,7 @@
           >
           </textarea>
 
-                    <!-- <span
-                      class="errorText"
-                      v-for="error in v$.comment.$errors"
-                      :key="error.$uid"
-                    >
-                      Görüşlə bağlı qeydlər boşdur
-                    </span> -->
+
                 </div>
 
                 <div class="modal__form-group modal__flex">
@@ -337,12 +333,16 @@ export default {
 
         onBeforeOpen(args) {
             // Get the entered time
-            const enteredTime = new Date(args.element.value);
+            const enteredTime = new Date(args.target.value);
 
             // Check if the entered time is in the past
             if (enteredTime < this.currentDateTime) {
+
+                args.preventDefault();
                 // Reset the time to the current time
-                args.element.value = this.currentDateTime.toLocaleTimeString();
+                args.target.value = this.currentDateTime.toLocaleTimeString();
+
+
             }
         },
         addTag(event) {
@@ -465,9 +465,28 @@ export default {
     },
 
     computed: {
-        minDate() {
-            return new Date().toISOString().split("T")[0];
+
+            startVal() {
+                // Round the current time to the nearest 10-minute interval
+                const currentMinute = this.currentDateTime.getMinutes();
+                const roundedMinute = Math.ceil(currentMinute / 10) * 10;
+                this.currentDateTime.setMinutes(roundedMinute);
+
+                // Return the rounded time as the start value
+                return this.currentDateTime;
+            },
+
+
+        endVal() {
+            // Round the current time to the nearest 10-minute interval
+            const currentMinute = this.min.getMinutes();
+            const roundedMinute = Math.ceil(currentMinute / 10) * 10;
+            this.min.setMinutes(roundedMinute);
+
+            // Return the rounded time as the start value
+            return this.min;
         },
+
         getRoom() {
             return this.useStoreRoom.getRoom;
         },

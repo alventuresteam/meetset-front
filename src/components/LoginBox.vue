@@ -110,6 +110,8 @@ export default {
                 this.clickLoad = true
 
                 await this.userStore.signIn(this.email, this.password);
+
+
                 if (this.userStore.error) {
                     this.clickLoad = false;
                 }

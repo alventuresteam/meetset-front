@@ -9,7 +9,7 @@
             />
 
             <div class="flex">
-                <div @click="showModal = true" class="submit flex center__flex">
+                <div @click="openModal" class="submit flex center__flex">
                     <span>Otaq rezerv et</span>
                     <img
                         loading="lazy"
@@ -27,8 +27,8 @@
                         class="submitWhite flex center__flex"
                         @click.stop="hideDropdown = true"
                     >
-                         {{ userStore.getUser.name }}
-<!--                        <span>{{ user.name }}</span>-->
+                        {{ userStore.getUser.name }}
+                        <!--                        <span>{{ user.name }}</span>-->
 
                         <img
                             loading="lazy"
@@ -53,11 +53,20 @@
         </div>
     </header>
 
+
+    <div v-if="clickLoad" class="loading-dots">
+        <img
+            class="animationLoad"
+            loading="lazy"
+            src="../../assets/images/gif/load.svg"
+            alt="gif"
+        /></div>
+
     <Suspense v-if="showModal">
         <template #default>
             <Transition name="slide-fade" appear>
 
-            <ReserveRoom v-show="showModal" @close-modal="showModal = false"/>
+                <ReserveRoom v-show="showModal" @close-modal="CloseModal"/>
 
             </Transition>
 
@@ -78,16 +87,37 @@ export default {
         return {
             showModal: false,
             hideDropdown: false,
-            user: ''
+            user: '',
+            clickLoad: false,
         };
     },
 
     methods: {
         async logout() {
+
+            this.clickLoad = true
+
             await this.userStore.signOut();
-            this.$router.push("/");
+
+            if (this.userStore.token) {
+                this.clickLoad = false
+
+                this.$router.push("/");
+
+            }
         },
 
+
+        openModal(){
+            this.showModal = true
+            document.querySelector("body").style.overflowY = 'hidden'
+        },
+
+
+        CloseModal(){
+            this.showModal = false
+            document.querySelector("body").style.overflowY = 'auto'
+        },
         closeDropDown() {
             this.hideDropdown = false;
         },
@@ -95,8 +125,9 @@ export default {
 
     mounted() {
         document.querySelector("body").addEventListener("click", this.closeDropDown);
-
         this.user = JSON.parse(localStorage.getItem('user'));
+
+
     },
     beforeDestroy() {
         document

@@ -244,3 +244,11 @@
 thead .fc-scroller {
     overflow: hidden !important;
 }
+
+
+
+
+.fc-direction-ltr .fc-timeline-event.fc-event-end, .fc-direction-ltr .fc-timeline-more-link {
+    margin-right: 1px;
+    margin-left: 0px;
+}
