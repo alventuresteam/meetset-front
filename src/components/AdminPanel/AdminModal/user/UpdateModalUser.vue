@@ -183,11 +183,11 @@ export default {
     async uppdateHandler() {
       const result = await this.v$.$validate();
 
-        await this.userStore.updatePerson(this.updateDataPerson);
-        await this.userStore.fetchPerson();
+
       if (result) {
         this.clickLoad = true;
-
+          await this.userStore.updatePerson(this.updateDataPerson);
+          await this.userStore.fetchPerson();
           if (this.userStore.errorMsg) {
               this.clickLoad = false;
           }
