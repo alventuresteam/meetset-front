@@ -2,7 +2,6 @@
     <div class="modal-overlay">
         <div class="modal" @click.stop>
             <div class="modal__head">
-
                 <h6 v-if="showDeletButtons" class="modal__head-title">Otaq rezervasiyasını sil</h6>
 
                 <h6 v-else-if="showEditButtons" class="modal__head-title">Otaq rezervasiyasını redaktə et</h6>

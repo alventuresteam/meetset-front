@@ -2,7 +2,7 @@
     <div class="login__box">
         <img
             loading="lazy"
-            src="../assets/images/logo/logo.png"
+            :src="useSetting.getSetting.logo"
             alt="meet-set logoin"
             class="login__box-img"
         />
@@ -79,10 +79,10 @@
 </template>
 
 <script>
-// import { onMounted } from "vue";
 import {useUserStore} from "../stores/auth";
 import {useVuelidate} from "@vuelidate/core";
 import {required, email, minLength} from "@vuelidate/validators";
+import {onMounted} from "vue";
 
 export default {
     data() {
@@ -123,6 +123,8 @@ export default {
 
     setup() {
         const userStore = useUserStore();
+
+
 
         return {userStore, v$: useVuelidate()};
     },
