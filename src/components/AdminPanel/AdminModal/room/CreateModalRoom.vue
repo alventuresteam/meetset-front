@@ -102,16 +102,11 @@
         </div>
       </form>
 
-      <div v-show="clickLoad" class="loading-dots">
-        <img
-            class="animationLoad"
 
-            loading="lazy"
-          src="../../../../assets/images/gif/load.svg"
-          alt="gif"
-        />
-      </div>
     </div>
+  </div>
+  <div v-show="clickLoad" class="loading-dots">
+    <loading/>
   </div>
 </template>
 
@@ -119,7 +114,9 @@
 import { useRoomStore } from "../../../../stores/room";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
+import Loading from "@/components/Loading.vue";
 export default {
+  components: {Loading},
   methods: {
     async addRoom() {
       const result = await this.v$.$validate();

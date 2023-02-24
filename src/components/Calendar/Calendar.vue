@@ -6,7 +6,6 @@
             <div class="flexCalendar">
                 <div class='v-calendarAll'>
                     <DatePicker
-                        :is24hr="true"
                         color="blue"
                         v-model.lazy="date"
                         :dayNamesNarrow="azLocale"
@@ -23,7 +22,7 @@
 
                 <div class="table-wrapper">
                     <div class="loaderGif" v-if="loader">
-                        <img class="animationLoad" loading="lazy" src="../../assets/images/gif/load.svg" alt="gif"/>
+                        <loading/>
                     </div>
 
                     <Table
@@ -39,24 +38,27 @@
 </template>
 
 <script>
-    import { Calendar, DatePicker } from "v-calendar";
-    import CalendarHeader from "./CalendarHeader.vue";
-    import Table from "./CalendarTable.vue";
-    import moment from "moment";
-    import { ref } from "vue";
+import {Calendar, DatePicker} from "v-calendar";
+import CalendarHeader from "./CalendarHeader.vue";
+import Table from "./CalendarTable.vue";
+import moment from "moment";
+import {ref} from "vue";
+import Loading from "@/components/Loading.vue";
 
-    export default {
-        components: {
-            Calendar,
-            DatePicker,
-            CalendarHeader,
-            Table
-        },
+export default {
+    components: {
+      Loading,
+        Calendar,
+        DatePicker,
+        CalendarHeader,
+        Table,
+    },
 
-        setup() {
-            const componentKey = ref(0);
-            return { componentKey };
-        },
+    setup() {
+        const componentKey = ref(0);
+
+        return {componentKey};
+    },
 
         mounted() {
             // setTimeout(() => {

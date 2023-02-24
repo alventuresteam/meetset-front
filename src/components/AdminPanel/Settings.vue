@@ -39,20 +39,19 @@
             </span>
         </button>
     </form>
-    <div v-show="clickLoad" class="loading-dots">
-        <img
-            class="animationLoad"
-            loading="lazy" src="../../assets/images/gif/load.svg" alt="gif"/>
-    </div>
+  <div v-show="clickLoad" class="loading-dots">
+    <loading/>
+  </div>
 </template>
 
 <script>
     import { onMounted, ref } from "vue";
     import { useSettingStore } from "../../stores/setting.js";
     import UploadFile from "@/components/UploadFile.vue";
+    import Loading from "@/components/Loading.vue";
 
     export default {
-        components: { UploadFile },
+        components: {Loading, UploadFile },
         data() {
             return {
                 form: {

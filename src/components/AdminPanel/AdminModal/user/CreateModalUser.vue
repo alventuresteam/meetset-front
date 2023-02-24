@@ -142,16 +142,11 @@
         </div>
       </form>
 
-      <div v-show="clickLoad" class="loading-dots">
-        <img
-            class="animationLoad"
 
-            loading="lazy"
-          src="../../../../assets/images/gif/load.svg"
-          alt="gif"
-        />
-      </div>
     </div>
+  </div>
+  <div v-show="clickLoad" class="loading-dots">
+    <loading/>
   </div>
 </template>
 
@@ -160,7 +155,9 @@ import { usePersonStore } from "../../../../stores/user";
 import { useVuelidate } from "@vuelidate/core";
 import { required, minLength  } from "@vuelidate/validators";
 import { ref } from "vue";
+import Loading from "@/components/Loading.vue";
 export default {
+  components: {Loading},
   data() {
     return {
       name: "",

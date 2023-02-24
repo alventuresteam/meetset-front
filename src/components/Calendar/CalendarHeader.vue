@@ -9,7 +9,7 @@
             />
 
             <div class="flex">
-                <div @click="showModal = true" class="submit flex center__flex">
+                <div @click="openModal" class="submit flex center__flex">
                     <span>Otaq rezerv et</span>
                     <img
                         loading="lazy"
@@ -57,7 +57,7 @@
         <template #default>
             <Transition name="slide-fade" appear>
 
-            <ReserveRoom v-show="showModal" @close-modal="showModal = false"/>
+                <ReserveRoom v-show="showModal" @close-modal="CloseModal"/>
 
             </Transition>
 
@@ -65,6 +65,9 @@
 
         <template #fallback>Load...</template>
     </Suspense>
+  <div v-show="clickLoad" class="loading-dots">
+    <loading/>
+  </div>
 </template>
 
 <script>
@@ -72,23 +75,45 @@ import ReserveRoom from "../Modal/ReserveRoom.vue";
 import {onMounted, defineAsyncComponent} from "vue";
 import {useUserStore} from "../../stores/auth";
 import {useSettingStore} from "@/stores/setting";
+import Loading from "@/components/Loading.vue";
 
 export default {
-    components: {ReserveRoom},
+    components: {Loading, ReserveRoom},
     data() {
         return {
             showModal: false,
             hideDropdown: false,
-            user: ''
+            user: '',
+            clickLoad: false,
         };
     },
 
     methods: {
         async logout() {
+
+            this.clickLoad = true
+
             await this.userStore.signOut();
-            this.$router.push("/");
+
+            if (this.userStore.token) {
+                this.clickLoad = false
+
+                this.$router.push("/");
+
+            }
         },
 
+
+        openModal(){
+            this.showModal = true
+            document.querySelector("body").style.overflowY = 'hidden'
+        },
+
+
+        CloseModal(){
+            this.showModal = false
+            document.querySelector("body").style.overflowY = 'auto'
+        },
         closeDropDown() {
             this.hideDropdown = false;
         },
@@ -96,8 +121,9 @@ export default {
 
     mounted() {
         document.querySelector("body").addEventListener("click", this.closeDropDown);
-
         this.user = JSON.parse(localStorage.getItem('user'));
+
+
     },
     beforeDestroy() {
         document

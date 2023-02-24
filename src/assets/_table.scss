@@ -133,6 +133,20 @@
     padding: 24px 24px !important;
 }
 
+@media(max-width: 1500px) {
+    .fc-datagrid-cell-cushion {
+        font-size: 13px;
+        padding: 24px 0 !important;
+    }
+
+    .fc th {
+        font-size: 13px;
+    }
+    .fc table {
+        font-size: 13px;
+    }
+}
+
 .e-input-group.e-error,
 .e-input-group.e-control-wrapper.e-error,
 .e-input-group.e-error:not(.e-float-icon-left),

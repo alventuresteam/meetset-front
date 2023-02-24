@@ -13,6 +13,8 @@
             <form class="modal__form" @submit.prevent="addPerson()">
                 <div class="modal__form-group">
                     <DatePicker
+                        ref="datePicker"
+
                         :popover="{ visibility: 'focus' }"
                         :min-date="new Date()"
                         :max-date="new Date(2030, 1, 4)"
@@ -20,7 +22,7 @@
                     >
                         <template #default="{ inputValue, inputEvents }">
                             <input class="input " placeholder="Tarix" :value="inputValue" v-on="inputEvents"/>
-                            <img class='input-icon' src="../../assets/images/svg/calendar.svg"/>
+                            <img @click="$refs.datePicker.togglePopover()" class='input-icon' src="../../assets/images/svg/calendar.svg"/>
                         </template>
                     </DatePicker>
 
@@ -35,7 +37,7 @@
                         v-for="error in v$.start_date.$errors"
                         :key="error.$uid"
                     >
-                        vaxt təyin olunmayıb
+                        Vaxt təyin olunmayıb
                     </span>
                 </div>
 
@@ -57,8 +59,8 @@
                         ></ejs-timepicker>
 
                         <span
+                            style="margin-left: 5px;"
                             class="errorText"
-                            style="margin: 14px"
                             v-for="error in v$.start_time.$errors"
                             :key="error.$uid"
                         >
@@ -81,8 +83,8 @@
                         ></ejs-timepicker>
 
                         <span
+                            style="margin-left: 5px;"
                             class="errorText"
-                            style="margin: 14px"
                             v-for="error in v$.end_time.$errors"
                             :key="error.$uid"
                         >
@@ -144,6 +146,7 @@
                             <span @click="removeTag(index)">x</span>
                         </div>
                         <textarea
+                            :disabled="!room_id"
                             maxlength="255"
                             class="tag-input__text"
                             @keydown.enter="addTag"
@@ -152,29 +155,31 @@
                             @keydown.delete="removeLastTag"
                         />
                     </div>
+                    <span
+                        class="errorText"
+                        v-for="error in v$.checkEmails.$errors"
+                        :key="error.$uid"
+                    >
+                      <template v-for="err in error.$message">
+                        {{ err[0] === "Value is required" ? "Email boşdur" : "" }}
+                        {{
+                          err[0] === "Value is not a valid email address"
+                              ? "Yanlış format"
+                              : ""
+                        }}
+                      </template>
+                    </span>
+                    <span
+                        class="errorText"
+                        v-if="userStore.error && userStore.error.emails"
+                    >
+                    E-mail yanlışdır
+                  </span>
                 </div>
 
-                <span
-                    class="errorText"
-                    v-if="userStore.error && userStore.error.emails"
-                >
-          E-maildə səhvlik var
-        </span>
 
-                <span
-                    class="errorText"
-                    v-for="error in v$.checkEmails.$errors"
-                    :key="error.$uid"
-                >
-          <template v-for="err in error.$message">
-            {{ err[0] === "Value is required" ? "Email boşdur" : "" }}
-            {{
-                  err[0] === "Value is not a valid email address"
-                      ? "Burda email olmalıdır!"
-                      : ""
-              }}
-          </template>
-        </span>
+
+
 
                 <div class="modal__form-group">
                     <input
@@ -204,13 +209,7 @@
           >
           </textarea>
 
-                    <!-- <span
-                      class="errorText"
-                      v-for="error in v$.comment.$errors"
-                      :key="error.$uid"
-                    >
-                      Görüşlə bağlı qeydlər boşdur
-                    </span> -->
+
                 </div>
 
                 <div class="modal__form-group modal__flex">
@@ -235,15 +234,12 @@
                 </div>
             </form>
 
-            <div v-show="clickLoad" class="loading-dots">
-                <img
-                    class="animationLoad"
-                    loading="lazy"
-                    src="../../assets/images/gif/load.svg"
-                    alt="gif"
-                /></div>
+
         </div>
     </div>
+  <div v-show="clickLoad" class="loading-dots">
+    <loading/>
+  </div>
 </template>
 
 <style>
@@ -264,9 +260,11 @@ import {useVuelidate} from "@vuelidate/core";
 import {required, email, minLength, helpers} from "@vuelidate/validators";
 import {storeToRefs} from "pinia";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
     components: {
+      Loading,
         "ejs-timepicker": TimePickerComponent,
         CustomSelect,
         DatePicker,
@@ -337,12 +335,16 @@ export default {
 
         onBeforeOpen(args) {
             // Get the entered time
-            const enteredTime = new Date(args.element.value);
+            const enteredTime = new Date(args.target.value);
 
             // Check if the entered time is in the past
             if (enteredTime < this.currentDateTime) {
+
+                args.preventDefault();
                 // Reset the time to the current time
-                args.element.value = this.currentDateTime.toLocaleTimeString();
+                args.target.value = this.currentDateTime.toLocaleTimeString();
+
+
             }
         },
         addTag(event) {
@@ -465,9 +467,28 @@ export default {
     },
 
     computed: {
-        minDate() {
-            return new Date().toISOString().split("T")[0];
+
+            startVal() {
+                // Round the current time to the nearest 10-minute interval
+                const currentMinute = this.currentDateTime.getMinutes();
+                const roundedMinute = Math.ceil(currentMinute / 10) * 10;
+                this.currentDateTime.setMinutes(roundedMinute);
+
+                // Return the rounded time as the start value
+                return this.currentDateTime;
+            },
+
+
+        endVal() {
+            // Round the current time to the nearest 10-minute interval
+            const currentMinute = this.min.getMinutes();
+            const roundedMinute = Math.ceil(currentMinute / 10) * 10;
+            this.min.setMinutes(roundedMinute);
+
+            // Return the rounded time as the start value
+            return this.min;
         },
+
         getRoom() {
             return this.useStoreRoom.getRoom;
         },

@@ -29,7 +29,7 @@ export const useUserStore = defineStore("user", {
         },
 
         async signIn(email, password) {
-            await axios.post("https://meetset.al.ventures/api/auth/login", {email, password})
+            return await axios.post("https://meetset.al.ventures/api/auth/login", {email, password})
                 .then((res) => {
                     const token = res.data.token;
                     const user = res.data.user;

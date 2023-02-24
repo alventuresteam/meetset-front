@@ -57,18 +57,14 @@
       </div>
     </div>
   </div>
-    <div v-if="clickLoad" class="loading-dots">
-        <img
-            class="animationLoad"
-            loading="lazy"
-            src="../../assets/images/gif/load.svg"
-            alt="gif"
-        />
-    </div>
+  <div v-show="clickLoad" class="loading-dots">
+    <loading/>
+  </div>
+
   <Suspense>
     <template #default>
       <CreateModalRoom
-        v-show="showModalRoom"
+        v-if="showModalRoom"
         @close-modal="showModalRoom = false"
       />
     </template>
@@ -79,7 +75,7 @@
   <Suspense>
     <template #default>
       <CreateModalUser
-        v-show="showModalUser"
+        v-if="showModalUser"
         @close-modal="showModalUser = false"
       />
     </template>
@@ -93,6 +89,7 @@ import CreateModalUser from "./AdminModal/user/CreateModalUser.vue";
 import CreateModalRoom from "./AdminModal/room/CreateModalRoom.vue";
 import { useUserStore } from "../../stores/auth";
 import { onMounted, defineAsyncComponent, ref } from "vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
   props: ["title"],
@@ -104,6 +101,7 @@ export default {
     },
 
   components: {
+    Loading,
     CreateModalUser,
     CreateModalRoom,
   },
