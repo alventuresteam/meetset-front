@@ -21,7 +21,7 @@
             v-model.lazy="name"
           />
 
-          <span class="errorText" v-if="userStore.errorMsg">Bu adda artx otaq var</span>
+          <span class="errorText" v-if="userStore.errorMsg">Bu adda artıx otaq var</span>
 
           <span
             class="errorText"
@@ -86,7 +86,7 @@
             class="submitWhite"
             @click="$emit('close-modal')"
           >
-            Xeyir
+            İmtina et
           </button>
 
           <button aria-label="Əlavə et" class="submit" type="submit">

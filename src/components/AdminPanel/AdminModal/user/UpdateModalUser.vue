@@ -119,17 +119,13 @@
             v-for="error in v$.updateDataPerson.password.$errors"
             :key="error.$uid"
           >
-            {{
-              error.$message === "Value is required"
-                ? "Şifrə boş ola bilməz"
-                : "Şifrə min 6 simvol olmalıdır"
-            }}
+             Şifrə min 6 simvol olmalıdır
           </span>
         </div>
 
         <div class="modal__form-group modal__flex">
           <button aria-label="İmtina" class="submitWhite" @click="close()">
-            Xeyir
+            İmtina et
           </button>
           <button
             aria-label="Yadda Saxla"
@@ -173,7 +169,7 @@ export default {
       updateDataPerson: {
         name: { required },
         email: { email, required },
-        password: { required, minLength: minLength(6) },
+        password: {  minLength: minLength(6) },
         fin_code: { required },
         position: { required },
       },

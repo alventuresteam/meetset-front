@@ -73,6 +73,7 @@
             type="text"
             autocomplete="off"
           />
+            <span class="errorText" v-if="userStore.errorMsg">Bu adda artıx otaq var</span>
 
           <span
             class="errorText"
@@ -153,7 +154,7 @@
 <script>
 import { usePersonStore } from "../../../../stores/user";
 import { useVuelidate } from "@vuelidate/core";
-import { required, minLength  } from "@vuelidate/validators";
+import { required, minLength ,email } from "@vuelidate/validators";
 import { ref } from "vue";
 import Loading from "@/components/Loading.vue";
 export default {
@@ -184,18 +185,33 @@ export default {
 
         await this.userStore.fetchPerson();
 
-        this.clickLoad = false;
+          if (this.userStore.errorMsg) {
+              this.clickLoad = false;
+          }
 
-        this.$toast.success(`Istifadəçi uğurla yarandıldı`);
+          if (!this.userStore.error && !this.userStore.errorMsg) {
 
-        this.name = "";
-        this.fin_code = "";
-        this.position = "";
-        this.email = "";
-        this.password = "";
-        this.$emit("close-modal");
 
-        this.v$.$reset();
+              this.clickLoad = false;
+              this.$toast.success(`Istifadəçi uğurla yarandıldı`);
+              this.name = "";
+              this.fin_code = "";
+              this.position = "";
+              this.email = "";
+              this.userStore.errorMsg = "";
+              this.userStore.error = "";
+              this.password = "";
+              this.$emit("close-modal");
+
+              this.v$.$reset();
+
+          }
+
+
+
+
+
+
       }
     },
     showPass() {
@@ -210,9 +226,8 @@ export default {
   validations() {
     return {
       name: { required },
-      email: { required },
-      password: { required,         minLength: minLength(6)
- },
+      email: { required,email },
+      password: { required,         minLength: minLength(6)},
       fin_code: { required },
       position: { required },
     };

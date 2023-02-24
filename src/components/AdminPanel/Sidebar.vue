@@ -85,7 +85,7 @@ export default {
     methods: {
         async logout() {
             await this.userStore.signOut();
-            this.$router.push("/admin");
+            this.$router.push("/");
         },
     },
 };

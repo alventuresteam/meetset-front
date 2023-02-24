@@ -67,11 +67,7 @@
                                 >
                                     <span>Bəli</span>
 
-                                    <img
-                                        loading="lazy"
-                                        src="../../assets/images/svg/delet.svg"
-                                        alt="delet"
-                                    />
+
                                 </button>
                             </div>
                         </form>
