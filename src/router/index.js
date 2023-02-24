@@ -22,14 +22,7 @@ const routes = [
     component: () => import("@/views/NotFound.vue"),
   },
 
-  {
-    path: "/admin",
-    name: "Admin",
-    component: () => import("@/views/AdminLogin.vue"),
-    beforeEnter: (to, from, next) => {
-      LoggedInGuardAdmin(to, from, next, app);
-    },
-  },
+
 
   {
     path: "/calendar",
@@ -122,22 +115,5 @@ const LoggedInGuard = function (to, from, next, app) {
   } else next();
 };
 
-const LoggedInGuardAdmin = function (to, from, next, app) {
-  if (!useUserStore().user) {
-    // check for valid auth token
-    axios
-      .get("https://meetset.al.ventures/api/auth/user", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      })
-      .then((response) => {
-        useUserStore().user = response.data.user;
-
-        window.location.href = "/user";
-      })
-      .catch((error) => {
-        next();
-      });
-  } else next();
-};
 
 export default router;

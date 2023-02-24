@@ -135,8 +135,9 @@ export default defineComponent({
                         let b = moment(item.start).startOf('day');
                         return a.diff(b, 'days') === 0
                     });
-    console.log(lastEvent,'lastEvent');                // const lastEventDate = moment(lastEvent.start).format("HH:mm");
-                    this.$refs.calendar.getApi().scrollToTime(lastEvent);
+    console.log(lastEvent,'lastEvent');
+      const lastEventDate = moment(lastEvent.start).format("HH:mm");
+                    this.$refs.calendar.getApi().scrollToTime(lastEventDate);
                 }
             })
 
