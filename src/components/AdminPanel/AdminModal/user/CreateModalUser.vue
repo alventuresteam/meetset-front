@@ -172,10 +172,10 @@ export default {
   methods: {
     async addPerson(event) {
       const result = await this.v$.$validate();
-        await this.userStore.fetchPerson();
 
       if (result) {
         this.clickLoad = true;
+          await this.userStore.fetchPerson();
 
         await this.userStore.createPerson(
           this.name,

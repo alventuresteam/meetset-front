@@ -27,9 +27,7 @@ export const useSettingStore = defineStore("setting", {
 
         async updateSetting(data) {
             await axios.post(`https://meetset.al.ventures/api/setting/update`, data)
-                .then((res) => {
-                    console.log(res);
-                })
+                .then((res) => { })
                 .catch((err) => {
                     this.errors = err.response.data.errors;
                     console.error(err);

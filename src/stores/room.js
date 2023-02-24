@@ -39,7 +39,6 @@ export const useRoomStore = defineStore("rooms", {
                     floor,
                 })
                 .then((res) => {
-                    console.log(res);
                 })
                 .catch((err) => {
                     if (err.response.status === 422) {
@@ -62,7 +61,6 @@ export const useRoomStore = defineStore("rooms", {
                     floor: item.floor,
                 })
                 .then((res) => {
-                    console.log(res);
                 })  .catch((err) => {
                     if (err.response.status === 422) {
                       this.errorMsg = err.response.data.message;
@@ -76,7 +74,6 @@ export const useRoomStore = defineStore("rooms", {
             await axios
                 .post(`https://meetset.al.ventures/api/rooms/${id}/delete`)
                 .then((res) => {
-                    console.log(res);
                 })
                 .catch((err) => {
                     console.error(err);

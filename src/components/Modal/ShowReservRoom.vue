@@ -403,13 +403,10 @@ export default {
             await this.useStoreRoom.fetchRoom();
 
 
-            if (this.userStore.error || this.userStore.errorMsg) {
-                this.clickLoad = false;
-            }
+
+            this.clickLoad = false;
 
             if (!this.userStore.error && !this.userStore.errorMsg) {
-                this.clickLoad = false;
-
                 this.emitter.emit("refresh");
                 this.$emit("close-modal");
 
