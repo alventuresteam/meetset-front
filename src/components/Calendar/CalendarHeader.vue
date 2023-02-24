@@ -4,7 +4,7 @@
             <img
                 loading="lazy"
                 class="header__img"
-                src="../../assets/images/logo/logo.png"
+                :src="useSetting.getSetting.logo"
                 alt="logo"
             />
 
@@ -27,8 +27,8 @@
                         class="submitWhite flex center__flex"
                         @click.stop="hideDropdown = true"
                     >
-                        {{ userStore.getUser.name }}
-                        <!--                        <span>{{ user.name }}</span>-->
+                         {{ userStore.getUser.name }}
+<!--                        <span>{{ user.name }}</span>-->
 
                         <img
                             loading="lazy"
@@ -53,9 +53,6 @@
         </div>
     </header>
 
-
-
-
     <Suspense v-if="showModal">
         <template #default>
             <Transition name="slide-fade" appear>
@@ -77,6 +74,7 @@
 import ReserveRoom from "../Modal/ReserveRoom.vue";
 import {onMounted, defineAsyncComponent} from "vue";
 import {useUserStore} from "../../stores/auth";
+import {useSettingStore} from "@/stores/setting";
 import Loading from "@/components/Loading.vue";
 
 export default {
@@ -134,6 +132,8 @@ export default {
     },
 
     setup() {
+        const useSetting = useSettingStore();
+
         const ReserveRoom = defineAsyncComponent({
             loader: () => import("../../components/Modal/ShowReservRoom.vue"),
             delay: 1000,
@@ -143,10 +143,11 @@ export default {
 
         onMounted(() => {
             userStore.fetchUser();
+            useSetting.fetchSetting();
         });
 
         const userStore = useUserStore();
-        return {userStore, ReserveRoom};
+        return {userStore, ReserveRoom, useSetting};
     },
 };
 </script>
