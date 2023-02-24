@@ -78,13 +78,7 @@
                         placeholder="Yerləşdiyi mərtəbə"
                         type="number"
                     />
-                    <span
-                        class="errorText"
-                        v-for="error in v$.updateDataRoom.floor.$errors"
-                        :key="error.$uid"
-                    >
-            Yerləşdiyi mərtəbə boş ola bilməz
-          </span>
+
                 </div>
 
                 <div class="modal__form-group modal__flex">

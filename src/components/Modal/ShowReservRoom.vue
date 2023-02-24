@@ -168,28 +168,20 @@
                                 @keydown.delete="removeLastTag"
                             />
 
-                            <span
-                                class="errorText"
-                                v-if="userStore.error && userStore.error.emails"
-                            >
+
+                        </div>
+
+                        <span
+                            class="errorText"
+                            v-if="userStore.error && userStore.error.emails"
+                        >
                                E-maildə səhvlik var
                                   </span>
 
-                        </div>
-                        <span
-                            class="errorText"
-                            v-for="error in v$.updateReservation.checkEmails.$errors"
-                            :key="error.$uid"
-                        >
-                      <template v-for="err in error.$message">
-                        {{ err[0] === "Value is required" ? "Email boşdur" : "" }}
-                        {{
-                              err[0] === "Value is not a valid email address"
-                                  ? "Yanlış format"
-                                  : ""
-                          }}
-                      </template>
-                    </span>
+
+                        <template v-if="v$.updateReservation.checkEmails.$errors.length">
+                            <span class="errorText"> E-maildə səhvlik var</span>
+                        </template>
                     </div>
 
                     <div class="modal__form-group">
@@ -266,11 +258,7 @@
                         aria-label="Sil"
                     >
                         <span>Bəli</span>
-                        <img
-                            loading="lazy"
-                            src="../../assets/images/svg/delet.svg"
-                            alt="delet"
-                        />
+
                     </button>
                 </div>
 
@@ -325,7 +313,7 @@ export default {
             isStartTimeChange: true,
             step: 10,
             endVal: null,
-            startVal:null,
+            startVal: null,
         };
     },
 
@@ -370,8 +358,6 @@ export default {
             this.updateReservation.room_id = event.id;
             this.updateReservation.emails = [];
         },
-
-
 
 
         addTag(event) {
@@ -493,8 +479,6 @@ export default {
     },
 
     computed: {
-
-
 
 
         getRoom() {
