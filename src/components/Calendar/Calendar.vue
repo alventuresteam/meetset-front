@@ -20,7 +20,7 @@
 
                 <div class="table-wrapper">
                     <div class="loaderGif" v-if="loader">
-                        <img class="animationLoad" loading="lazy" src="../../assets/images/gif/load.svg" alt="gif"/>
+                        <loading/>
                     </div>
 
                     <Table
@@ -41,9 +41,11 @@ import CalendarHeader from "./CalendarHeader.vue";
 import Table from "./CalendarTable.vue";
 import moment from "moment";
 import {ref} from "vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
     components: {
+      Loading,
         Calendar,
         DatePicker,
         CalendarHeader,

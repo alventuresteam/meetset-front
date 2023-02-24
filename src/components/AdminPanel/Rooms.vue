@@ -83,14 +83,7 @@
                 </div>
               </form>
 
-              <div v-show="clickLoad" class="loading-dots">
-                <img
-                    class="animationLoad"
-                  loading="lazy"
-                  src="../../assets/images/gif/load.svg"
-                  alt="gif"
-                />
-              </div>
+
             </div>
           </div>
         </template>
@@ -98,7 +91,9 @@
         <template #fallback>Load...</template>
       </Suspense>
     </div>
-
+    <div v-show="clickLoad" class="loading-dots">
+      <loading/>
+    </div>
     <Suspense v-if="showUpdateModalRoom">
       <template #default>
         <UpdateModalRoom
@@ -117,9 +112,11 @@
 import { ref, defineAsyncComponent, onMounted } from "vue";
 import { useRoomStore } from "../../stores/room";
 import UpdateModalRoom from "./AdminModal/room/UpdateModalRoom.vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
   components: {
+    Loading,
     UpdateModalRoom,
   },
 

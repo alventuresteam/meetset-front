@@ -76,14 +76,7 @@
                             </div>
                         </form>
 
-                        <div v-show="clickLoad" class="loading-dots">
-                            <img
-                                class="animationLoad"
-                                loading="lazy"
-                                src="../../assets/images/gif/load.svg"
-                                alt="delet"
-                            />
-                        </div>
+
                     </div>
                 </div>
             </template>
@@ -95,7 +88,7 @@
             <template #default>
                 <UpdateModalUser
                     :item="updateDataPerson"
-                    v-show="showUpdateModalUser"
+                    v-if="showUpdateModalUser"
                     @close-modal="showUpdateModalUser = false"
                 />
             </template>
@@ -103,6 +96,9 @@
             <template #fallback>Load...</template>
         </Suspense>
     </div>
+  <div v-show="clickLoad" class="loading-dots">
+    <loading/>
+  </div>
 </template>
 
 <script>
@@ -110,9 +106,11 @@ import {ref, defineAsyncComponent, onMounted} from "vue";
 import {usePersonStore} from "../../stores/user";
 
 import UpdateModalUser from "./AdminModal/user/UpdateModalUser.vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
     components: {
+      Loading,
         UpdateModalUser,
     },
     data() {

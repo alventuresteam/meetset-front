@@ -52,7 +52,7 @@
                         </span>
                     </div>
 
-                    <div class="modal__flex modal__form-group" style="margin-bottom: 35px">
+                    <div class="modal__flex modal__form-group" style="margin-bottom: 10px">
                         <div class="input" style="margin-right: 10px">
                             <ejs-timepicker
                                 v-model.lazy="updateReservation.start_time"
@@ -175,6 +175,20 @@
 
 
                         </div>
+                      <span
+                          class="errorText"
+                          v-for="error in v$.updateReservation.checkEmails.$errors"
+                          :key="error.$uid"
+                      >
+                      <template v-for="err in error.$message">
+                        {{ err[0] === "Value is required" ? "Email boşdur" : "" }}
+                        {{
+                          err[0] === "Value is not a valid email address"
+                              ? "Yanlış format"
+                              : ""
+                        }}
+                      </template>
+                    </span>
                     </div>
 
                     <div class="modal__form-group">
@@ -265,19 +279,15 @@
                     </button>
                 </div>
 
-                <div v-show="clickLoad" class="loading-dots">
-                    <img
-                        class="animationLoad"
-                        loading="lazy"
-                        src="../../assets/images/gif/load.svg"
-                        alt="gif"
-                    />
-                </div>
+
             </form>
 
 
         </div>
     </div>
+  <div v-show="clickLoad" class="loading-dots">
+    <loading/>
+  </div>
 </template>
 
 <script>
@@ -289,10 +299,12 @@ import {useVuelidate} from "@vuelidate/core";
 import {required, email, minLength, helpers} from "@vuelidate/validators";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
 import {DatePicker} from "v-calendar";
+import Loading from "@/components/Loading.vue";
 
 export default {
     props: ["item", "itemRoom"],
     components: {
+      Loading,
         "ejs-timepicker": TimePickerComponent,
         CustomSelect,
         DatePicker,

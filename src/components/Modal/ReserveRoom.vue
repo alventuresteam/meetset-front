@@ -37,7 +37,7 @@
                         v-for="error in v$.start_date.$errors"
                         :key="error.$uid"
                     >
-                        vaxt təyin olunmayıb
+                        Vaxt təyin olunmayıb
                     </span>
                 </div>
 
@@ -59,8 +59,8 @@
                         ></ejs-timepicker>
 
                         <span
+                            style="margin-left: 5px;"
                             class="errorText"
-                            style="margin: 14px"
                             v-for="error in v$.start_time.$errors"
                             :key="error.$uid"
                         >
@@ -83,8 +83,8 @@
                         ></ejs-timepicker>
 
                         <span
+                            style="margin-left: 5px;"
                             class="errorText"
-                            style="margin: 14px"
                             v-for="error in v$.end_time.$errors"
                             :key="error.$uid"
                         >
@@ -146,6 +146,7 @@
                             <span @click="removeTag(index)">x</span>
                         </div>
                         <textarea
+                            :disabled="!room_id"
                             maxlength="255"
                             class="tag-input__text"
                             @keydown.enter="addTag"
@@ -154,29 +155,31 @@
                             @keydown.delete="removeLastTag"
                         />
                     </div>
+                    <span
+                        class="errorText"
+                        v-for="error in v$.checkEmails.$errors"
+                        :key="error.$uid"
+                    >
+                      <template v-for="err in error.$message">
+                        {{ err[0] === "Value is required" ? "Email boşdur" : "" }}
+                        {{
+                          err[0] === "Value is not a valid email address"
+                              ? "Yanlış format"
+                              : ""
+                        }}
+                      </template>
+                    </span>
+                    <span
+                        class="errorText"
+                        v-if="userStore.error && userStore.error.emails"
+                    >
+                    E-mail yanlışdır
+                  </span>
                 </div>
 
-                <span
-                    class="errorText"
-                    v-if="userStore.error && userStore.error.emails"
-                >
-          E-maildə səhvlik var
-        </span>
 
-                <span
-                    class="errorText"
-                    v-for="error in v$.checkEmails.$errors"
-                    :key="error.$uid"
-                >
-          <template v-for="err in error.$message">
-            {{ err[0] === "Value is required" ? "Email boşdur" : "" }}
-            {{
-                  err[0] === "Value is not a valid email address"
-                      ? "Burda email olmalıdır!"
-                      : ""
-              }}
-          </template>
-        </span>
+
+
 
                 <div class="modal__form-group">
                     <input
@@ -231,15 +234,12 @@
                 </div>
             </form>
 
-            <div v-show="clickLoad" class="loading-dots">
-                <img
-                    class="animationLoad"
-                    loading="lazy"
-                    src="../../assets/images/gif/load.svg"
-                    alt="gif"
-                /></div>
+
         </div>
     </div>
+  <div v-show="clickLoad" class="loading-dots">
+    <loading/>
+  </div>
 </template>
 
 <style>
@@ -260,9 +260,11 @@ import {useVuelidate} from "@vuelidate/core";
 import {required, email, minLength, helpers} from "@vuelidate/validators";
 import {storeToRefs} from "pinia";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
     components: {
+      Loading,
         "ejs-timepicker": TimePickerComponent,
         CustomSelect,
         DatePicker,

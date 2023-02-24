@@ -142,16 +142,11 @@
         </div>
       </form>
 
-      <div v-show="clickLoad" class="loading-dots">
-        <img
-            class="animationLoad"
 
-            loading="lazy"
-          src="../../../../assets/images/gif/load.svg"
-          alt="gif"
-        />
-      </div>
     </div>
+  </div>
+  <div v-show="clickLoad" class="loading-dots">
+    <loading/>
   </div>
 </template>
 
@@ -161,7 +156,9 @@ import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email, minLength } from "@vuelidate/validators";
+import Loading from "@/components/Loading.vue";
 export default {
+  components: {Loading},
   props: ["item"],
 
   data() {

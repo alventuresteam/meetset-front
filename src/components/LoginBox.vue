@@ -77,14 +77,9 @@
 
 
     </div>
-    <div v-show="clickLoad" class="loading-dots">
-        <img
-            class="animationLoad"
-            loading="lazy"
-            src="../assets/images/gif/load.svg"
-            alt="gif"
-        />
-    </div>
+  <div v-show="clickLoad" class="loading-dots">
+    <loading/>
+  </div>
 </template>
 
 
@@ -93,8 +88,10 @@
 import {useUserStore} from "../stores/auth";
 import {useVuelidate} from "@vuelidate/core";
 import {required, email, minLength} from "@vuelidate/validators";
+import Loading from "@/components/Loading.vue";
 
 export default {
+  components: {Loading},
     data() {
         return {
             email: "",
@@ -109,14 +106,17 @@ export default {
             if (result) {
                 this.clickLoad = true
 
-                await this.userStore.signIn(this.email, this.password);
+                 await this.userStore.signIn(this.email, this.password);
 
-
+                 const user = this.userStore.user;
                 if (this.userStore.error) {
                     this.clickLoad = false;
                 }
                 if (!this.userStore.error) {
                     this.clickLoad = false;
+                  if(user.role === 1)
+                    this.$router.push("/user");
+                  else
                     this.$router.push("/calendar");
                 }
             }

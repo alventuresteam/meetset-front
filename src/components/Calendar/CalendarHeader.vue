@@ -54,13 +54,7 @@
     </header>
 
 
-    <div v-if="clickLoad" class="loading-dots">
-        <img
-            class="animationLoad"
-            loading="lazy"
-            src="../../assets/images/gif/load.svg"
-            alt="gif"
-        /></div>
+
 
     <Suspense v-if="showModal">
         <template #default>
@@ -74,15 +68,19 @@
 
         <template #fallback>Load...</template>
     </Suspense>
+  <div v-show="clickLoad" class="loading-dots">
+    <loading/>
+  </div>
 </template>
 
 <script>
 import ReserveRoom from "../Modal/ReserveRoom.vue";
 import {onMounted, defineAsyncComponent} from "vue";
 import {useUserStore} from "../../stores/auth";
+import Loading from "@/components/Loading.vue";
 
 export default {
-    components: {ReserveRoom},
+    components: {Loading, ReserveRoom},
     data() {
         return {
             showModal: false,

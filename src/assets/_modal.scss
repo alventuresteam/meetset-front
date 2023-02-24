@@ -12,11 +12,11 @@
     border-radius: 12px;
     position: absolute;
     padding-bottom: 20px;
-left: 50%;
-top: 50%;
-transform: translate(-50%, -50%);
-
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     overflow-y: auto;
+    max-height: 100%;
 
 
 
@@ -63,7 +63,7 @@ transform: translate(-50%, -50%);
 
         &-group {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         &-delete {
@@ -72,7 +72,7 @@ transform: translate(-50%, -50%);
             font-size: 16px;
             font-weight: 400;
             line-height: 22px;
-margin-bottom: 32px;
+            margin-bottom: 32px;
             color: #364152;
         }
 
@@ -93,6 +93,7 @@ margin-bottom: 32px;
         margin-bottom: 18px;
     }
     .input {
+        position: relative;
         height: 56px;
         border: 1px solid #cdd5df;
         border-radius: 8px;

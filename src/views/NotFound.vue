@@ -31,20 +31,16 @@
         </div>
     </header>
 
-    <div v-if="clickLoad" class="loading-dots">
-        <img
-            class="animationLoad"
-            loading="lazy"
-            src="../assets/images/gif/load.svg"
-            alt="gif"
-        /></div>
+
 
     <div style="background:#F8FAFC">
         <img class="notFound" src="../assets/images/notFound.jpg" alt="notFound"/>
 
     </div>
 
-
+  <div v-show="clickLoad" class="loading-dots">
+    <loading/>
+  </div>
 </template>
 
 
@@ -52,9 +48,10 @@
 import ReserveRoom from "../components/Modal/ReserveRoom.vue";
 import {onMounted, defineAsyncComponent} from "vue";
 import {useUserStore} from "@/stores/auth";
+import Loading from "@/components/Loading.vue";
 
 export default {
-    components: {ReserveRoom},
+    components: {Loading, ReserveRoom},
     data() {
         return {
             hideDropdown: false,
