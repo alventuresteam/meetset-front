@@ -73,7 +73,7 @@
             type="text"
             autocomplete="off"
           />
-            <span class="errorText" v-if="userStore.errorMsg">Bu adda artıx otaq var</span>
+            <span class="errorText" v-if="userStore.errorMsg">Email mövcuddur</span>
 
           <span
             class="errorText"
@@ -172,6 +172,8 @@ export default {
   methods: {
     async addPerson(event) {
       const result = await this.v$.$validate();
+        await this.userStore.fetchPerson();
+
       if (result) {
         this.clickLoad = true;
 
@@ -183,14 +185,12 @@ export default {
           this.password
         );
 
-        await this.userStore.fetchPerson();
 
           if (this.userStore.errorMsg) {
               this.clickLoad = false;
           }
 
           if (!this.userStore.error && !this.userStore.errorMsg) {
-
 
               this.clickLoad = false;
               this.$toast.success(`Istifadəçi uğurla yarandıldı`);
@@ -204,14 +204,7 @@ export default {
               this.$emit("close-modal");
 
               this.v$.$reset();
-
           }
-
-
-
-
-
-
       }
     },
     showPass() {
@@ -227,7 +220,7 @@ export default {
     return {
       name: { required },
       email: { required,email },
-      password: { required,         minLength: minLength(6)},
+      password: { required,minLength: minLength(6)},
       fin_code: { required },
       position: { required },
     };

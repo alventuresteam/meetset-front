@@ -77,6 +77,9 @@
           >
             Email boş ola bilməz
           </span>
+
+            <span class="errorText" v-if="userStore.errorMsg">Email mövcuddur</span>
+
         </div>
 
         <div class="modal__form-group">
@@ -179,17 +182,27 @@ export default {
   methods: {
     async uppdateHandler() {
       const result = await this.v$.$validate();
-      if (result) {
-        this.clickLoad = true;
 
         await this.userStore.updatePerson(this.updateDataPerson);
         await this.userStore.fetchPerson();
+      if (result) {
+        this.clickLoad = true;
 
-        this.$toast.success(`Istifadəçi redaktə edildi`);
+          if (this.userStore.errorMsg) {
+              this.clickLoad = false;
+          }
 
-        this.clickLoad = false;
 
-        this.$emit("close-modal");
+          if (!this.userStore.error && !this.userStore.errorMsg) {
+
+              this.clickLoad = false;
+
+              this.$toast.success(`Istifadəçi redaktə edildi`);
+              this.userStore.errorMsg = "";
+              this.userStore.error = "";
+
+              this.$emit("close-modal");
+          }
       }
     },
 

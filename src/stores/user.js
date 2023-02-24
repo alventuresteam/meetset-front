@@ -43,8 +43,7 @@ export const usePersonStore = defineStore("person", {
                 })
                 .catch((err) => {
                     if (err.response.status === 422) {
-                        this.error = err.response.data.errors;
-                        if (!this.error) this.errorMsg = err.response.data.message;
+                        this.errorMsg = err.response.data.message;
 
                         console.error(err.response);
                     }
@@ -70,8 +69,7 @@ export const usePersonStore = defineStore("person", {
                 .catch((err) => {
 
                     if (err.response.status === 422) {
-                        this.error = err.response.data.errors;
-                        if (!this.error) this.errorMsg = err.response.data.message;
+                      this.errorMsg = err.response.data.message;
 
                         console.error(err.response);
                     }
