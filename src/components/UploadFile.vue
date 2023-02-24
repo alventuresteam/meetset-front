@@ -18,17 +18,13 @@
     export default {
         data() {
             return {
-                fileName: 'Loqonu yükləyin'
+                fileName: 'Loqonu yükləyin',
             }
         },
         methods: {
             uploadFile() {
-                let formData = new FormData();
-                formData.append(`logo`, this.$refs.uploadFile__file.files[0]);
-
                 this.fileName = this.$refs.uploadFile__file.files[0].name;
-
-                this.$emit('file', formData);
+                this.$emit('file', this.$refs.uploadFile__file.files[0]);
             }
         },
         props: {
