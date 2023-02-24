@@ -173,9 +173,9 @@ export default {
     async addPerson(event) {
       const result = await this.v$.$validate();
 
+
       if (result) {
         this.clickLoad = true;
-          await this.userStore.fetchPerson();
 
         await this.userStore.createPerson(
           this.name,
@@ -184,7 +184,7 @@ export default {
           this.email,
           this.password
         );
-
+        await this.userStore.fetchPerson();
 
           if (this.userStore.errorMsg) {
               this.clickLoad = false;
