@@ -34,6 +34,7 @@ export const useUserStore = defineStore("user", {
                     const token = res.data.token;
                     const user = res.data.user;
 
+                    this.token = token;
                     localStorage.setItem("token", token);
                     localStorage.setItem("user", JSON.stringify(user));
                     this.user = user;
@@ -49,7 +50,9 @@ export const useUserStore = defineStore("user", {
 
         async signOut() {
             await axios.post("https://meetset.al.ventures/api/auth/logout",
-                {token: localStorage.getItem("token")}
+                {},{ headers: {
+                        Authorization: 'Bearer '+ this.token
+                    }}
             )
                 .then((res) => {
                     localStorage.removeItem("token");
