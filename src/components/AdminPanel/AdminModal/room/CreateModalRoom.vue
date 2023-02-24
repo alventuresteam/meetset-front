@@ -28,7 +28,7 @@
             v-for="error in v$.name.$errors"
             :key="error.$uid"
           >
-            Ad boşdu
+            Ad boş ola bilməz
           </span>
         </div>
 
@@ -46,7 +46,7 @@
             v-for="error in v$.capacity.$errors"
             :key="error.$uid"
           >
-            İşçi tutumu boşdu
+            İşçi tutumu boş ola bilməz
           </span>
         </div>
 
@@ -60,13 +60,6 @@
             type="text"
           />
 
-          <span
-            class="errorText"
-            v-for="error in v$.address.$errors"
-            :key="error.$uid"
-          >
-            Yerləşdiyi bina boşdu
-          </span>
         </div>
 
         <div class="modal__form-group">
@@ -84,7 +77,7 @@
           v-for="error in v$.floor.$errors"
           :key="error.$uid"
         >
-          Yerləşdiyi mərtəbə boşdu
+          Yerləşdiyi mərtəbə boş ola bilməz
         </span>
         <div class="modal__form-group modal__flex">
           <button
@@ -93,7 +86,7 @@
             class="submitWhite"
             @click="$emit('close-modal')"
           >
-            İmtina
+            Xeyir
           </button>
 
           <button aria-label="Əlavə et" class="submit" type="submit">
@@ -169,7 +162,7 @@ export default {
       name: { required },
       capacity: { required },
       address: { required },
-      floor: { required },
+      floor: {}
     };
   },
 
@@ -179,7 +172,7 @@ export default {
     // });
     const userStore = useRoomStore();
 
-    return { userStore, userStore, v$: useVuelidate() };
+    return { userStore, v$: useVuelidate() };
   },
 };
 </script>

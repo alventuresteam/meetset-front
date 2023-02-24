@@ -1,7 +1,7 @@
 <template>
     <div class="login__box">
         <img loading="lazy"
-             src="../assets/images/logo/logo.png"
+             :src="useSetting.getSetting.logo"
              alt="meet-set logoin"
              class="login__box-img"
         />
@@ -74,24 +74,23 @@
 
             <input type="submit" class="submit" value="Daxil ol "/>
         </form>
-
-
     </div>
-  <div v-show="clickLoad" class="loading-dots">
-    <loading/>
-  </div>
+    <div v-show="clickLoad" class="loading-dots">
+        <loading/>
+    </div>
 </template>
 
 
 <script>
-// import { onMounted } from "vue";
+import { useSettingStore } from "../stores/setting";
 import {useUserStore} from "../stores/auth";
 import {useVuelidate} from "@vuelidate/core";
 import {required, email, minLength} from "@vuelidate/validators";
 import Loading from "@/components/Loading.vue";
+import {onMounted} from "vue";
 
 export default {
-  components: {Loading},
+    components: {Loading},
     data() {
         return {
             email: "",
@@ -106,18 +105,18 @@ export default {
             if (result) {
                 this.clickLoad = true
 
-                 await this.userStore.signIn(this.email, this.password);
+                await this.userStore.signIn(this.email, this.password);
 
-                 const user = this.userStore.user;
+                const user = this.userStore.user;
                 if (this.userStore.error) {
                     this.clickLoad = false;
                 }
                 if (!this.userStore.error) {
                     this.clickLoad = false;
-                  if(user.role === 1)
-                    this.$router.push("/user");
-                  else
-                    this.$router.push("/calendar");
+                    if (user.role === 1)
+                        this.$router.push("/user");
+                    else
+                        this.$router.push("/calendar");
                 }
             }
         },
@@ -134,11 +133,12 @@ export default {
         };
     },
     setup() {
-
-
+        const useSetting = useSettingStore();
         const userStore = useUserStore();
-
-        return {userStore, v$: useVuelidate()};
+        onMounted(() => {
+            useSetting.fetchSetting();
+        });
+        return {userStore, useSetting, v$: useVuelidate()};
     },
 };
 </script>

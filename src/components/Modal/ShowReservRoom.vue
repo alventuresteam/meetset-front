@@ -2,7 +2,6 @@
     <div class="modal-overlay">
         <div class="modal" @click.stop>
             <div class="modal__head">
-                
                 <h6 v-if="showDeletButtons" class="modal__head-title">Otaq rezervasiyasını sil</h6>
 
                 <h6 v-else-if="showEditButtons" class="modal__head-title">Otaq rezervasiyasını redaktə et</h6>
@@ -30,12 +29,15 @@
                         <DatePicker
                             :popover="{ visibility: 'focus' }"
                             :min-date="new Date()"
+                            ref="datePicker"
                             :max-date="new Date(2030, 1, 4)"
                             v-model.lazy="updateReservation.start_date"
+
                         >
                             <template #default="{ inputValue, inputEvents }">
                                 <input class="input " placeholder="Tarix" :value="inputValue" v-on="inputEvents"/>
-                                <img class='input-icon' src="../../assets/images/svg/calendar.svg"/>
+                                <img @click="$refs.datePicker.togglePopover()" class='input-icon'
+                                     src="../../assets/images/svg/calendar.svg"/>
                             </template>
                         </DatePicker>
 
@@ -52,7 +54,7 @@
                         </span>
                     </div>
 
-                    <div class="modal__flex modal__form-group" style="margin-bottom: 10px">
+                    <div class="modal__flex modal__form-group" style="margin-bottom: 30px">
                         <div class="input" style="margin-right: 10px">
                             <ejs-timepicker
                                 v-model.lazy="updateReservation.start_time"
@@ -72,8 +74,8 @@
                                 v-for="error in v$.updateReservation.start_time.$errors"
                                 :key="error.$uid"
                             >
-                Başlama tarixi boş
-              </span>
+                                Başlama tarixi boş
+                          </span>
                         </div>
 
                         <div class="input">
@@ -170,23 +172,22 @@
                                 class="errorText"
                                 v-if="userStore.error && userStore.error.emails"
                             >
-                E-maildə səhvlik var
-              </span>
-
+                               E-maildə səhvlik var
+                                  </span>
 
                         </div>
-                      <span
-                          class="errorText"
-                          v-for="error in v$.updateReservation.checkEmails.$errors"
-                          :key="error.$uid"
-                      >
+                        <span
+                            class="errorText"
+                            v-for="error in v$.updateReservation.checkEmails.$errors"
+                            :key="error.$uid"
+                        >
                       <template v-for="err in error.$message">
                         {{ err[0] === "Value is required" ? "Email boşdur" : "" }}
                         {{
-                          err[0] === "Value is not a valid email address"
-                              ? "Yanlış format"
-                              : ""
-                        }}
+                              err[0] === "Value is not a valid email address"
+                                  ? "Yanlış format"
+                                  : ""
+                          }}
                       </template>
                     </span>
                     </div>
@@ -218,13 +219,7 @@
                 v-model.lazy="updateReservation.comment"
             />
 
-                        <!-- <span
-                          class="errorText"
-                          v-for="error in v$.updateReservation.comment.$errors"
-                          :key="error.$uid"
-                        >
-                          Görüşlə bağlı qeydlər boşdur
-                        </span> -->
+
                     </div>
                 </div>
 
@@ -258,9 +253,9 @@
                         type="button"
                         class="submitWhite"
                         @click="$emit('close-modal')"
-                        aria-label="Imtina et"
+                        aria-label="Xeyir"
                     >
-                        Imtina et
+                        Xeyir
                     </button>
 
                     <button
@@ -270,7 +265,7 @@
                         id="messg"
                         aria-label="Sil"
                     >
-                        <span>Sil</span>
+                        <span>Bəli</span>
                         <img
                             loading="lazy"
                             src="../../assets/images/svg/delet.svg"
@@ -285,9 +280,9 @@
 
         </div>
     </div>
-  <div v-show="clickLoad" class="loading-dots">
-    <loading/>
-  </div>
+    <div v-show="clickLoad" class="loading-dots">
+        <loading/>
+    </div>
 </template>
 
 <script>
@@ -304,7 +299,7 @@ import Loading from "@/components/Loading.vue";
 export default {
     props: ["item", "itemRoom"],
     components: {
-      Loading,
+        Loading,
         "ejs-timepicker": TimePickerComponent,
         CustomSelect,
         DatePicker,
@@ -321,7 +316,7 @@ export default {
             timeFormat: "HH:mm",
             limit: 250,
             waterMark: "Saat",
-
+            currentDateTime: new Date(),
             endEnable: false,
             startEnable: false,
             startRead: false,
@@ -329,8 +324,8 @@ export default {
             min: new Date(),
             isStartTimeChange: true,
             step: 10,
-            startVal: null,
             endVal: null,
+            startVal:null,
         };
     },
 
@@ -375,6 +370,10 @@ export default {
             this.updateReservation.room_id = event.id;
             this.updateReservation.emails = [];
         },
+
+
+
+
         addTag(event) {
             let room = this.getRoom.find(
                 (item) => item.id === this.updateReservation.room_id
@@ -395,6 +394,7 @@ export default {
                 event.target.value = "";
             }
         },
+
         removeTag(index) {
             this.updateReservation.emails.splice(index, 1);
         },
@@ -440,7 +440,6 @@ export default {
                     };
                 }
             );
-
 
 
             if (result) {
@@ -494,6 +493,10 @@ export default {
     },
 
     computed: {
+
+
+
+
         getRoom() {
             return this.useStoreRoom.getRoom;
         },

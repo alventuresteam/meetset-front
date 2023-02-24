@@ -129,7 +129,7 @@
 
         <div class="modal__form-group modal__flex">
           <button aria-label="İmtina" class="submitWhite" @click="close()">
-            İmtina
+            Xeyir
           </button>
           <button
             aria-label="Yadda Saxla"

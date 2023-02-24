@@ -20,14 +20,13 @@
             </router-link>
         </div>
         <span style="cursor:pointer" @click="logout()" class="sidebar__item">
-      <img loading="lazy"
-           class="sidebar__item-img"
-           src="../../assets/images/svg/exit.svg"
-           alt="exit"
-      />
-      Çıxış
-    </span>
-
+              <img loading="lazy"
+                   class="sidebar__item-img"
+                   src="../../assets/images/svg/exit.svg"
+                   alt="exit"
+              />
+            Çıxış
+        </span>
 
         <router-view/>
     </aside>
@@ -35,7 +34,7 @@
 
 <script>
 import {useUserStore} from "../../stores/auth";
-import { useSettingStore } from "../../stores/setting";
+import {useSettingStore} from "../../stores/setting";
 import {onMounted} from "vue";
 
 export default {

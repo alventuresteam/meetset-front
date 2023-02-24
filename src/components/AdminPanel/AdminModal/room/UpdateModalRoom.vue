@@ -20,14 +20,14 @@
                         maxlength="30"
                         type="text"
                     />
-                    <span class="errorText" v-if="userStore.errorMsg">Bu adda artx otaq var</span>
+                    <span class="errorText" v-if="userStore.errorMsg">Otaq mövcuddur</span>
 
                     <span
                         class="errorText"
                         v-for="error in v$.updateDataRoom.name.$errors"
                         :key="error.$uid"
                     >
-            Otağ boşdu
+            Otağ boş ola bilməz
           </span>
                 </div>
 
@@ -46,7 +46,7 @@
                         v-for="error in v$.updateDataRoom.capacity.$errors"
                         :key="error.$uid"
                     >
-            İşçi tutumu boşdu
+            İşçi tutumu ola bilməz
           </span>
                 </div>
 
@@ -65,7 +65,7 @@
                         v-for="error in v$.updateDataRoom.address.$errors"
                         :key="error.$uid"
                     >
-            Yerləşdiyi bina boşdu
+            Yerləşdiyi bina boş ola bilməz
           </span>
                 </div>
 
@@ -83,7 +83,7 @@
                         v-for="error in v$.updateDataRoom.floor.$errors"
                         :key="error.$uid"
                     >
-            Yerləşdiyi mərtəbə boşdu
+            Yerləşdiyi mərtəbə boş ola bilməz
           </span>
                 </div>
 
@@ -94,7 +94,7 @@
                         class="submitWhite"
                         @click="close()"
                     >
-                        İmtina
+                        Xeyir
                     </button>
                     <!-- @click="handleUpdate(item)" -->
 
@@ -144,7 +144,7 @@ export default {
                 name: {required},
                 capacity: {required},
                 address: {required},
-                floor: {required},
+                floor: {}
             },
         };
     },
@@ -168,7 +168,7 @@ export default {
 
                 if (!this.userStore.error && !this.userStore.errorMsg) {
 
-                    this.$toast.success(`Otaqlar uğurla redakt olundu`);
+                    this.$toast.success(`Otaq uğurla redaktə olundu`);
                     this.clickLoad = false;
                     this.userStore.errorMsg = "";
                     this.userStore.error = "";

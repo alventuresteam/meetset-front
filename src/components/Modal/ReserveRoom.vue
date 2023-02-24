@@ -22,10 +22,10 @@
                     >
                         <template #default="{ inputValue, inputEvents }">
                             <input class="input " placeholder="Tarix" :value="inputValue" v-on="inputEvents"/>
-                            <img @click="$refs.datePicker.togglePopover()" class='input-icon' src="../../assets/images/svg/calendar.svg"/>
+                            <img @click="$refs.datePicker.togglePopover()" class='input-icon'
+                                 src="../../assets/images/svg/calendar.svg"/>
                         </template>
                     </DatePicker>
-
 
 
                     <span class="errorText" v-if="userStore.errorMsg">
@@ -163,10 +163,10 @@
                       <template v-for="err in error.$message">
                         {{ err[0] === "Value is required" ? "Email boşdur" : "" }}
                         {{
-                          err[0] === "Value is not a valid email address"
-                              ? "Yanlış format"
-                              : ""
-                        }}
+                              err[0] === "Value is not a valid email address"
+                                  ? "Yanlış format"
+                                  : ""
+                          }}
                       </template>
                     </span>
                     <span
@@ -176,9 +176,6 @@
                     E-mail yanlışdır
                   </span>
                 </div>
-
-
-
 
 
                 <div class="modal__form-group">
@@ -219,7 +216,7 @@
                         class="submitWhite"
                         @click="$emit('close-modal')"
                     >
-                        İmtina
+                        Xeyir
                     </button>
 
                     <button
@@ -237,9 +234,9 @@
 
         </div>
     </div>
-  <div v-show="clickLoad" class="loading-dots">
-    <loading/>
-  </div>
+    <div v-show="clickLoad" class="loading-dots">
+        <loading/>
+    </div>
 </template>
 
 <style>
@@ -264,7 +261,7 @@ import Loading from "@/components/Loading.vue";
 
 export default {
     components: {
-      Loading,
+        Loading,
         "ejs-timepicker": TimePickerComponent,
         CustomSelect,
         DatePicker,
@@ -468,15 +465,15 @@ export default {
 
     computed: {
 
-            startVal() {
-                // Round the current time to the nearest 10-minute interval
-                const currentMinute = this.currentDateTime.getMinutes();
-                const roundedMinute = Math.ceil(currentMinute / 10) * 10;
-                this.currentDateTime.setMinutes(roundedMinute);
+        startVal() {
+            // Round the current time to the nearest 10-minute interval
+            const currentMinute = this.currentDateTime.getMinutes();
+            const roundedMinute = Math.ceil(currentMinute / 10) * 10;
+            this.currentDateTime.setMinutes(roundedMinute);
 
-                // Return the rounded time as the start value
-                return this.currentDateTime;
-            },
+            // Return the rounded time as the start value
+            return this.currentDateTime;
+        },
 
 
         endVal() {
