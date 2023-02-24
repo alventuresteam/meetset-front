@@ -14,7 +14,6 @@ select {
     background-color: $white;
     width: 498px;
     padding-top: 264px;
-    //position: relative;
     height: auto;
 
     &__container {
@@ -23,7 +22,7 @@ select {
     }
 
     &__box {
-        margin-left: 80px;
+        margin-left: 300px;
 
         &-img {
             height: 44px;
@@ -151,7 +150,7 @@ select {
 
 .main {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 
@@ -184,6 +183,38 @@ select {
     }
 }
 
+@media (max-width: 1800px) {
+    .main {
+        .login__box {
+            margin-left: 250px;
+        }
+    }
+}
+
+@media (max-width: 1700px) {
+    .main {
+        .login__box {
+            margin-left: 200px;
+        }
+    }
+}
+
+@media (max-width: 1600px) {
+    .main {
+        .login__box {
+            margin-left: 150px;
+        }
+    }
+}
+
+@media (max-width: 1530px) {
+    .main {
+        .login__box {
+            margin-left: 100px;
+        }
+    }
+}
+
 @media (max-width: 1450px) {
     .main {
         .loginSecond__box {
@@ -191,6 +222,26 @@ select {
             p {
                 font-size: 40px;
             }
+        }
+
+        .login__box {
+            margin-left: 180px;
+        }
+    }
+}
+
+@media (max-width: 1360px) {
+    .main {
+        .login__box {
+            margin-left: 130px;
+        }
+    }
+}
+
+@media (max-width: 1300px) {
+    .main {
+        .login__box {
+            margin-left: 100px;
         }
     }
 }
