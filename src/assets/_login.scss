@@ -1,14 +1,15 @@
 select {
-  
+
 
     -webkit-appearance: none;
-  -moz-appearance: none;
-  background: transparent;
-  background-image: url("../assets/images/chevron-down.png");
-  background-repeat: no-repeat;
-  background-position-x: 96%;
-  background-position-y: 15px;
+    -moz-appearance: none;
+    background: transparent;
+    background-image: url("../assets/images/chevron-down.png");
+    background-repeat: no-repeat;
+    background-position-x: 96%;
+    background-position-y: 15px;
 }
+
 .login {
     background-color: $white;
     width: 498px;
@@ -16,13 +17,14 @@ select {
     position: relative;
     height: auto;
 
-    &__container{
+    &__container {
         width: auto;
         margin: 0 0 0 88px;
     }
 
     &__box {
-margin-left: 80px;
+        margin-left: 80px;
+
         &-img {
             height: 44px;
             width: 198px;
@@ -31,10 +33,11 @@ margin-left: 80px;
 
         &-form {
             width: 320px;
+
             .submit {
                 background-color: #155eef;
                 color: $white;
-                font-family: TTInterfaces-DemiBold,sans-serif;
+                font-family: TTInterfaces-DemiBold, sans-serif;
                 font-size: 16px;
                 font-weight: 600;
                 text-align: center;
@@ -53,6 +56,7 @@ margin-left: 80px;
             }
 
             position: relative;
+
             .input {
                 height: 56px;
                 border: 1px solid #cdd5df;
@@ -63,7 +67,7 @@ margin-left: 80px;
                 font-size: 16px;
                 line-height: 22px;
                 font-weight: 400;
-                font-family: TTInterfaces-Regular,sans-serif ;
+                font-family: TTInterfaces-Regular, sans-serif;
 
                 &:focus {
                     outline: none;
@@ -73,13 +77,14 @@ margin-left: 80px;
                     color: #cdd5df;
                 }
 
-              
+
             }
 
             .formBox {
                 position: relative;
                 display: flex;
                 align-items: center;
+
                 &__img {
                     position: absolute;
                     right: 18px;
@@ -88,8 +93,9 @@ margin-left: 80px;
                 }
             }
         }
-        &-link{
-            font-family: TTInterfaces-DemiBold,sans-serif ;
+
+        &-link {
+            font-family: TTInterfaces-DemiBold, sans-serif;
             font-size: 16px;
             font-weight: 600;
             line-height: 22px;
@@ -98,11 +104,11 @@ margin-left: 80px;
             justify-content: center;
             color: #202939;
             text-decoration: none;
-        
+
         }
 
         &-title {
-            font-family: TTInterfaces-Regular,sans-serif ;
+            font-family: TTInterfaces-Regular, sans-serif;
             position: absolute;
             bottom: 0;
             color: #364152;
@@ -121,36 +127,36 @@ margin-left: 80px;
         }
     }
 
-   &Second__box{
+    &Second__box {
         overflow: hidden;
-        background-image: url('../assets/images/LoginBg.jpg');
-        width: 992px;
-        background-size: cover;
-    height: 100vh;
-        background-repeat: no-repeat;
+        background: url('../assets/images/LoginBg.jpg') center center / cover no-repeat;
+        max-width: 992px;
+        width: 100%;
+        height: 100vh;
         position: relative;
 
-        p{
+        p {
             position: absolute;
             bottom: 80px;
-            font-family: TTInterfaces-Bold , sans-serif;
-font-size: 46px;
-font-weight: 700;
-line-height: 58px;
-color: $white;
-margin-left: 64px;
+            font-family: TTInterfaces-Bold, sans-serif;
+            font-size: 46px;
+            font-weight: 700;
+            line-height: 58px;
+            color: $white;
+            margin-left: 64px;
         }
 
     }
 }
+
 .main {
     display: flex;
     justify-content: space-between;
 
-  }
+}
 
 
-  .loading-dots {
+.loading-dots {
     text-align: center;
     z-index: 5;
     position: absolute;
@@ -164,27 +170,79 @@ margin-left: 64px;
     align-items: center;
     justify-content: center;
     opacity: .5;
-  
+
     .dot {
-      display: inline;
-      margin-left: 0.2em;
-      margin-right: 0.2em;
-      position: relative;
-      top: -10px;
-      font-size: 3.5em;
-      opacity: 0;
-      animation: showHideDot 2.5s ease-in-out infinite;
-  
-      &.one { animation-delay: 0.2s; }
-      &.two { animation-delay: 0.4s; }
-      &.three { animation-delay: 0.6s; }
+        display: inline;
+        margin-left: 0.2em;
+        margin-right: 0.2em;
+        position: relative;
+        top: -10px;
+        font-size: 3.5em;
+        opacity: 0;
+        animation: showHideDot 2.5s ease-in-out infinite;
+
+        &.one {
+            animation-delay: 0.2s;
+        }
+
+        &.two {
+            animation-delay: 0.4s;
+        }
+
+        &.three {
+            animation-delay: 0.6s;
+        }
     }
-  }
-  
-  @keyframes showHideDot {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    60% { opacity: 1; }
-    100% { opacity: 0; }
-  }
-  
+}
+
+@keyframes showHideDot {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@media (max-width: 1450px) {
+    .main {
+        .loginSecond__box {
+            max-width: 800px;
+            p {
+                font-size: 40px;
+            }
+        }
+    }
+}
+
+@media (max-width: 1250px) {
+    .main {
+        .loginSecond__box {
+            max-width: 700px;
+            p {
+                font-size: 35px;
+                line-height: 45px;
+            }
+        }
+    }
+}
+
+@media (max-width: 1155px) {
+    .main {
+        .login__box {
+            margin: 0 50px;
+        }
+
+        .loginSecond__box {
+            p {
+                margin-left: 30px;
+            }
+        }
+    }
+}
