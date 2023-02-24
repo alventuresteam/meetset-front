@@ -6,15 +6,18 @@
             <div class="flexCalendar">
                 <div class='v-calendarAll'>
                     <DatePicker
+                        :is24hr="true"
                         color="blue"
                         v-model.lazy="date"
+                        :dayNamesNarrow="azLocale"
                         mode="date"
-                        locale="en"
+                        locale="ru"
                         @dayclick="dayClicked"
                         :attributes="attrs"
                         title-position="left"
                         is-inline
                         :rows="2"
+                        ref="datePicker"
                     />
                 </div>
 
@@ -36,86 +39,93 @@
 </template>
 
 <script>
-import {Calendar, DatePicker} from "v-calendar";
-import CalendarHeader from "./CalendarHeader.vue";
-import Table from "./CalendarTable.vue";
-import moment from "moment";
-import {ref} from "vue";
+    import { Calendar, DatePicker } from "v-calendar";
+    import CalendarHeader from "./CalendarHeader.vue";
+    import Table from "./CalendarTable.vue";
+    import moment from "moment";
+    import { ref } from "vue";
 
-export default {
-    components: {
-        Calendar,
-        DatePicker,
-        CalendarHeader,
-        Table,
-    },
-
-    setup() {
-        const componentKey = ref(0);
-
-        return {componentKey};
-    },
-
-    methods: {
-
-        download() {
-            this.loader = false
-
-
+    export default {
+        components: {
+            Calendar,
+            DatePicker,
+            CalendarHeader,
+            Table
         },
-        dayClicked(day) {
-            this.selectedDay = day;
-            this.componentKey += this.selectedDay.day;
-            this.loader = true;
 
-
+        setup() {
+            const componentKey = ref(0);
+            return { componentKey };
         },
-    },
+
+        mounted() {
+            // setTimeout(() => {
+            //     this.$refs.datePicker.$locale.dayNamesNarrow = [...this.azLocale[0]]
+            // }, 4000)
+
+            console.log('datePicker', this.$refs.datePicker)
+        },
+
+        methods: {
+
+            download() {
+                this.loader = false
 
 
-    computed: {
-        formattedDate() {
-            // return moment(this.date).format("LL", 'az')
-            return moment().locale("ru").format("LL");
-        }
-    },
+            },
+            dayClicked(day) {
+                this.selectedDay = day;
+                this.componentKey += this.selectedDay.day;
+                this.loader = true;
 
-    data() {
-        return {
-            selectedDay: {id: moment().format(), ariaLabel: moment().format("LL")}, // Add state to store selected day
 
-            date: moment().format("LL"),
-            dates: moment().format("LL"),
-            loader: true,
-            attrs: [
-                {
-                    key: "today",
+            },
+        },
 
-                    highlight: true,
-                    dates: moment().format("LL"),
-                },
+        computed: {
+            formattedDate() {
+                return moment(this.date).format("LL");
+            }
+        },
 
-                {
-                    dot: true,
-                    dates: [
-                        moment().format("LL"), // Jan 1st
-                    ],
-                },
-
-                {
-                    dot: true,
-                    dates: [
-                        moment().format("LL"), // Jan 1st
-                    ],
-                },
-                {
-                    dot: true,
-                    dates: [
-                        moment().format("LL"), // Jan 1st
-                    ],
-                },
-            ],
-        };
-    },
-};
+        data() {
+            return {
+                selectedDay: {
+                    id: moment().format(),
+                    ariaLabel: moment().format("LL")
+                }, // Add state to store selected day
+                date: moment().format("LL"),
+                dates: moment().format("LL"),
+                loader: true,
+                attrs: [
+                    {
+                        key: "today",
+                        highlight: true,
+                        dates: moment().format("LL"),
+                    },
+                    {
+                        dot: true,
+                        dates: [
+                            moment().format("LL"), // Jan 1st
+                        ],
+                    },
+                    {
+                        dot: true,
+                        dates: [
+                            moment().format("LL"), // Jan 1st
+                        ],
+                    },
+                    {
+                        dot: true,
+                        dates: [
+                            moment().format("LL"), // Jan 1st
+                        ],
+                    },
+                ],
+                azLocale: [
+                    ['1', '2', '3', '4', '5', '6', '7']
+                ]
+            };
+        },
+    }
 </script>

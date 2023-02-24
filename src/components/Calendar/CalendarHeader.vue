@@ -4,7 +4,7 @@
             <img
                 loading="lazy"
                 class="header__img"
-                src="../../assets/images/logo/logo.png"
+                :src="useSetting.getSetting.logo"
                 alt="logo"
             />
 
@@ -71,6 +71,7 @@
 import ReserveRoom from "../Modal/ReserveRoom.vue";
 import {onMounted, defineAsyncComponent} from "vue";
 import {useUserStore} from "../../stores/auth";
+import {useSettingStore} from "@/stores/setting";
 
 export default {
     components: {ReserveRoom},
@@ -105,6 +106,8 @@ export default {
     },
 
     setup() {
+        const useSetting = useSettingStore();
+
         const ReserveRoom = defineAsyncComponent({
             loader: () => import("../../components/Modal/ShowReservRoom.vue"),
             delay: 1000,
@@ -114,10 +117,11 @@ export default {
 
         onMounted(() => {
             userStore.fetchUser();
+            useSetting.fetchSetting();
         });
 
         const userStore = useUserStore();
-        return {userStore, ReserveRoom};
+        return {userStore, ReserveRoom, useSetting};
     },
 };
 </script>

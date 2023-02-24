@@ -18,8 +18,6 @@ export default {
     components: {
         LoginBoxAdmin,
     },
-
-
 };
 </script>
 

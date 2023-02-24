@@ -3,7 +3,7 @@
         <input
             type="file"
             id="file"
-            accept=".png, .jpeg, .gif"
+            accept=".png, .jpeg, .jpg, .gif"
             ref="uploadFile__file"
             @input="uploadFile"
         >
