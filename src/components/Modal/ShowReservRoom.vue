@@ -54,7 +54,7 @@
                         </span>
                     </div>
 
-                    <div class="modal__flex modal__form-group" style="margin-bottom: 10px">
+                    <div class="modal__flex modal__form-group" style="margin-bottom: 30px">
                         <div class="input" style="margin-right: 10px">
                             <ejs-timepicker
                                 v-model.lazy="updateReservation.start_time"
@@ -65,8 +65,6 @@
                                 :readonly="startRead"
                                 :placeholder="waterMark"
                                 :format="timeFormat"
-                                :min="currentDateTime"
-                                @beforeOpen="onBeforeOpen"
                                 :value="startVal"
                                 :step="step"
                             ></ejs-timepicker>
@@ -88,12 +86,11 @@
                                 :enabled="true"
                                 :openOnFocus="true"
                                 :readonly="endRead"
-                                :min="currentDateTime"
+                                :min="min"
                                 :step="step"
                                 :format="timeFormat"
                                 :value="endVal"
                                 :change="changeValue"
-                                @beforeOpen="onBeforeOpenEnd"
                             ></ejs-timepicker>
 
                             <span
@@ -327,8 +324,8 @@ export default {
             min: new Date(),
             isStartTimeChange: true,
             step: 10,
-            startVal: null,
             endVal: null,
+            startVal:null,
         };
     },
 
@@ -374,36 +371,9 @@ export default {
             this.updateReservation.emails = [];
         },
 
-        onBeforeOpenEnd(args) {
-            // Get the entered time
-            const enteredTime = new Date(args.target.value);
-
-            // Check if the entered time is in the past
-            if (enteredTime < this.min) {
-
-                args.preventDefault();
-                // Reset the time to the current time
-                args.target.value = this.min.toLocaleTimeString();
 
 
-            }
-        },
 
-
-        onBeforeOpen(args) {
-            // Get the entered time
-            const enteredTime = new Date(args.target.value);
-
-            // Check if the entered time is in the past
-            if (enteredTime < this.currentDateTime) {
-
-                args.preventDefault();
-                // Reset the time to the current time
-                args.target.value = this.currentDateTime.toLocaleTimeString();
-
-
-            }
-        },
         addTag(event) {
             let room = this.getRoom.find(
                 (item) => item.id === this.updateReservation.room_id
@@ -524,15 +494,7 @@ export default {
 
     computed: {
 
-        startVal() {
-            // Round the current time to the nearest 10-minute interval
-            const currentMinute = this.currentDateTime.getMinutes();
-            const roundedMinute = Math.ceil(currentMinute / 10) * 10;
-            this.currentDateTime.setMinutes(roundedMinute);
 
-            // Return the rounded time as the start value
-            return this.currentDateTime;
-        },
 
 
         getRoom() {
