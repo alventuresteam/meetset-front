@@ -43,7 +43,7 @@
         <template #default>
           <div
             class="modal-overlay"
-            style="background: rgba(0, 0, 0, 21%); opacity: 0.4"
+            style="background: rgba(0, 0, 0, 21%);"
           >
             <div class="modal modal__remove" @click.stop>
               <div class="modal__head" v-show="showDeletButtons">
