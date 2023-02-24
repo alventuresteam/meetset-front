@@ -2,7 +2,7 @@
     <div class="modal-overlay">
         <div class="modal" @click.stop>
             <div class="modal__head">
-                
+
                 <h6 v-if="showDeletButtons" class="modal__head-title">Otaq rezervasiyasını sil</h6>
 
                 <h6 v-else-if="showEditButtons" class="modal__head-title">Otaq rezervasiyasını redaktə et</h6>
@@ -37,7 +37,8 @@
                         >
                             <template #default="{ inputValue, inputEvents }">
                                 <input class="input " placeholder="Tarix" :value="inputValue" v-on="inputEvents"/>
-                                <img @click="$refs.datePicker.togglePopover()" class='input-icon' src="../../assets/images/svg/calendar.svg"/>
+                                <img @click="$refs.datePicker.togglePopover()" class='input-icon'
+                                     src="../../assets/images/svg/calendar.svg"/>
                             </template>
                         </DatePicker>
 
@@ -76,8 +77,8 @@
                                 v-for="error in v$.updateReservation.start_time.$errors"
                                 :key="error.$uid"
                             >
-                Başlama tarixi boş
-              </span>
+                                Başlama tarixi boş
+                          </span>
                         </div>
 
                         <div class="input">
@@ -88,7 +89,7 @@
                                 :enabled="true"
                                 :openOnFocus="true"
                                 :readonly="endRead"
-                                :min="min"
+                                :min="currentDateTime"
                                 :step="step"
                                 :format="timeFormat"
                                 :value="endVal"
@@ -175,23 +176,22 @@
                                 class="errorText"
                                 v-if="userStore.error && userStore.error.emails"
                             >
-                E-maildə səhvlik var
-              </span>
-
+                               E-maildə səhvlik var
+                                  </span>
 
                         </div>
-                      <span
-                          class="errorText"
-                          v-for="error in v$.updateReservation.checkEmails.$errors"
-                          :key="error.$uid"
-                      >
+                        <span
+                            class="errorText"
+                            v-for="error in v$.updateReservation.checkEmails.$errors"
+                            :key="error.$uid"
+                        >
                       <template v-for="err in error.$message">
                         {{ err[0] === "Value is required" ? "Email boşdur" : "" }}
                         {{
-                          err[0] === "Value is not a valid email address"
-                              ? "Yanlış format"
-                              : ""
-                        }}
+                              err[0] === "Value is not a valid email address"
+                                  ? "Yanlış format"
+                                  : ""
+                          }}
                       </template>
                     </span>
                     </div>
@@ -284,9 +284,9 @@
 
         </div>
     </div>
-  <div v-show="clickLoad" class="loading-dots">
-    <loading/>
-  </div>
+    <div v-show="clickLoad" class="loading-dots">
+        <loading/>
+    </div>
 </template>
 
 <script>
@@ -303,7 +303,7 @@ import Loading from "@/components/Loading.vue";
 export default {
     props: ["item", "itemRoom"],
     components: {
-      Loading,
+        Loading,
         "ejs-timepicker": TimePickerComponent,
         CustomSelect,
         DatePicker,
@@ -320,7 +320,7 @@ export default {
             timeFormat: "HH:mm",
             limit: 250,
             waterMark: "Saat",
-            currentDateTime:new Date(),
+            currentDateTime: new Date(),
             endEnable: false,
             startEnable: false,
             startRead: false,
@@ -471,7 +471,6 @@ export default {
                     };
                 }
             );
-
 
 
             if (result) {

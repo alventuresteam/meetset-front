@@ -142,7 +142,7 @@ export default {
       await this.userStore.fetchRoom();
       this.showDeletButtons = false;
       this.clickLoad = false;
-      this.$toast.success(`Otaqlar uğurla silindi`);
+      this.$toast.success(`Otaq uğurla silindi`);
     },
   },
 
