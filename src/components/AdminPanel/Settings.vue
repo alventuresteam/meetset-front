@@ -21,8 +21,6 @@
                     min="0"
                 />
             </div>
-
-<!--            <pre>{{form}}</pre>-->
         </div>
 
         <UploadFile
@@ -60,7 +58,7 @@
                 form: {
                     ip_address: '',
                     port: '',
-                    logo: null
+                    logo: ''
                 },
                 clickLoad: false,
             };
@@ -82,15 +80,18 @@
         },
         methods: {
             async save() {
-                // console.log('this.form222', this.form)
+                let formData = new FormData();
+
+                for (let key in this.form) {
+                    await formData.append(key, this.form[key]);
+                }
+
                 this.clickLoad = true;
-                await this.userStore.updateSetting(this.form);
+                await this.userStore.updateSetting(formData);
                 await this.userStore.fetchSetting();
                 this.clickLoad = false;
                 await this.$toast.success('Yadda saxlanıldı');
-
-                // console.log('this.userStore', this.userStore.updateSetting(this.userStore.getSetting))
-            },
+            }
         },
     };
 </script>
