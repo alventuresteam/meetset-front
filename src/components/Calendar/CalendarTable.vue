@@ -112,14 +112,8 @@ export default defineComponent({
                     let b = moment(item.start).startOf('day');
                     return a.diff(b,'days') === 0
                 });
-                
-                const lastEventDate = moment(lastEvent.start).format("HH:mm");
-            
-
-
-                this.$refs.calendar.getApi().scrollToTime(lastEventDate);
-
-
+                // const lastEventDate = moment(lastEvent.start).format("HH:mm");
+                this.$refs.calendar.getApi().scrollToTime(lastEvent);
                 }
         })
       
@@ -152,7 +146,7 @@ export default defineComponent({
         scrollTimeReset :false,
 
         resourceAreaHeaderContent: `İclas otaqları - ${this.itemLable}`,
-        resourceAreaWidth: "38%",
+        resourceAreaWidth: "25%",
         slotLabelFormat: {
           hour: "numeric",
           minute: "2-digit",

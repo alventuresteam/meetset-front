@@ -5,10 +5,10 @@
                 <h6 class="modal__head-title">Otaq rezerv et</h6>
                 <span class="modal__head-close" @click="$emit('close-modal')">
                     <img
-                    loading="lazy"
-                    src="../../assets/images/svg/modalClose.svg"
-                    alt="modalClose"
-                /></span>
+                        loading="lazy"
+                        src="../../assets/images/svg/modalClose.svg"
+                        alt="modalClose"
+                    /></span>
             </div>
             <form class="modal__form" @submit.prevent="addPerson()">
                 <div class="modal__form-group">
@@ -24,15 +24,7 @@
                         </template>
                     </DatePicker>
 
-                    <!-- <input
-                      id="date"
-                      class="input"
-                      placeholder="Tarix"
-                      onfocus="(this.type='date')"
-                      :min="minDate"
-                      max="2033-01-01"
-                      @blur="onBlur"
-                    /> -->
+
 
                     <span class="errorText" v-if="userStore.errorMsg">
                         {{ userStore.errorMsg }}
@@ -54,6 +46,8 @@
                             id="startPicker"
                             :change="onEnableEndTime"
                             :step="step"
+                            :min="currentDateTime"
+                            @beforeOpen="onBeforeOpen"
                             :enabled="true"
                             :readonly="startRead"
                             :placeholder="waterMark"
@@ -98,20 +92,7 @@
                 </div>
 
                 <div class="modal__form-group">
-                    <!-- <select
-                      style="margin-top: 20px"
-                      id="roomSelect"
-                      class="input input__100"
-                      v-model.lazy="room_id"
-                    >
-                      <option v-for="item in getRoom" :key="item.id" :value="item.id">
-                        {{ item.name }}
-                      </option>
-                    </select> -->
 
-                    <!-- <pre>
-                      {{getRoom}}
-                    </pre> -->
                     <CustomSelect
                         :options="getRoom"
                         :default="room_id"
@@ -260,7 +241,7 @@
                     loading="lazy"
                     src="../../assets/images/gif/load.svg"
                     alt="gif"
-                />            </div>
+                /></div>
         </div>
     </div>
 </template>
@@ -305,6 +286,7 @@ export default {
             clickLoad: false,
 
             limit: 250,
+            currentDateTime: new Date(),
 
             waterMark: "Saat",
             endEnable: false,
@@ -351,6 +333,17 @@ export default {
         chooseRoom(event) {
             this.room_id = event.id;
             this.emails = [];
+        },
+
+        onBeforeOpen(args) {
+            // Get the entered time
+            const enteredTime = new Date(args.element.value);
+
+            // Check if the entered time is in the past
+            if (enteredTime < this.currentDateTime) {
+                // Reset the time to the current time
+                args.element.value = this.currentDateTime.toLocaleTimeString();
+            }
         },
         addTag(event) {
             event.preventDefault();

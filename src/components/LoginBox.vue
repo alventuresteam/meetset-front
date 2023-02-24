@@ -1,129 +1,143 @@
 <template>
-  <div class="login__box">
-    <img  loading="lazy"
-      src="../assets/images/logo/logo.png"
-      alt="meet-set logoin"
-      class="login__box-img"
-    />
+    <div class="login__box">
+        <img loading="lazy"
+             src="../assets/images/logo/logo.png"
+             alt="meet-set logoin"
+             class="login__box-img"
+        />
 
-    <form action="" class="login__box-form" @submit.prevent="login">
-      <input
-        type="text"
-        class="input"
-        placeholder="İstifadəçi adı vəya e-mail"
-        v-model.lazy="email"
-      />
+        <form action="" class="login__box-form" @submit.prevent="login">
+            <input
+                type="text"
+                class="input"
+                placeholder="İstifadəçi adı vəya e-mail"
+                v-model.lazy="email"
+            />
 
-      <span
-        class="errorText"
-        v-for="error in v$.email.$errors"
-        :key="error.$uid"
-      >
+            <span
+                class="errorText"
+                v-for="error in v$.email.$errors"
+                :key="error.$uid"
+            >
         Email boş ola bilməz
       </span>
-      <div class="formBox">
-        <input
-          v-if="passwordShow"
-          v-model.lazy="password"
-          type="password"
-          class="input"
-          placeholder="Şifrə "
-        />
+            <div class="formBox">
+                <input
+                    v-if="passwordShow"
+                    v-model.lazy="password"
+                    type="password"
+                    class="input"
+                    placeholder="Şifrə "
+                />
 
-        <input
-          v-else
-          v-model.lazy="password"
-          type="text"
-          class="input"
-          placeholder="Şifrə "
-        />
+                <input
+                    v-else
+                    v-model.lazy="password"
+                    type="text"
+                    class="input"
+                    placeholder="Şifrə "
+                />
 
-        <div @click="showPass()">
-          <img  loading="lazy"
-         
-            v-if="passwordShow"
-            class="formBox__img"
-            src="../assets/images/svg/passwordEye.svg"
-            alt="meetSet Icon"
-          />
+                <div @click="showPass()">
+                    <img loading="lazy"
 
-          <img  loading="lazy"
-            v-else
-            class="formBox__img"
-            src="../assets/images/svg/passwordShowEye.svg"
-            alt="meetSet Icon"
-          />
-        </div>
-      </div>
+                         v-if="passwordShow"
+                         class="formBox__img"
+                         src="../assets/images/svg/passwordEye.svg"
+                         alt="meetSet Icon"
+                    />
 
-      <span
-        class="errorText"
-        v-for="error in v$.password.$errors"
-        :key="error.$uid"
-      >
+                    <img loading="lazy"
+                         v-else
+                         class="formBox__img"
+                         src="../assets/images/svg/passwordShowEye.svg"
+                         alt="meetSet Icon"
+                    />
+                </div>
+            </div>
+
+            <span
+                class="errorText"
+                v-for="error in v$.password.$errors"
+                :key="error.$uid"
+            >
  {{
-              error.$message === "Value is required"
-                ? "Şifrə boş ola bilməz"
-                : "Şifrə min 6 simvol olmalıdır"
-            }}      </span>
+                    error.$message === "Value is required"
+                        ? "Şifrə boş ola bilməz"
+                        : "Şifrə min 6 simvol olmalıdır"
+                }}      </span>
 
-      <span class="errorText" v-if="userStore.error"
-        >Email və ya şifrə yanlışdır</span
-      >
+            <span class="errorText" v-if="userStore.error"
+            >Email və ya şifrə yanlışdır</span
+            >
 
-      <input type="submit" class="submit" value="Daxil ol " />
-    </form>
-  </div>
+
+            <input type="submit" class="submit" value="Daxil ol "/>
+        </form>
+
+
+    </div>
+    <div v-show="clickLoad" class="loading-dots">
+        <img
+            class="animationLoad"
+            loading="lazy"
+            src="../assets/images/gif/load.svg"
+            alt="gif"
+        />
+    </div>
 </template>
 
 
 <script>
 // import { onMounted } from "vue";
-import { useUserStore } from "../stores/auth";
-import { useVuelidate } from "@vuelidate/core";
-import { required, email, minLength } from "@vuelidate/validators";
+import {useUserStore} from "../stores/auth";
+import {useVuelidate} from "@vuelidate/core";
+import {required, email, minLength} from "@vuelidate/validators";
+
 export default {
-  data() {
-    return {
-      email: "",
-      password: "",
-      passwordShow: true,
-        clickLoad:false,
-    };
-  },
-  methods: {
-    async login() {
-      const result = await this.v$.$validate();
-      this.clickLoad = true
-      if (result) {
-        await this.userStore.signIn(this.email, this.password);
+    data() {
+        return {
+            email: "",
+            password: "",
+            passwordShow: true,
+            clickLoad: false,
+        };
+    },
+    methods: {
+        async login() {
+            const result = await this.v$.$validate();
+            if (result) {
+                this.clickLoad = true
 
-        if (!this.userStore.error) {
-            this.clickLoad = true
+                await this.userStore.signIn(this.email, this.password);
+                if (this.userStore.error) {
+                    this.clickLoad = false;
+                }
+                if (!this.userStore.error) {
+                    this.clickLoad = false;
+                    this.$router.push("/calendar");
+                }
+            }
+        },
 
-            this.$router.push("/calendar");
-        }
-      }
+        showPass() {
+            this.passwordShow = !this.passwordShow;
+        },
     },
 
-    showPass() {
-      this.passwordShow = !this.passwordShow;
+    validations() {
+        return {
+            email: {required, email},
+            password: {required, minLength: minLength(6)},
+        };
     },
-  },
+    setup() {
 
-  validations() {
-    return {
-      email: { required, email },
-      password: { required, minLength:minLength(6) },
-    };
-  },
-  setup() {
-  
 
-    const userStore = useUserStore();
+        const userStore = useUserStore();
 
-    return { userStore, v$: useVuelidate() };
-  },
+        return {userStore, v$: useVuelidate()};
+    },
 };
 </script>
 
