@@ -8,13 +8,15 @@
                     <DatePicker
                         color="blue"
                         v-model.lazy="date"
+                        :dayNamesNarrow="azLocale"
                         mode="date"
-                        locale="en"
+                        locale="ru"
                         @dayclick="dayClicked"
                         :attributes="attrs"
                         title-position="left"
                         is-inline
                         :rows="2"
+                        ref="datePicker"
                     />
                 </div>
 
@@ -58,66 +60,74 @@ export default {
         return {componentKey};
     },
 
-    methods: {
+        mounted() {
+            // setTimeout(() => {
+            //     this.$refs.datePicker.$locale.dayNamesNarrow = [...this.azLocale[0]]
+            // }, 4000)
 
-        download() {
-            this.loader = false
-
-
+            console.log('datePicker', this.$refs.datePicker)
         },
-        dayClicked(day) {
-            this.selectedDay = day;
-            this.componentKey += this.selectedDay.day;
-            this.loader = true;
+
+        methods: {
+
+            download() {
+                this.loader = false
 
 
+            },
+            dayClicked(day) {
+                this.selectedDay = day;
+                this.componentKey += this.selectedDay.day;
+                this.loader = true;
+
+
+            },
         },
-    },
 
+        computed: {
+            formattedDate() {
+                return moment(this.date).format("LL");
+            }
+        },
 
-    computed: {
-        formattedDate() {
-            // return moment(this.date).format("LL", 'az')
-            return moment().locale("ru").format("LL");
-        }
-    },
-
-    data() {
-        return {
-            selectedDay: {id: moment().format(), ariaLabel: moment().format("LL")}, // Add state to store selected day
-
-            date: moment().format("LL"),
-            dates: moment().format("LL"),
-            loader: true,
-            attrs: [
-                {
-                    key: "today",
-
-                    highlight: true,
-                    dates: moment().format("LL"),
-                },
-
-                {
-                    dot: true,
-                    dates: [
-                        moment().format("LL"), // Jan 1st
-                    ],
-                },
-
-                {
-                    dot: true,
-                    dates: [
-                        moment().format("LL"), // Jan 1st
-                    ],
-                },
-                {
-                    dot: true,
-                    dates: [
-                        moment().format("LL"), // Jan 1st
-                    ],
-                },
-            ],
-        };
-    },
-};
+        data() {
+            return {
+                selectedDay: {
+                    id: moment().format(),
+                    ariaLabel: moment().format("LL")
+                }, // Add state to store selected day
+                date: moment().format("LL"),
+                dates: moment().format("LL"),
+                loader: true,
+                attrs: [
+                    {
+                        key: "today",
+                        highlight: true,
+                        dates: moment().format("LL"),
+                    },
+                    {
+                        dot: true,
+                        dates: [
+                            moment().format("LL"), // Jan 1st
+                        ],
+                    },
+                    {
+                        dot: true,
+                        dates: [
+                            moment().format("LL"), // Jan 1st
+                        ],
+                    },
+                    {
+                        dot: true,
+                        dates: [
+                            moment().format("LL"), // Jan 1st
+                        ],
+                    },
+                ],
+                azLocale: [
+                    ['1', '2', '3', '4', '5', '6', '7']
+                ]
+            };
+        },
+    }
 </script>
