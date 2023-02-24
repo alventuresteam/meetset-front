@@ -10,7 +10,7 @@
                         v-model.lazy="date"
                         :dayNamesNarrow="azLocale"
                         mode="date"
-                        locale="ru"
+                        locale="en"
                         @dayclick="dayClicked"
                         :attributes="attrs"
                         title-position="left"
@@ -47,7 +47,7 @@ import Loading from "@/components/Loading.vue";
 
 export default {
     components: {
-      Loading,
+        Loading,
         Calendar,
         DatePicker,
         CalendarHeader,
@@ -60,74 +60,83 @@ export default {
         return {componentKey};
     },
 
-        mounted() {
-            // setTimeout(() => {
-            //     this.$refs.datePicker.$locale.dayNamesNarrow = [...this.azLocale[0]]
-            // }, 4000)
+    mounted() {
+        const datePicker1 = document.querySelectorAll('.v-calendarAll .vc-pane')[0].querySelectorAll('.vc-weekday');
+        const datePicker2 = document.querySelectorAll('.v-calendarAll .vc-pane')[1].querySelectorAll('.vc-weekday');
+        // const datePicker3 = document.querySelectorAll('.v-calendarAll .vc-pane-container .vc-title');
 
-            console.log('datePicker', this.$refs.datePicker)
+        datePicker1.forEach((item, i) => {
+            item.textContent = this.azLocale[i]
+        });
+
+        datePicker2.forEach((item, i) => {
+            item.textContent = this.azLocale[i]
+        });
+
+        // console.log('aaaaaaaaaaaa', datePicker3)
+
+        // setTimeout(() => {
+        //     this.$refs.datePicker.$locale.dayNamesNarrow = [...this.azLocale[0]]
+        //     console.log('datePicker', this.$refs.datePicker.$locale.dayNamesNarrow)
+        // }, 4000)
+    },
+
+    methods: {
+        download() {
+            this.loader = false
         },
-
-        methods: {
-
-            download() {
-                this.loader = false
-
-
-            },
-            dayClicked(day) {
-                this.selectedDay = day;
-                this.componentKey += this.selectedDay.day;
-                this.loader = true;
-
-
-            },
+        dayClicked(day) {
+            this.selectedDay = day;
+            this.componentKey += this.selectedDay.day;
+            this.loader = true;
         },
+    },
 
-        computed: {
-            formattedDate() {
-                return moment(this.date).format("LL");
-            }
-        },
+    computed: {
+        // aaa() {
+        //     this.$refs.datePicker.$locale.dayNamesNarrow = [...this.azLocale[0]]
+        // },
+        formattedDate() {
+            return moment(this.date).format("LL");
+        }
+    },
 
-        data() {
-            return {
-                selectedDay: {
-                    id: moment().format(),
-                    ariaLabel: moment().format("LL")
-                }, // Add state to store selected day
-                date: moment().format("LL"),
-                dates: moment().format("LL"),
-                loader: true,
-                attrs: [
-                    {
-                        key: "today",
-                        highlight: true,
-                        dates: moment().format("LL"),
-                    },
-                    {
-                        dot: true,
-                        dates: [
-                            moment().format("LL"), // Jan 1st
-                        ],
-                    },
-                    {
-                        dot: true,
-                        dates: [
-                            moment().format("LL"), // Jan 1st
-                        ],
-                    },
-                    {
-                        dot: true,
-                        dates: [
-                            moment().format("LL"), // Jan 1st
-                        ],
-                    },
-                ],
-                azLocale: [
-                    ['1', '2', '3', '4', '5', '6', '7']
-                ]
-            };
-        },
-    }
+    data() {
+        return {
+            selectedDay: {
+                id: moment().format(),
+                ariaLabel: moment().format("LL")
+            }, // Add state to store selected day
+            date: moment().format("LL"),
+            dates: moment().format("LL"),
+            loader: true,
+            attrs: [
+                {
+                    key: "today",
+                    highlight: true,
+                    dates: moment().format("LL"),
+                },
+                {
+                    dot: true,
+                    dates: [
+                        moment().format("LL"), // Jan 1st
+                    ],
+                },
+                {
+                    dot: true,
+                    dates: [
+                        moment().format("LL"), // Jan 1st
+                    ],
+                },
+                {
+                    dot: true,
+                    dates: [
+                        moment().format("LL"), // Jan 1st
+                    ],
+                },
+            ],
+            azLocale: ['BAZ', 'B.E', 'Ç.A', 'ÇƏR', 'C.A', 'CÜM', 'ŞƏN']
+        };
+    },
+}
 </script>

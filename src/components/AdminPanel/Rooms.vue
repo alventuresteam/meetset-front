@@ -43,17 +43,17 @@
         <template #default>
           <div
             class="modal-overlay"
-            style="background: rgba(0, 0, 0, 21%); opacity: 0.4"
+            style="background: rgba(0, 0, 0, 21%);"
           >
             <div class="modal modal__remove" @click.stop>
               <div class="modal__head" v-show="showDeletButtons">
-                <h6 class="modal__head-title">Otaq rezervasiyasını sil</h6>
+                <h6 class="modal__head-title">Otaqı sil</h6>
               </div>
 
               <form class="modal__form" @submit.prevent="handleDelete(id)">
                 <div>
                   <p class="modal__form-delete">
-                    Bu otaq rezervasiyasını silmək istədiyinizə əminsiniz?
+                    Bu otaqı silmək istədiyinizə əminsiniz?
                   </p>
                 </div>
 

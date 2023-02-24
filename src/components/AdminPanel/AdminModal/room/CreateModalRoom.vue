@@ -162,6 +162,7 @@ export default {
       name: { required },
       capacity: { required },
       address: { required },
+      floor: {}
     };
   },
 

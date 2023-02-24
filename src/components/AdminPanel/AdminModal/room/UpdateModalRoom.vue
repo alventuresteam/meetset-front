@@ -137,7 +137,8 @@ export default {
             updateDataRoom: {
                 name: {required},
                 capacity: {required},
-                address: {required}
+                address: {required},
+                floor: {}
             },
         };
     },

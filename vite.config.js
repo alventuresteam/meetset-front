@@ -13,7 +13,6 @@ export default defineConfig({
         main: path.resolve(__dirname, "index.html"),
         home: path.resolve(__dirname, "src/views/Home.vue"),
         calendar: path.resolve(__dirname, "src/views/Calendar.vue"),
-        adminLogin: path.resolve(__dirname, "src/views/AdminLogin.vue"),
         admin: path.resolve(__dirname, "src/views/Admin.vue"),
       },
     },
