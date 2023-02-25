@@ -4,6 +4,7 @@
     border-top: 1px solid #e3e8ef;
     min-height: 100vh;
 }
+
 .v-calendarAll {
     .is-right {
         .vc-svg-icon {
@@ -12,23 +13,12 @@
         }
     }
 
-
     .row-from-end-1 {
+        margin-top: 30px;
         .vc-title {
-            color: #121926 !important;
-            font-family: TTInterfaces-Bold, sans-serif;
-            font-size: 18px;
-            font-weight: 600;
-            line-height: 23px;
-            position: relative;
-
+            max-width: unset;
             &:after {
-                position: absolute;
-                content: "";
-                margin: 10px 24px 0;
-                width: 250px;
-                height: 2px;
-                background-color: #e3e8ef;
+                width: 100%;
             }
         }
     }
@@ -41,13 +31,15 @@
             font-weight: 600;
             line-height: 23px;
             color: #121926;
+            max-width: 300px;
             width: 100%;
-
+            pointer-events: none;
+            overflow: hidden;
             &:after {
                 position: absolute;
                 content: "";
                 margin: 10px 24px 0;
-                width: calc(100% - 250px);
+                width: 100%;
                 height: 1px;
                 background-color: #e3e8ef;
             }
@@ -62,6 +54,19 @@
             background-color: white !important;
             width: 4px !important;
             height: 4px !important;
+        }
+
+        &-weekday {
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.857143px;
+            text-transform: uppercase;
+            color: #9AA4B2;
+            opacity: 0;
+            transition: all .3s;
+            &.active {
+                opacity: 1;
+            }
         }
 
         &-day {
@@ -86,13 +91,13 @@
             }
         }
 
-    &-container {
-        border: none;
-        border-radius: 12px;
-        max-width: 444px;
-        min-width: 444px;
-        padding: 32px 24px;
-    }
+        &-container {
+            border: none;
+            border-radius: 12px;
+            max-width: 444px;
+            min-width: 444px;
+            padding: 32px 24px;
+        }
 
         &-highlight {
             background: #155eef !important;
@@ -193,16 +198,19 @@
 .fullcalendar {
     .fc {
         border-radius: 100px !important;
+
         table {
             tfoot {
                 .fc-scrollgrid-section {
                     th {
                         &:first-child {
                             border-right: none;
+
                             .fc-scroller-harness {
                                 display: none;
                             }
                         }
+
                         .fc-scroller-harness {
                             margin-top: 25px;
                         }
@@ -244,8 +252,6 @@
 thead .fc-scroller {
     overflow: hidden !important;
 }
-
-
 
 
 .fc-direction-ltr .fc-timeline-event.fc-event-end, .fc-direction-ltr .fc-timeline-more-link {

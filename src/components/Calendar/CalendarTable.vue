@@ -33,7 +33,7 @@
 
 <script>
 import ClientOnly from "vue-client-only";
-import {onMounted, defineComponent, defineAsyncComponent} from "vue";
+import {defineComponent, defineAsyncComponent} from "vue";
 import FullCalendar from "@fullcalendar/vue3";
 import ShowReservRoom from "../Modal/ShowReservRoom.vue";
 import moment from "moment";
@@ -48,8 +48,6 @@ import tippy from "tippy.js";
 import "tippy.js/dist/tippy.css";
 
 export default defineComponent({
-
-
     data() {
         return {
             showCalendar: false,
@@ -68,7 +66,6 @@ export default defineComponent({
         FullCalendar, // make the <FullCalendar> tag available
         ShowReservRoom,
         ClientOnly,
-
     },
 
     props: ["itemDate", "itemLable"],
@@ -89,11 +86,9 @@ export default defineComponent({
     },
 
     methods: {
-        closeModal(){
+        closeModal() {
             this.showUpdateModalUser = false;
-
             document.querySelector("body").style.overflowY = 'auto'
-
         },
         handle(item) {
             this.showUpdateModalUser = true;
@@ -102,7 +97,6 @@ export default defineComponent({
             this.updateReservation = item;
             this.updateReservationRoom = item;
         },
-
         refetch() {
             this.resources = [];
             this.events = [];
@@ -127,7 +121,6 @@ export default defineComponent({
                 });
             });
 
-
             this.$nextTick(() => {
                 if (this.events.length > 0) {
                     const lastEvent = this.events.find(item => {
@@ -135,15 +128,13 @@ export default defineComponent({
                         let b = moment(item.start).startOf('day');
                         return a.diff(b, 'days') === 0
                     });
-    console.log(lastEvent,'lastEvent');
-      const lastEventDate = moment(lastEvent.start).format("HH:mm");
+
+                    const lastEventDate = moment(lastEvent.start).format("HH:mm");
                     this.$refs.calendar.getApi().scrollToTime(lastEventDate);
                 }
             })
-
         },
     },
-
 
     computed: {
         options() {
@@ -154,13 +145,13 @@ export default defineComponent({
                 slotMinWidth: 88,
                 slotMinHeight: 68,
                 initialDate: this.itemDate,
-                locale: "en-GB",
+                locale: "ru-GB",
                 scrollTimeReset: false,
-
                 resourceAreaHeaderContent: `İclas otaqları - ${this.itemLable}`,
                 resourceAreaWidth: "25%",
                 slotLabelFormat: {
-                    hour: "numeric",
+                    // hour: "numeric",
+                    hour: "2-digit",
                     minute: "2-digit",
                     omitZeroMinute: false,
                     hour12: false,
@@ -195,13 +186,7 @@ export default defineComponent({
                     );
                     const reservation = room.reservations.find((item) => item.id == reservId);
 
-                    if (reservation.user_id === this.useUserStores.getUser.id) {
-                        this.handle(reservation);
-                    }
-
-                    // args.event.remove()
-
-
+                    if (reservation.user_id === this.useUserStores.getUser.id) this.handle(reservation);
                 },
 
                 eventClassNames: this.className,
@@ -209,11 +194,18 @@ export default defineComponent({
                 // slotMinTime: "08:00:00",
                 // slotMaxTime: "18:00:00",
                 height: "auto",
-
                 events: this.events,
             };
         },
+        azMonth() {
+            const title = document.querySelectorAll('.fullcalendar');
+
+            setTimeout(() => {
+                return console.log(title)
+            }, 3000)
+        }
     },
+
     async mounted() {
         try {
             await this.useStoreRoom.fetchRoom();
@@ -227,13 +219,11 @@ export default defineComponent({
             this.useUserStores.fetchUser();
             this.showCalendar = true;
             this.refetch();
-
-
         } catch (err) {
             console.log(err);
         }
-    },
 
-
+        // this.azMonth;
+    }
 });
 </script>
