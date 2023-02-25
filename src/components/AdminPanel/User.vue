@@ -26,10 +26,7 @@
                     </div>
                     <div
                         class="user__info-remove"
-                        @click="
-              showDeletButtons = true;
-              id = item.id;
-            "
+                        @click="showDeletButtons = true; id = item.id"
                     >
                         Sil
                     </div>
