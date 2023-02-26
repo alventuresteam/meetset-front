@@ -173,7 +173,14 @@
         },
         computed: {
             formattedDate() {
-                return moment(this.date).format("LL")
+                moment.updateLocale('az', {
+                    months : [
+                        "Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul",
+                        "August", "Sentyabr", "Oktyabr", "Noyabr", "Decabr"
+                    ]
+                });
+
+                return moment(this.date).format("MMMM Do, YYYY");
             }
         }
     }
