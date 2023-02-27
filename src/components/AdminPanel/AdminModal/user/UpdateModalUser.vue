@@ -128,7 +128,7 @@
             </div>
 
             <div class="modal__form-group modal__flex">
-               <button aria-label="İmtina" class="submitWhite" @click="close()">
+               <button aria-label="İmtina" type="button" class="submitWhite" @click="close()">
                   İmtina et
                </button>
                <button
