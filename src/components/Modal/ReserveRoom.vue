@@ -27,7 +27,6 @@
                   </template>
                </DatePicker>
 
-
                <span class="errorText" v-if="userStore.errorMsg">
                   {{ userStore.errorMsg }}
                </span>
@@ -162,18 +161,18 @@
                   :key="error.$uid"
                >
                   <span v-if="error.$message === 'Value is not a valid email address'">E-mail yanlışdır</span>
-<!--                                    <span v-if="error.$response.$data[0].email.required === true">Email boş ola bilməz</span>-->
-<!--                     {{error.$message[0][0]}}-->
-<!--                      <template v-for="err in error.$message">-->
-<!--                        {{ err === "Value is required" ? "Email boş ola bilməz" : "" }}-->
-<!--                        {{-->
-<!--                            err[0] === "Value is not a valid email address"-->
-<!--                               ? "E-mail yanlışdır"-->
-<!--                               : ""-->
-<!--                         }}-->
+                  <!--                                    <span v-if="error.$response.$data[0].email.required === true">Email boş ola bilməz</span>-->
+                  <!--                     {{error.$message[0][0]}}-->
+                  <!--                      <template v-for="err in error.$message">-->
+                  <!--                        {{ err === "Value is required" ? "Email boş ola bilməz" : "" }}-->
+                  <!--                        {{-->
+                  <!--                            err[0] === "Value is not a valid email address"-->
+                  <!--                               ? "E-mail yanlışdır"-->
+                  <!--                               : ""-->
+                  <!--                         }}-->
 
-<!--                         {{err}}-->
-<!--                      </template>-->
+                  <!--                         {{err}}-->
+                  <!--                      </template>-->
                      <p
                         class="errorText"
                         v-if="error.$message === 'Value is required'"
@@ -209,16 +208,14 @@
             </div>
 
             <div class="modal__form-group">
-          <textarea
-             class="input input__100 input__height"
-             placeholder="Görüşlə bağlı qeydlər"
-             id="messg"
-             v-model.lazy="comment"
-             v-on:input="check"
-          >
-          </textarea>
-
-
+                <textarea
+                   class="input input__100 input__height"
+                   placeholder="Görüşlə bağlı qeydlər"
+                   id="messg"
+                   v-model.lazy="comment"
+                   v-on:input="check"
+                >
+                </textarea>
             </div>
 
             <div class="modal__form-group modal__flex">
@@ -244,15 +241,16 @@
          </form>
       </div>
    </div>
+
    <div v-show="clickLoad" class="loading-dots">
-      <loading/>
+      <loading />
    </div>
 </template>
 
 <style>
-.disabled {
-   background: rgb(204 204 204 / 38%);
-}
+   .disabled {
+      background: rgb(204 204 204 / 38%);
+   }
 </style>
 
 <script>
@@ -345,6 +343,7 @@ export default {
          //   comment: { required },
       };
    },
+
    methods: {
       chooseRoom(event) {
          this.room_id = event.id;
@@ -431,11 +430,11 @@ export default {
          await this.useStoreRoom.fetchRoom();
          this.emitter.emit("refresh");
 
-         if (this.userStore.error || this.userStore.errorMsg ) {
+         if (this.userStore.error || this.userStore.errorMsg) {
             this.clickLoad = false;
          }
 
-         if (!this.userStore.error && !this.userStore.errorMsg ) {
+         if (!this.userStore.error && !this.userStore.errorMsg) {
             this.$emit("close-modal");
             this.clickLoad = false;
             this.userStore.errorMsg = "";
@@ -474,12 +473,12 @@ export default {
 
    mounted() {
       // setTimeout(() => {
-         this.$refs.datePicker.$locale.monthNames = [...this.datePickerOptions.monthNames];
-         this.$refs.datePicker.$locale.dayNamesNarrow = [...this.datePickerOptions.dayNamesNarrow];
-         this.$refs.datePicker.$locale.monthNamesShort = [...this.datePickerOptions.monthNamesShort];
+      this.$refs.datePicker.$locale.monthNames = [...this.datePickerOptions.monthNames];
+      this.$refs.datePicker.$locale.dayNamesNarrow = [...this.datePickerOptions.dayNamesNarrow];
+      this.$refs.datePicker.$locale.monthNamesShort = [...this.datePickerOptions.monthNamesShort];
 
-         // console.log(this.$refs.datePicker.$locale)
-         // console.log([...this.datePickerOptions.monthNames])
+      // console.log(this.$refs.datePicker.$locale)
+      // console.log([...this.datePickerOptions.monthNames])
       // }, 0);
       // let dtToday = new Date();
       // let month = dtToday.getMonth() + 1;
@@ -504,7 +503,18 @@ export default {
       return {userStore, useStoreRoom, errors, v$: useVuelidate()};
    },
 
+   watch: {
+      dateDifference(val) {
+         if (val === true) this.currentDateTime = new Date(2023, 1, 1, 0);
+      }
+   },
+
    computed: {
+      dateDifference() {
+         if (this.start_date && new Date()) {
+            return this.start_date > new Date();
+         }
+      },
       startVal() {
          // Round the current time to the nearest 10-minute interval
          const currentMinute = this.currentDateTime.getMinutes();
@@ -514,7 +524,6 @@ export default {
          // Return the rounded time as the start value
          return this.currentDateTime;
       },
-
 
       endVal() {
          // Round the current time to the nearest 10-minute interval

@@ -167,6 +167,8 @@ export default {
          //    this.$refs.datePicker.$locale.dayNamesNarrow = [...this.datePickerOptions.dayNamesNarrow];
          //    this.$refs.datePicker.$locale.monthNamesShort = [...this.datePickerOptions.monthNamesShort];
             // })
+
+
          // }, 1000);
 
       const vcArrows = document.querySelectorAll('.vc-pane-container .vc-arrow');
