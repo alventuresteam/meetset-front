@@ -266,6 +266,7 @@ import {required, email, minLength, helpers} from "@vuelidate/validators";
 import {storeToRefs} from "pinia";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
 import Loading from "@/components/Loading.vue";
+import {diffDates} from "@fullcalendar/core/internal";
 
 export default {
    components: {
@@ -345,6 +346,7 @@ export default {
    },
 
    methods: {
+      diffDates,
       chooseRoom(event) {
          this.room_id = event.id;
          this.emails = [];
@@ -505,7 +507,11 @@ export default {
 
    watch: {
       dateDifference(val) {
-         if (val === true) this.currentDateTime = new Date(2023, 1, 1, 0);
+         if (val === true) {
+            this.currentDateTime = new Date(2023, 1, 1, 0);
+         } else {
+            this.currentDateTime = new Date();
+         }
       }
    },
 
