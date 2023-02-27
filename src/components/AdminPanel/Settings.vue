@@ -1,6 +1,6 @@
 <template>
-    <form action="" class="setting" @submit.prevent="save">
-        <h1 class="setting__title">Server ayarları</h1>
+   <form action="" class="setting" @submit.prevent="save">
+      <h1 class="setting__title">Server ayarları</h1>
 
         <div class="setting__flex">
             <div class="setting__group" style="position: relative">
@@ -42,28 +42,26 @@
 
             </div>
 
-        </div>
+      <UploadFile
+         @file="form.logo = $event"
+      />
 
+      <button aria-label="Yadda saxla" type="submit" class="setting__save">
+         Yadda saxla
 
-        <UploadFile
-            @file="form.logo = $event"
-        />
-
-        <button aria-label="Yadda saxla" type="submit" class="setting__save">
-            Yadda saxla
-
-            <span>
+         <span>
                 <img
-                    loading="lazy"
-                    src="../../assets/images/svg/check.svg"
-                    alt="check"
+                   loading="lazy"
+                   src="../../assets/images/svg/check.svg"
+                   alt="check"
                 />
             </span>
-        </button>
-    </form>
-    <div v-show="clickLoad" class="loading-dots">
-        <loading/>
-    </div>
+      </button>
+   </form>
+
+   <div v-show="clickLoad" class="loading-dots">
+      <loading/>
+   </div>
 </template>
 
 <script>
@@ -73,23 +71,23 @@ import UploadFile from "@/components/UploadFile.vue";
 import Loading from "@/components/Loading.vue";
 
 export default {
-    components: {Loading, UploadFile},
-    data() {
-        return {
-            form: {
-                ip_address: '',
-                port: '',
-                logo: ''
-            },
-            clickLoad: false,
-        };
-    },
-    setup() {
-        const userStore = useSettingStore();
+   components: {Loading, UploadFile},
+   data() {
+      return {
+         form: {
+            ip_address: '',
+            port: '',
+            logo: ''
+         },
+         clickLoad: false,
+      };
+   },
+   setup() {
+      const userStore = useSettingStore();
 
-        onMounted(() => {
-            userStore.fetchSetting();
-        });
+      onMounted(() => {
+         userStore.fetchSetting();
+      });
 
         return {userStore};
     },
@@ -110,10 +108,14 @@ export default {
             event.target.value = event.target.value.match(numericRegex).join('');
         },
         async save() {
-            let formData = new FormData();
-
             for (let key in this.form) {
-                await formData.append(key, this.form[key]);
+                if (key !== 'logo') {
+                    await formData.append(key, this.form[key]);
+                } else {
+                    if (this.form[key]) {
+                        await formData.append(key, this.form[key]);
+                    }
+                }
             }
 
             this.clickLoad = true;

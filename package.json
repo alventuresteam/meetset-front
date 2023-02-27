@@ -26,6 +26,7 @@
     "vue-axios": "^3.5.2",
     "vue-class-component": "^8.0.0-rc.1",
     "vue-client-only": "^2.1.0",
+    "vue-moment-locale": "^1.0.0",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {

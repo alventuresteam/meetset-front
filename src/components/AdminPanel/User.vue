@@ -26,10 +26,7 @@
                     </div>
                     <div
                         class="user__info-remove"
-                        @click="
-              showDeletButtons = true;
-              id = item.id;
-            "
+                        @click="showDeletButtons = true; id = item.id"
                     >
                         Sil
                     </div>
@@ -39,7 +36,7 @@
 
         <Suspense v-if="showDeletButtons">
             <template #default>
-                <div class="modal-overlay" style="background: rgb(0 0 0 / 41%)">
+                <div class="modal-overlay" style="background: rgba(0, 0, 0, 0.8549019608)">
                     <div class="modal modal__remove" @click.stop>
                         <div class="modal__head" v-show="showDeletButtons">
                             <h6 class="modal__head-title">İstifadəçini sil</h6>
@@ -122,6 +119,7 @@ export default {
         handleUpdate(item) {
             this.showUpdateModalUser = true;
             this.updateDataPerson = item;
+            document.body.style.overflow = 'hidden'
         },
 
         async handleDelete(id) {
@@ -137,10 +135,7 @@ export default {
 
     setup() {
         const UpdateModalUser = defineAsyncComponent({
-            loader: () =>
-                import(
-                    "../../components/AdminPanel/AdminModal/user/UpdateModalUser.vue"
-                    ),
+            loader: () => import("../../components/AdminPanel/AdminModal/user/UpdateModalUser.vue"),
             delay: 1000,
             timeout: 3000,
             suspensible: true,

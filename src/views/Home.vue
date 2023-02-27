@@ -1,16 +1,14 @@
 <template>
-  <Login />
+   <Login />
 </template>
 
 
-<script >
-import Login from "../components/Login.vue";
+<script>
+   import Login from "../components/Login.vue";
 
-export default {
-  components: {
-    Login,
-  },
-
-
-};
+   export default {
+      components: {
+         Login,
+      }
+   };
 </script>

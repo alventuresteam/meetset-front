@@ -1,87 +1,86 @@
-import { defineStore } from "pinia";
+import {defineStore} from "pinia";
 import axios from "axios";
 
 if (localStorage.getItem("token")) {
-    axios.defaults.headers.common[
-        "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
+   axios.defaults.headers.common[
+      "Authorization"
+      ] = `Bearer ${localStorage.getItem("token")}`;
 }
 
 export const useRoomStore = defineStore("rooms", {
-    state: () => ({
-        rooms: [],
-        error: [],
-        errorMsg: "",
-        token: localStorage.getItem("token") || "",
-    }),
+   state: () => ({
+      rooms: [],
+      error: [],
+      errorMsg: "",
+      token: localStorage.getItem("token") || "",
+   }),
 
-    actions: {
-        async fetchRoom() {
-            try {
-                await axios
-                    .get("https://meetset.al.ventures/api/rooms")
-                    .then((res) => {
-                        return this.rooms = res.data;
-                    });
-            } catch (error) {
-                console.error(error);
-            }
-        },
-
-        async createRoom(name, capacity, address, floor) {
-            this.error = null;
-      this.errorMsg = null;
+   actions: {
+      async fetchRoom() {
+         try {
             await axios
-                .post("https://meetset.al.ventures/api/rooms/create", {
-                    name,
-                    capacity,
-                    address,
-                    floor,
-                })
-                .then((res) => {
-                })
-                .catch((err) => {
-                    if (err.response.status === 422) {
-                        this.error = err.response.data.errors;
-                         this.errorMsg = err.response.data.message;
-            
-                        console.error(err.response.data.message);
-                      }
-                });
-        },
+               .get("https://meetset.al.ventures/api/rooms")
+               .then((res) => {
+                  return this.rooms = res.data;
+               });
+         } catch (error) {
+            console.error(error);
+         }
+      },
 
-        async updateRoom(item) {
-            this.error = null;
-            this.errorMsg = null;
-            await axios
-                .post(`https://meetset.al.ventures/api/rooms/${item.id}/update`, {
-                    name: item.name,
-                    capacity: item.capacity,
-                    address: item.address,
-                    floor: item.floor,
-                })
-                .then((res) => {
-                })  .catch((err) => {
-                    if (err.response.status === 422) {
-                      this.errorMsg = err.response.data.message;
-          
-                      console.error(err.response);
-                    }
-                  });
-        },
+      async createRoom(name, capacity, address, floor) {
+         this.error = null;
+         this.errorMsg = null;
+         await axios
+            .post("https://meetset.al.ventures/api/rooms/create", {
+               name,
+               capacity,
+               address,
+               floor,
+            })
+            .then((res) => {
+            })
+            .catch((err) => {
+               if (err.response.status === 422) {
+                  this.error = err.response.data.errors;
+                  this.errorMsg = err.response.data.message;
+                  console.error(err.response.data.message);
+               }
+            });
+      },
 
-        async deleteRoom(id) {
-            await axios
-                .post(`https://meetset.al.ventures/api/rooms/${id}/delete`)
-                .then((res) => {
-                })
-                .catch((err) => {
-                    console.error(err);
-                });
-        },
-    },
+      async updateRoom(item) {
+         this.error = null;
+         this.errorMsg = null;
+         await axios
+            .post(`https://meetset.al.ventures/api/rooms/${item.id}/update`, {
+               name: item.name,
+               capacity: item.capacity,
+               address: item.address,
+               floor: item.floor,
+            })
+            .then((res) => {
+            }).catch((err) => {
+               if (err.response.status === 422) {
+                  this.errorMsg = err.response.data.message;
 
-    getters: {
-        getRoom: (state) => state.rooms,
-    },
+                  console.error(err.response);
+               }
+            });
+      },
+
+      async deleteRoom(id) {
+         await axios
+            .post(`https://meetset.al.ventures/api/rooms/${id}/delete`)
+            .then((res) => {
+            })
+            .catch((err) => {
+               console.error(err);
+            });
+      },
+   },
+
+   getters: {
+      getRoom: (state) => state.rooms,
+   },
 });

@@ -116,7 +116,11 @@ export const useReservationStore = defineStore("reservation", {
           console.log(res);
         })
         .catch((err) => {
-          console.error(err);
+           if (err.response.status === 422) {
+              this.error = err.response.data.errors;
+              this.errorMsg = err.response.data.message;
+              console.error(err.response.data.message);
+           }
         });
     },
   },

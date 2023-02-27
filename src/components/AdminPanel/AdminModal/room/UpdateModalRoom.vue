@@ -174,7 +174,7 @@ export default {
         close() {
             this.$emit("close-modal");
             this.userStore.errorMsg = "";
-
+            document.body.style.overflow = '';
         },
     },
 };
