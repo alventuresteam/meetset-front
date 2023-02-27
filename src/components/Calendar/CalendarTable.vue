@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import ClientOnly from "vue-client-only";
 import {defineComponent, defineAsyncComponent} from "vue";
 import FullCalendar from "@fullcalendar/vue3";
 import ShowReservRoom from "../Modal/ShowReservRoom.vue";
@@ -65,7 +64,6 @@ export default defineComponent({
    components: {
       FullCalendar, // make the <FullCalendar> tag available
       ShowReservRoom,
-      ClientOnly,
    },
 
    props: ["itemDate", "itemLable"],
@@ -140,7 +138,6 @@ export default defineComponent({
 
         },
     },
-
 
    computed: {
       options() {
@@ -228,7 +225,6 @@ export default defineComponent({
       } catch (err) {
          console.log(err);
       }
-
-
+   }
 });
 </script>
