@@ -75,7 +75,7 @@
                   v-for="error in v$.updateDataPerson.email.$errors"
                   :key="error.$uid"
                >
-            Email boş ola bilməz
+       {{ error.$message === 'Value is not a valid email address' ? 'Email düzgün qeyid olunmayıb' : 'Email boş ola bilməz' }}
           </span>
 
                <span class="errorText" v-if="userStore.errorMsg">Email mövcuddur</span>

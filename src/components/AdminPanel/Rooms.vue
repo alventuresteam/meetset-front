@@ -35,54 +35,55 @@
                </div>
             </div>
          </div>
+      </div>
 
-         <Suspense v-if="showDeletButtons">
-            <template #default>
-               <div
-                  class="modal-overlay"
-               >
-                  <div class="modal modal__remove" @click.stop>
-                     <div class="modal__head" v-show="showDeletButtons">
-                        <h6 class="modal__head-title">Otaqı sil</h6>
+
+      <Suspense v-if="showDeletButtons">
+         <template #default>
+            <div
+               class="modal-overlay"
+            >
+               <div class="modal modal__remove" @click.stop>
+                  <div class="modal__head" v-show="showDeletButtons">
+                     <h6 class="modal__head-title">Otaqı sil</h6>
+                  </div>
+
+                  <form class="modal__form" @submit.prevent="handleDelete(id)">
+                     <div>
+                        <p class="modal__form-delete">
+                           Bu otaqı silmək istədiyinizə əminsiniz?
+                        </p>
                      </div>
 
-                     <form class="modal__form" @submit.prevent="handleDelete(id)">
-                        <div>
-                           <p class="modal__form-delete">
-                              Bu otaqı silmək istədiyinizə əminsiniz?
-                           </p>
-                        </div>
+                     <div class="modal__form-group modal__flex">
+                        <button
+                           aria-label="Imtina et"
+                           type="button"
+                           class="submitWhite"
+                           @click="refusal"
+                        >
+                           Xeyir
+                        </button>
 
-                        <div class="modal__form-group modal__flex">
-                           <button
-                              aria-label="Imtina et"
-                              type="button"
-                              class="submitWhite"
-                              @click="refusal"
-                           >
-                              Xeyir
-                           </button>
+                        <button
+                           aria-label="Sil"
+                           type="submit"
+                           class="submitWhite"
+                           id="messg"
+                        >
+                           <span>Bəli</span>
 
-                           <button
-                              aria-label="Sil"
-                              type="submit"
-                              class="submitWhite"
-                              id="messg"
-                           >
-                              <span>Bəli</span>
-
-                           </button>
-                        </div>
-                     </form>
+                        </button>
+                     </div>
+                  </form>
 
 
-                  </div>
                </div>
-            </template>
+            </div>
+         </template>
 
-            <template #fallback>Load...</template>
-         </Suspense>
-      </div>
+         <template #fallback>Load...</template>
+      </Suspense>
       <div v-show="clickLoad" class="loading-dots">
          <loading/>
       </div>
