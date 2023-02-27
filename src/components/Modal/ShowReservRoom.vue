@@ -103,8 +103,6 @@
                </div>
 
                <div class="modal__form-group">
-
-
                   <CustomSelect
                      :options="useStoreRoom.getRoom"
                      :default="updateReservation.room_id"
@@ -166,16 +164,14 @@
                         @keyup.space="addTag"
                         @keydown.delete="removeLastTag"
                      />
-
-
                   </div>
 
                   <span
                      class="errorText"
                      v-if="userStore.error && userStore.error.emails"
                   >
-                               E-maildə səhvlik var
-                                  </span>
+                      E-maildə səhvlik var
+                   </span>
 
 
                   <template v-if="v$.updateReservation.checkEmails.$errors.length">
@@ -211,30 +207,6 @@
             />
                </div>
             </div>
-
-                <div v-show="showEditButtons" class="modal__form-group modal__flex">
-                    <button
-                        type="button"
-                        class="submitWhite"
-                        aria-label="Silmək"
-                        @click="activeDelet"
-                    >
-                        Sil
-                        <img
-                            loading="lazy"
-                            src="../../assets/images/svg/delet.svg"
-                            alt="delet"
-                        />
-                    </button>
-                    <button
-                        type="submit"
-                        class="submit"
-                        id="messg"
-                        aria-label="Yadda Saxla"
-                    >
-                        <span>Yadda saxla</span>
-                    </button>
-                </div>
             <div v-if="showEditButtons" class="modal__form-group modal__flex">
                <button
                   type="button"
