@@ -38,9 +38,7 @@
 
          <Suspense v-if="showDeletButtons">
             <template #default>
-               <div
-                  class="modal-overlay"
-               >
+               <div class="modal-overlay">
                   <div class="modal modal__remove" @click.stop>
                      <div class="modal__head" v-show="showDeletButtons">
                         <h6 class="modal__head-title">Otaqı sil</h6>
@@ -74,8 +72,6 @@
                            </button>
                         </div>
                      </form>
-
-
                   </div>
                </div>
             </template>

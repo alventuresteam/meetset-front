@@ -144,6 +144,7 @@
                      {{ tag }}
                      <span @click="removeTag(index)">x</span>
                   </div>
+
                   <textarea
                      :disabled="!room_id"
                      maxlength="255"
@@ -160,19 +161,19 @@
                   v-for="error in v$.checkEmails.$errors"
                   :key="error.$uid"
                >
-<!--                  <span v-if="error.$message === 'Value is not a valid email address'">E-mail yanlışdır</span>-->
-                  <!--                  <span v-if="error.$response.$data[0].email.required === true">Email boş ola bilməz</span>-->
-                  <!--                  {{error.$message[0][0]}}-->
-                  <!--                   <template v-for="err in error.$message">-->
-                  <!--                     {{ err[0] === "Value is required" ? "Email boşdur" : "" }}-->
-                  <!--                     {{-->
-                  <!--                         err[0] === "Value is not a valid email address"-->
-                  <!--                            ? "Yanlış format"-->
-                  <!--                            : ""-->
-                  <!--                      }}-->
+                  <span v-if="error.$message === 'Value is not a valid email address'">E-mail yanlışdır</span>
+<!--                                    <span v-if="error.$response.$data[0].email.required === true">Email boş ola bilməz</span>-->
+<!--                     {{error.$message[0][0]}}-->
+<!--                      <template v-for="err in error.$message">-->
+<!--                        {{ err === "Value is required" ? "Email boş ola bilməz" : "" }}-->
+<!--                        {{-->
+<!--                            err[0] === "Value is not a valid email address"-->
+<!--                               ? "E-mail yanlışdır"-->
+<!--                               : ""-->
+<!--                         }}-->
 
-                  <!--                      {{err}}-->
-                  <!--                   </template>-->
+<!--                         {{err}}-->
+<!--                      </template>-->
                      <p
                         class="errorText"
                         v-if="error.$message === 'Value is required'"
@@ -368,6 +369,13 @@ export default {
       addTag(event) {
          event.preventDefault();
 
+         const result = this.v$.$validate();
+         this.checkEmails = this.emails.map((item) => {
+            return {
+               email: item,
+            };
+         });
+
          let room = this.getRoom.find((item) => item.id === this.room_id);
          if (room.capacity <= this.emails.length) {
             return;
@@ -408,7 +416,6 @@ export default {
             };
          });
 
-
          this.clickLoad = true;
 
          await this.userStore.createReservation(
@@ -435,8 +442,6 @@ export default {
             this.userStore.error = [];
             this.$toast.success(`Rezerv uğurlu keçdi`);
          }
-
-
       },
 
       changeValue: function (args) {
