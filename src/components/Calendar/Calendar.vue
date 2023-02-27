@@ -163,28 +163,28 @@ export default {
          // setTimeout(() => {
          //    this.$nextTick(() => {
          //    console.log('22222222', this.$refs.datePicker)
-            this.$refs.datePicker.$locale.monthNames = [...this.datePickerOptions.monthNames];
-            this.$refs.datePicker.$locale.dayNamesNarrow = [...this.datePickerOptions.dayNamesNarrow];
-            this.$refs.datePicker.$locale.monthNamesShort = [...this.datePickerOptions.monthNamesShort];
+         //    this.$refs.datePicker.$locale.monthNames = [...this.datePickerOptions.monthNames];
+         //    this.$refs.datePicker.$locale.dayNamesNarrow = [...this.datePickerOptions.dayNamesNarrow];
+         //    this.$refs.datePicker.$locale.monthNamesShort = [...this.datePickerOptions.monthNamesShort];
             // })
-         // }, 3000);
+         // }, 1000);
 
-      // const vcArrows = document.querySelectorAll('.vc-pane-container .vc-arrow');
-      //
-      // this.datePickerMonth();
-      // // this.datePickerMonthDropdown();
-      // this.datePickerDay();
-      //
-      // vcArrows.forEach(btn => {
-      //    btn.addEventListener('click', () => {
-      //       this.datePickerMonth();
-      //       // this.datePickerMonthDropdown();
-      //
-      //       setTimeout(() => {
-      //          this.datePickerDay();
-      //       }, 300);
-      //    })
-      // })
+      const vcArrows = document.querySelectorAll('.vc-pane-container .vc-arrow');
+
+      this.datePickerMonth();
+      // this.datePickerMonthDropdown();
+      this.datePickerDay();
+
+      vcArrows.forEach(btn => {
+         btn.addEventListener('click', () => {
+            this.datePickerMonth();
+            // this.datePickerMonthDropdown();
+
+            setTimeout(() => {
+               this.datePickerDay();
+            }, 300);
+         })
+      })
    },
    computed: {
       formattedDate() {
