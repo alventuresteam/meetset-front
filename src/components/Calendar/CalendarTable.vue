@@ -89,7 +89,7 @@ export default defineComponent({
     },
 
     methods: {
-        closeModal(){
+        closeModal() {
             this.showUpdateModalUser = false;
 
             document.querySelector("body").style.overflowY = 'auto'
@@ -130,13 +130,16 @@ export default defineComponent({
 
             this.$nextTick(() => {
                 if (this.events.length > 0) {
-                    const lastEvent = this.events.find(item => {
+                    const lastEvents = this.events.filter(item => {
                         let a = moment(this.itemDate).startOf('day');
                         let b = moment(item.start).startOf('day');
                         return a.diff(b, 'days') === 0
                     });
-    console.log(lastEvent,'lastEvent');
-      const lastEventDate = moment(lastEvent.start).format("HH:mm");
+                    const sorted = lastEvents.sort(function(left, right) {
+                        return moment(left.start).format('X') - moment(right.start).format('X')
+                    })
+                    const lastEvent = sorted[0];
+                    const lastEventDate = moment(lastEvent.start).format("HH:mm");
                     this.$refs.calendar.getApi().scrollToTime(lastEventDate);
                 }
             })

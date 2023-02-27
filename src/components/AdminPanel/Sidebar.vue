@@ -30,12 +30,17 @@
 
         <router-view/>
     </aside>
+
+    <div v-show="clickLoad" class="loading-dots">
+        <loading/>
+    </div>
 </template>
 
 <script>
 import {useUserStore} from "../../stores/auth";
 import {useSettingStore} from "../../stores/setting";
 import {onMounted} from "vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
     setup() {
@@ -56,10 +61,15 @@ export default {
         return this.nav.find((item) => item.id === selected.value);
     },
 
+    components:{
+        Loading
+    },
+
     data() {
         return {
             logo: '/src/assets/images/logo/whiteLogo.png',
             selected: 1,
+            clickLoad:false,
             nav: [
                 {
                     id: "1",
@@ -84,8 +94,17 @@ export default {
 
     methods: {
         async logout() {
+
+            this.clickLoad = true
+
             await this.userStore.signOut();
-            this.$router.push("/");
+
+            if (this.userStore.token) {
+                this.clickLoad = false
+                this.$router.push("/");
+            }
+
+
         },
     },
 };

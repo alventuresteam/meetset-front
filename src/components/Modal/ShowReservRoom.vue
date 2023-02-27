@@ -8,7 +8,7 @@
 
                 <h6 v-else class="modal__head-title">Otaq rezervasiyasının detalları</h6>
 
-                <span class="modal__head-close" @click="$emit('close-modal')">
+                <span class="modal__head-close" @click="close">
                     <img
                         loading="lazy"
                         src="../../assets/images/svg/modalClose.svg"
@@ -215,7 +215,7 @@
                     </div>
                 </div>
 
-                <div v-if="showEditButtons" class="modal__form-group modal__flex">
+                <div v-show="showEditButtons" class="modal__form-group modal__flex">
                     <button
                         type="button"
                         class="submitWhite"
@@ -232,7 +232,6 @@
                     <button
                         type="submit"
                         class="submit"
-                        @click="uppdateHandler"
                         id="messg"
                         aria-label="Yadda Saxla"
                     >
@@ -240,13 +239,12 @@
                     </button>
                 </div>
 
-                <div v-else-if="showDeletButtons" class="modal__form-group modal__flex">
+                <div v-if="showDeletButtons" class="modal__form-group modal__flex">
                     <button
                         type="button"
                         class="submitWhite"
-                        @click="$emit('close-modal')"
-                        aria-label="Xeyir"
-                    >
+                        @click="close"
+                        aria-label="Xeyir">
                         Xeyir
                     </button>
 
@@ -402,53 +400,56 @@ export default {
             await this.userStore.deletReservation(item);
             await this.useStoreRoom.fetchRoom();
 
+            this.emitter.emit("refresh");
+            this.$emit("close-modal");
 
-
-            this.clickLoad = false;
-
-            if (!this.userStore.error && !this.userStore.errorMsg) {
-                this.emitter.emit("refresh");
-                this.$emit("close-modal");
-
-                this.$toast.success(`Uğurla silindi`);
-            }
+            this.$toast.success(`Uğurla silindi`);
         },
 
         async uppdateHandler(e) {
             const result = await this.v$.$validate();
             this.updateReservation.checkEmails = this.updateReservation.emails.map(
                 (item) => {
-                    return {
-                        email: item,
-                    };
+                    return { email: item};
                 }
             );
+            this.clickLoad = true;
+
+            this.updateReservation.start_date = this.formattedDate;
+
+            this.updateReservation.start_time = this.formattedTime;
+            this.updateReservation.end_time = this.formattedEndTime;
+
+            await this.userStore.updateReservation(this.updateReservation);
+            await this.useStoreRoom.fetchRoom();
 
 
-            if (result) {
-                this.clickLoad = true;
+            if (!this.userStore.error && !this.userStore.errorMsg) {
+                this.clickLoad = false;
+                this.userStore.errorMsg = "";
+                this.userStore.error = "";
+                this.emitter.emit("refresh");
+                this.$emit("close-modal");
 
-                this.updateReservation.start_date = this.formattedDate;
-
-                this.updateReservation.start_time = this.formattedTime;
-                this.updateReservation.end_time = this.formattedEndTime;
-
-                await this.userStore.updateReservation(this.updateReservation);
-                await this.useStoreRoom.fetchRoom();
-
-                if (this.userStore.error || this.userStore.errorMsg) {
-                    this.clickLoad = false;
-                }
-
-                if (!this.userStore.error && !this.userStore.errorMsg) {
-                    this.clickLoad = false;
-                    this.userStore.errorMsg = "";
-                    this.userStore.error = "";
-                    this.emitter.emit("refresh");
-                    this.$toast.success(`Uğurlu redaktə edildi`);
-                    this.$emit("close-modal");
-                }
+                this.$toast.success(`Uğurlu redaktə edildi`);
             }
+
+            if (this.userStore.error || this.userStore.errorMsg) {
+                this.clickLoad = false;
+            }
+            if (result) {
+
+
+
+
+
+            }
+        },
+
+        close() {
+            this.$emit("close-modal");
+            this.userStore.errorMsg = "";
+            this.userStore.error = "";
         },
 
         changeValue: function (args) {

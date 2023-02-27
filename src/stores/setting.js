@@ -8,7 +8,8 @@ if (localStorage.getItem("token")) {
 export const useSettingStore = defineStore("setting", {
     state: () => ({
         setting: [],
-        errors: {},
+        error: [],
+        errorMsg: "",
         token: localStorage.getItem("token") || "",
     }),
 
@@ -26,11 +27,17 @@ export const useSettingStore = defineStore("setting", {
         },
 
         async updateSetting(data) {
+            this.error = null;
+            this.errorMsg = null;
             await axios.post(`https://meetset.al.ventures/api/setting/update`, data)
                 .then((res) => { })
                 .catch((err) => {
-                    this.errors = err.response.data.errors;
-                    console.error(err);
+                    if (err.response.status === 422) {
+                        this.error = err.response.data.errors;
+                        this.errorMsg = err.response.data.message;
+
+                        console.error(err.response.data.message);
+                    }
                 });
         },
     },

@@ -57,7 +57,7 @@
       </div>
     </div>
   </div>
-  <div v-show="clickLoad" class="loading-dots">
+  <div  v-show="clickLoad" class="loading-dots">
     <loading/>
   </div>
 
@@ -119,8 +119,14 @@ export default {
 
   methods: {
     async logout() {
-      await this.userStore.signOut();
-      this.$router.push("/");
+        this.clickLoad = true
+
+        await this.userStore.signOut();
+
+        if (this.userStore.token) {
+            this.clickLoad = false
+            this.$router.push("/");
+        }
     },
 
     closeDropDown() {
