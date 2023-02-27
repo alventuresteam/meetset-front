@@ -4,7 +4,7 @@
          <div class="modal__head">
             <h6 class="modal__head-title">İstifadəçini redaktə et</h6>
             <span class="modal__head-close" @click="close()"
-            ><img src="../../../../assets/images/svg/modalClose.svg" alt=""
+            ><img src="../../../../assets/images/svg/modalClose.svg" alt="modalClose"
             /></span>
          </div>
          <form action="" class="modal__form" @submit.prevent="uppdateHandler">
@@ -99,6 +99,7 @@
                   maxlength="64"
                   v-model.lazy="updateDataPerson.password"
                   type="password"
+
                />
 
                <div class="modal__form-img" @click="showPass()">
@@ -214,6 +215,8 @@ export default {
       close() {
          this.$emit("close-modal");
          document.body.style.overflow = ''
+         this.userStore.errorMsg = "";
+         this.userStore.error = "";
       },
    },
 

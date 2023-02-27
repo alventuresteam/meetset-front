@@ -408,34 +408,35 @@ export default {
             };
          });
 
-         if (result) {
-            this.clickLoad = true;
 
-            await this.userStore.createReservation(
-               this.formattedDate,
-               this.formattedTime,
-               this.formattedEndTime,
-               this.room_id,
-               this.organizer_name,
-               this.emails,
-               this.title,
-               this.comment
-            );
-            await this.useStoreRoom.fetchRoom();
-            this.emitter.emit("refresh");
+         this.clickLoad = true;
 
-            if (this.userStore.error || this.userStore.errorMsg) {
-               this.clickLoad = false;
-            }
+         await this.userStore.createReservation(
+            this.formattedDate,
+            this.formattedTime,
+            this.formattedEndTime,
+            this.room_id,
+            this.organizer_name,
+            this.emails,
+            this.title,
+            this.comment
+         );
+         await this.useStoreRoom.fetchRoom();
+         this.emitter.emit("refresh");
 
-            if (!this.userStore.error && !this.userStore.errorMsg) {
-               this.$emit("close-modal");
-               this.clickLoad = false;
-               this.userStore.errorMsg = "";
-               this.userStore.error = [];
-               this.$toast.success(`Rezerv uğurlu keçdi`);
-            }
+         if (this.userStore.error || this.userStore.errorMsg || !result) {
+            this.clickLoad = false;
          }
+
+         if (!this.userStore.error && !this.userStore.errorMsg && result) {
+            this.$emit("close-modal");
+            this.clickLoad = false;
+            this.userStore.errorMsg = "";
+            this.userStore.error = [];
+            this.$toast.success(`Rezerv uğurlu keçdi`);
+         }
+
+
       },
 
       changeValue: function (args) {

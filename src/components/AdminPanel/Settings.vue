@@ -41,6 +41,7 @@
             </div>
 
          </div>
+      </div>
 
          <UploadFile
             @file="form.logo = $event"
@@ -57,7 +58,6 @@
                 />
             </span>
          </button>
-      </div>
    </form>
 
    <div v-show="clickLoad" class="loading-dots">
@@ -109,6 +109,8 @@ export default {
          event.target.value = event.target.value.match(numericRegex).join('');
       },
       async save() {
+         let formData = new FormData();
+
          for (let key in this.form) {
             if (key !== 'logo') {
                await formData.append(key, this.form[key]);
