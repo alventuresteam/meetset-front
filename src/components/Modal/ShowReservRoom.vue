@@ -8,7 +8,7 @@
 
             <h6 v-else class="modal__head-title">Otaq rezervasiyasının detalları</h6>
 
-                <span class="modal__head-close" @click="close">
+            <span class="modal__head-close" @click="close">
                     <img
                        loading="lazy"
                        src="../../assets/images/svg/modalClose.svg"
@@ -97,7 +97,7 @@
                         v-for="error in v$.updateReservation.end_time.$errors"
                         :key="error.$uid"
                      >
-                Bitmə tarixi boş
+                Bitmə tarixi boş ola bilməz
               </span>
                   </div>
                </div>
@@ -167,6 +167,7 @@
                   </div>
 
                   <span
+
                      class="errorText"
                      v-if="userStore.error && userStore.error.emails"
                   >
@@ -231,14 +232,14 @@
                </button>
             </div>
 
-                <div v-if="showDeletButtons" class="modal__form-group modal__flex">
-                    <button
-                        type="button"
-                        class="submitWhite"
-                        @click="close"
-                        aria-label="Xeyir">
-                        Xeyir
-                    </button>
+            <div v-if="showDeletButtons" class="modal__form-group modal__flex">
+               <button
+                  type="button"
+                  class="submitWhite"
+                  @click="close"
+                  aria-label="Xeyir">
+                  Xeyir
+               </button>
 
                <button
                   @click="handleDelete(updateReservation)"
@@ -246,6 +247,7 @@
                   class="submitWhite"
                   id="messg"
                   aria-label="Sil"
+
                >
                   <span>Bəli</span>
 
@@ -394,14 +396,14 @@ export default {
 
          this.clickLoad = false;
 
-         // if (!this.userStore.error && !this.userStore.errorMsg) {
          this.userStore.errorMsg = "";
          this.userStore.error = [];
          this.emitter.emit("refresh");
          this.$emit("close-modal");
 
+
+
          this.$toast.success(`Uğurla silindi`);
-         // }
       },
 
       async uppdateHandler(e) {
@@ -425,7 +427,7 @@ export default {
          await this.useStoreRoom.fetchRoom();
 
 
-         if (!this.userStore.error && !this.userStore.errorMsg && result) {
+         if (!this.userStore.error && !this.userStore.errorMsg) {
             this.clickLoad = false;
             this.userStore.errorMsg = "";
             this.userStore.error = "";
@@ -435,17 +437,17 @@ export default {
             this.$toast.success(`Uğurlu redaktə edildi`);
          }
 
-         if (this.userStore.error || this.userStore.errorMsg || !result) {
+         if (this.userStore.error || this.userStore.errorMsg) {
             this.clickLoad = false;
          }
 
-        },
+      },
 
-        close() {
-            this.$emit("close-modal");
-            this.userStore.errorMsg = "";
-            this.userStore.error = "";
-        },
+      close() {
+         this.$emit("close-modal");
+         this.userStore.errorMsg = "";
+         this.userStore.error = "";
+      },
 
       changeValue: function (args) {
          this.endVal = args.value;

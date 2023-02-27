@@ -88,7 +88,7 @@
                      v-for="error in v$.end_time.$errors"
                      :key="error.$uid"
                   >
-              Bitmə tarixi boş
+              Bitmə tarixi boş ola bilməz
             </span>
                </div>
             </div>
@@ -431,11 +431,11 @@ export default {
          await this.useStoreRoom.fetchRoom();
          this.emitter.emit("refresh");
 
-         if (this.userStore.error || this.userStore.errorMsg || !result) {
+         if (this.userStore.error || this.userStore.errorMsg ) {
             this.clickLoad = false;
          }
 
-         if (!this.userStore.error && !this.userStore.errorMsg && result) {
+         if (!this.userStore.error && !this.userStore.errorMsg ) {
             this.$emit("close-modal");
             this.clickLoad = false;
             this.userStore.errorMsg = "";
