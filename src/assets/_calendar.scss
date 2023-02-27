@@ -33,7 +33,7 @@
             color: #121926;
             max-width: 300px;
             width: 100%;
-            pointer-events: none;
+            //pointer-events: none;
             overflow: hidden;
             &:after {
                 position: absolute;
@@ -62,11 +62,11 @@
             letter-spacing: 0.857143px;
             text-transform: uppercase;
             color: #9AA4B2;
-            opacity: 0;
-            transition: all .3s;
-            &.active {
-                opacity: 1;
-            }
+            //opacity: 0;
+            //transition: all .3s;
+            //&.active {
+            //    opacity: 1;
+            //}
         }
 
         &-day {

@@ -129,6 +129,7 @@ export default {
     handleUpdate(item) {
       this.showUpdateModalRoom = true;
       this.updateDataRoom = item;
+      document.body.style.overflow = 'hidden'
     },
 
     async handleDelete(id) {

@@ -1,187 +1,202 @@
 <template>
-    <CalendarHeader/>
+   <CalendarHeader/>
 
-    <div class="calendar">
-        <div class="container">
-            <div class="flexCalendar">
-                <div class='v-calendarAll'>
-                    <DatePicker
-                        color="blue"
-                        v-model.lazy="date"
-                        mode="date"
-                        locale="ru"
-                        @dayclick="dayClicked"
-                        :attributes="attrs"
-                        title-position="left"
-                        is-inline
-                        :rows="2"
-                        ref="datePicker"
-                    />
-                </div>
-
-                <div class="table-wrapper">
-                    <div class="loaderGif" v-if="loader">
-                        <loading/>
-                    </div>
-
-                    <Table
-                        @success="download"
-                        :key="componentKey"
-                        :itemLable="formattedDate"
-                        :itemDate="selectedDay?.id"
-                    />
-                </div>
+   <div class="calendar">
+      <div class="container">
+         <div class="flexCalendar">
+            <div class='v-calendarAll'>
+               <client-only>
+                  <DatePicker
+                     color="blue"
+                     v-model.lazy="date"
+                     mode="date"
+                     locale="ru"
+                     @dayclick="dayClicked"
+                     :attributes="attrs"
+                     title-position="left"
+                     is-inline
+                     :rows="2"
+                     ref="datePicker"
+                  />
+               </client-only>
             </div>
-        </div>
-    </div>
+
+            <div class="table-wrapper">
+               <div class="loaderGif" v-if="loader">
+                  <loading/>
+               </div>
+
+               <Table
+                  @success="download"
+                  :key="componentKey"
+                  :itemLable="formattedDate"
+                  :itemDate="selectedDay?.id"
+               />
+            </div>
+         </div>
+      </div>
+   </div>
 </template>
 
 <script>
-    import {Calendar, DatePicker} from "v-calendar";
-    import CalendarHeader from "./CalendarHeader.vue";
-    import Table from "./CalendarTable.vue";
-    import moment from "moment";
-    import az from 'moment/locale/az'
-    import {ref} from "vue";
-    import Loading from "@/components/Loading.vue";
+import {Calendar, DatePicker} from "v-calendar";
+import CalendarHeader from "./CalendarHeader.vue";
+import Table from "./CalendarTable.vue";
+import moment from "moment";
+import az from 'moment/locale/az'
+import {ref} from "vue";
+import Loading from "@/components/Loading.vue";
 
-    export default {
-        components: {
-            Loading,
-            Calendar,
-            DatePicker,
-            CalendarHeader,
-            Table,
-        },
-        data() {
-            return {
-                selectedDay: {
-                    id: moment().format(),
-                    ariaLabel: moment().format("LL")
-                },
-                date: moment().format("LL"),
-                dates: moment().format("LL"),
-                loader: true,
-                attrs: [
-                    {
-                        key: "today",
-                        highlight: true,
-                        dates: moment().format("LL"),
-                    },
-                    {
-                        dot: true,
-                        dates: [
-                            moment().format("LL"), // Jan 1st
-                        ],
-                    },
-                    {
-                        dot: true,
-                        dates: [
-                            moment().format("LL"), // Jan 1st
-                        ],
-                    },
-                    {
-                        dot: true,
-                        dates: [
-                            moment().format("LL"), // Jan 1st
-                        ],
-                    },
-                ],
-                azWeeks: ['B.E', 'Ç.A', 'ÇƏR', 'C.A', 'CÜM', 'ŞƏN', 'BAZ'],
-                azMonts: ['yan', 'fev', 'mart', 'aprel', 'may', 'iyun', 'iyul', 'avg', 'sent', 'okt', 'noy', 'dek']
-            };
-        },
-        setup() {
-            const componentKey = ref(0);
-
-            return {componentKey};
-        },
-        methods: {
-            datePickerMonth() {
-                const datePicker = document.querySelectorAll('.v-calendarAll .vc-pane-container .vc-title');
-
-                datePicker.forEach(item => {
-                    if (item.textContent.split(' ')[0] === 'январь') item.textContent = `Yanvar ${item.textContent.split(' ')[1]}`;
-                    if (item.textContent.split(' ')[0] === 'февраль') item.textContent = `Fevral ${item.textContent.split(' ')[1]}`;
-                    if (item.textContent.split(' ')[0] === 'март') item.textContent = `Mart ${item.textContent.split(' ')[1]}`;
-                    if (item.textContent.split(' ')[0] === 'апрель') item.textContent = `Aprel ${item.textContent.split(' ')[1]}`;
-                    if (item.textContent.split(' ')[0] === 'май') item.textContent = `May ${item.textContent.split(' ')[1]}`;
-                    if (item.textContent.split(' ')[0] === 'июнь') item.textContent = `Iyun ${item.textContent.split(' ')[1]}`;
-                    if (item.textContent.split(' ')[0] === 'июль') item.textContent = `Iyul ${item.textContent.split(' ')[1]}`;
-                    if (item.textContent.split(' ')[0] === 'август') item.textContent = `Avgust ${item.textContent.split(' ')[1]}`;
-                    if (item.textContent.split(' ')[0] === 'сентябрь') item.textContent = `Sentyabr ${item.textContent.split(' ')[1]}`;
-                    if (item.textContent.split(' ')[0] === 'октябрь') item.textContent = `Oktyabr ${item.textContent.split(' ')[1]}`;
-                    if (item.textContent.split(' ')[0] === 'ноябрь') item.textContent = `Noyabr ${item.textContent.split(' ')[1]}`;
-                    if (item.textContent.split(' ')[0] === 'декабрь') item.textContent = `Dekabr ${item.textContent.split(' ')[1]}`;
-                })
+export default {
+   components: {
+      Loading,
+      Calendar,
+      DatePicker,
+      CalendarHeader,
+      Table,
+   },
+   data() {
+      return {
+         datePickerOptions: {
+            monthNames: ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avqust", "sentyabr", "oktyabr", "noyabr", "dekabr"],
+            monthNamesShort: ["yan", "fev", "mart", "apr", "may", "iyun", "iyul", "avq", "sent", "okt", "noy", "dek"],
+            dayNamesNarrow: ["Ba", "Ba.e", "Çə.a", "Çə", "Cü.a", "Cü", "Şə"]
+         },
+         selectedDay: {
+            id: moment().format(),
+            ariaLabel: moment().format("LL")
+         },
+         date: moment().format("LL"),
+         dates: moment().format("LL"),
+         loader: true,
+         attrs: [
+            {
+               key: "today",
+               highlight: true,
+               dates: moment().format("LL"),
             },
-            datePickerMonthDropdown() {
-                const datePickerTitles = document.querySelectorAll('.vc-pane .vc-title');
-                const months = document.querySelectorAll('.vc-popover-content-wrapper');
-
-                datePickerTitles.forEach(title => {
-                    title.addEventListener('click', () => {
-                        months.forEach(month => {
-                            [...month.querySelectorAll('.vc-nav-item')].forEach((item, i) => {
-                                item.textContent = this.azMonts[i];
-                            })
-                        })
-                    })
-                })
+            {
+               dot: true,
+               dates: [
+                  moment().format("LL"), // Jan 1st
+               ],
             },
-            datePickerDay() {
-                const datePicker1 = document.querySelectorAll('.v-calendarAll .vc-pane')[0].querySelectorAll('.vc-weekday');
-                const datePicker2 = document.querySelectorAll('.v-calendarAll .vc-pane')[1].querySelectorAll('.vc-weekday');
-
-                datePicker1.forEach((item, i) => {
-                    item.textContent = this.azWeeks[i];
-                    item.classList.add('active');
-                });
-
-                datePicker2.forEach((item, i) => {
-                    item.textContent = this.azWeeks[i];
-                    item.classList.add('active');
-                });
+            {
+               dot: true,
+               dates: [
+                  moment().format("LL"), // Jan 1st
+               ],
             },
-            download() {
-                this.loader = false
+            {
+               dot: true,
+               dates: [
+                  moment().format("LL"), // Jan 1st
+               ],
             },
-            dayClicked(day) {
-                this.selectedDay = day;
-                this.componentKey += this.selectedDay.day;
-                this.loader = true;
-            },
-        },
-        mounted() {
-            // console.log(moment(this.date).locale(az))
-            const vcArrows = document.querySelectorAll('.vc-pane-container .vc-arrow');
+         ],
+         azWeeks: ['B.E', 'Ç.A', 'ÇƏR', 'C.A', 'CÜM', 'ŞƏN', 'BAZ'],
+         azMonths: ['yan', 'fev', 'mart', 'aprel', 'may', 'iyun', 'iyul', 'avg', 'sent', 'okt', 'noy', 'dek']
+      };
+   },
+   setup() {
+      const componentKey = ref(0);
 
-            this.datePickerMonth();
-            // this.datePickerMonthDropdown();
-            this.datePickerDay();
+      return {componentKey};
+   },
+   methods: {
+      datePickerMonth() {
+         const datePicker = document.querySelectorAll('.v-calendarAll .vc-pane-container .vc-title');
 
-            vcArrows.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    this.datePickerMonth();
-                    // this.datePickerMonthDropdown();
+         datePicker.forEach(item => {
+            if (item.textContent.split(' ')[0] === 'январь') item.textContent = `Yanvar ${item.textContent.split(' ')[1]}`;
+            if (item.textContent.split(' ')[0] === 'февраль') item.textContent = `Fevral ${item.textContent.split(' ')[1]}`;
+            if (item.textContent.split(' ')[0] === 'март') item.textContent = `Mart ${item.textContent.split(' ')[1]}`;
+            if (item.textContent.split(' ')[0] === 'апрель') item.textContent = `Aprel ${item.textContent.split(' ')[1]}`;
+            if (item.textContent.split(' ')[0] === 'май') item.textContent = `May ${item.textContent.split(' ')[1]}`;
+            if (item.textContent.split(' ')[0] === 'июнь') item.textContent = `Iyun ${item.textContent.split(' ')[1]}`;
+            if (item.textContent.split(' ')[0] === 'июль') item.textContent = `Iyul ${item.textContent.split(' ')[1]}`;
+            if (item.textContent.split(' ')[0] === 'август') item.textContent = `Avgust ${item.textContent.split(' ')[1]}`;
+            if (item.textContent.split(' ')[0] === 'сентябрь') item.textContent = `Sentyabr ${item.textContent.split(' ')[1]}`;
+            if (item.textContent.split(' ')[0] === 'октябрь') item.textContent = `Oktyabr ${item.textContent.split(' ')[1]}`;
+            if (item.textContent.split(' ')[0] === 'ноябрь') item.textContent = `Noyabr ${item.textContent.split(' ')[1]}`;
+            if (item.textContent.split(' ')[0] === 'декабрь') item.textContent = `Dekabr ${item.textContent.split(' ')[1]}`;
+         })
+      },
+      datePickerMonthDropdown() {
+         const datePickerTitles = document.querySelectorAll('.vc-pane .vc-title');
+         const months = document.querySelectorAll('.vc-popover-content-wrapper');
 
-                    setTimeout(() => {
-                        this.datePickerDay();
-                    }, 300);
-                })
+         datePickerTitles.forEach(title => {
+            title.addEventListener('click', () => {
+               months.forEach(month => {
+                  [...month.querySelectorAll('.vc-nav-item')].forEach((item, i) => {
+                     item.textContent = this.azMonths[i];
+                  })
+               })
             })
-        },
-        computed: {
-            formattedDate() {
-                moment.updateLocale('az', {
-                    months : [
-                        "Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul",
-                        "August", "Sentyabr", "Oktyabr", "Noyabr", "Decabr"
-                    ]
-                });
+         })
+      },
+      datePickerDay() {
+         const datePicker1 = document.querySelectorAll('.v-calendarAll .vc-pane')[0].querySelectorAll('.vc-weekday');
+         const datePicker2 = document.querySelectorAll('.v-calendarAll .vc-pane')[1].querySelectorAll('.vc-weekday');
 
-                return moment(this.date).format("MMMM Do, YYYY");
-            }
-        }
-    }
+         datePicker1.forEach((item, i) => {
+            item.textContent = this.azWeeks[i];
+            item.classList.add('active');
+         });
+
+         datePicker2.forEach((item, i) => {
+            item.textContent = this.azWeeks[i];
+            item.classList.add('active');
+         });
+      },
+      download() {
+         this.loader = false
+      },
+      dayClicked(day) {
+         this.selectedDay = day;
+         this.componentKey += this.selectedDay.day;
+         this.loader = true;
+      },
+   },
+   mounted() {
+         // setTimeout(() => {
+         //    this.$nextTick(() => {
+         //    console.log('22222222', this.$refs.datePicker)
+            this.$refs.datePicker.$locale.monthNames = [...this.datePickerOptions.monthNames];
+            this.$refs.datePicker.$locale.dayNamesNarrow = [...this.datePickerOptions.dayNamesNarrow];
+            this.$refs.datePicker.$locale.monthNamesShort = [...this.datePickerOptions.monthNamesShort];
+            // })
+         // }, 3000);
+
+      // const vcArrows = document.querySelectorAll('.vc-pane-container .vc-arrow');
+      //
+      // this.datePickerMonth();
+      // // this.datePickerMonthDropdown();
+      // this.datePickerDay();
+      //
+      // vcArrows.forEach(btn => {
+      //    btn.addEventListener('click', () => {
+      //       this.datePickerMonth();
+      //       // this.datePickerMonthDropdown();
+      //
+      //       setTimeout(() => {
+      //          this.datePickerDay();
+      //       }, 300);
+      //    })
+      // })
+   },
+   computed: {
+      formattedDate() {
+         moment.updateLocale('az', {
+            months: [
+               "Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul",
+               "August", "Sentyabr", "Oktyabr", "Noyabr", "Decabr"
+            ]
+         });
+
+         return moment(this.date).format("MMMM Do, YYYY");
+      }
+   }
+}
 </script>
