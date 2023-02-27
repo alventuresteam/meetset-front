@@ -169,15 +169,18 @@
                   <span
 
                      class="errorText"
-                     v-if="userStore.error && userStore.error.emails"
+                     v-if="userStore.error || userStore.error.emails"
                   >
-                      E-maildə səhvlik var
+
+                     {{userStore.error}}
+
+                     {{userStore.error.emails[0]}}
                    </span>
 
 
-                  <template v-if="v$.updateReservation.checkEmails.$errors.length">
-                     <span class="errorText"> E-maildə səhvlik var</span>
-                  </template>
+<!--                  <template v-if="v$.updateReservation.checkEmails.$errors.length">-->
+<!--                     <span class="errorText"> E-maildə səhvlik var</span>-->
+<!--                  </template>-->
                </div>
 
                <div class="modal__form-group">
