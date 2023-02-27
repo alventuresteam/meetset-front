@@ -135,10 +135,7 @@ export default {
 
     setup() {
         const UpdateModalUser = defineAsyncComponent({
-            loader: () =>
-                import(
-                    "../../components/AdminPanel/AdminModal/user/UpdateModalUser.vue"
-                    ),
+            loader: () => import("../../components/AdminPanel/AdminModal/user/UpdateModalUser.vue"),
             delay: 1000,
             timeout: 3000,
             suspensible: true,
