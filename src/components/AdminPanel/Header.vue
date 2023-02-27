@@ -128,8 +128,15 @@ export default {
          document.body.style.overflow = '';
       },
       async logout() {
+         this.clickLoad = true
+
          await this.userStore.signOut();
-         this.$router.push("/");
+
+
+         if (this.userStore.token) {
+            this.clickLoad = false
+            this.$router.push("/");
+         }
       },
 
       closeDropDown() {

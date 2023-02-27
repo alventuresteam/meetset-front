@@ -224,7 +224,6 @@
                <button
                   type="submit"
                   class="submit"
-                  @click="uppdateHandler"
                   id="messg"
                   aria-label="Yadda Saxla"
                >
@@ -415,33 +414,31 @@ export default {
             }
          );
 
+         this.clickLoad = true;
 
-         if (result) {
-            this.clickLoad = true;
+         this.updateReservation.start_date = this.formattedDate;
 
-            this.updateReservation.start_date = this.formattedDate;
+         this.updateReservation.start_time = this.formattedTime;
+         this.updateReservation.end_time = this.formattedEndTime;
 
-            this.updateReservation.start_time = this.formattedTime;
-            this.updateReservation.end_time = this.formattedEndTime;
-
-            await this.userStore.updateReservation(this.updateReservation);
-            await this.useStoreRoom.fetchRoom();
+         await this.userStore.updateReservation(this.updateReservation);
+         await this.useStoreRoom.fetchRoom();
 
 
-            if (!this.userStore.error && !this.userStore.errorMsg) {
-                this.clickLoad = false;
-                this.userStore.errorMsg = "";
-                this.userStore.error = "";
-                this.emitter.emit("refresh");
-                this.$emit("close-modal");
+         if (!this.userStore.error && !this.userStore.errorMsg && result) {
+            this.clickLoad = false;
+            this.userStore.errorMsg = "";
+            this.userStore.error = "";
+            this.emitter.emit("refresh");
+            this.$emit("close-modal");
 
-                this.$toast.success(`Uğurlu redaktə edildi`);
-            }
+            this.$toast.success(`Uğurlu redaktə edildi`);
+         }
 
-            if (this.userStore.error || this.userStore.errorMsg) {
-                this.clickLoad = false;
-            }
-            }
+         if (this.userStore.error || this.userStore.errorMsg || !result) {
+            this.clickLoad = false;
+         }
+
         },
 
         close() {

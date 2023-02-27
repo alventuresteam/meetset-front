@@ -119,7 +119,6 @@ export default defineComponent({
             });
          });
 
-
             this.$nextTick(() => {
                 if (this.events.length > 0) {
                     const lastEvents = this.events.filter(item => {
@@ -184,9 +183,7 @@ export default defineComponent({
             eventClick: (args) => {
                let roomId = parseInt(args.event._def.resourceIds[0]);
                let reservId = parseInt(args.event._def.publicId);
-               const room = this.useStoreRoom?.getRoom?.find(
-                  (item) => item.id == roomId
-               );
+               const room = this.useStoreRoom?.getRoom?.find((item) => item.id == roomId);
                const reservation = room.reservations.find((item) => item.id == reservId);
 
                if (reservation.user_id === this.useUserStores.getUser.id) this.handle(reservation);
@@ -200,13 +197,6 @@ export default defineComponent({
             events: this.events,
          };
       },
-      azMonth() {
-         const title = document.querySelectorAll('.fullcalendar');
-
-         setTimeout(() => {
-            return console.log(title)
-         }, 3000)
-      }
    },
 
    async mounted() {
