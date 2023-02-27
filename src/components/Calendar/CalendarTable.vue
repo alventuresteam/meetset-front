@@ -201,6 +201,8 @@ export default defineComponent({
 
    async mounted() {
       try {
+        await this.useUserStores.fetchUser();
+
          await this.useStoreRoom.fetchRoom();
          this.$emit("success");
          this.emitter.on("refresh", () => {
@@ -209,7 +211,6 @@ export default defineComponent({
          });
 
          this.useStore.fetchReservation();
-         this.useUserStores.fetchUser();
          this.showCalendar = true;
          this.refetch();
       } catch (err) {
