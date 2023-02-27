@@ -281,6 +281,7 @@ export default {
          datePickerOptions: {
             monthNames: ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"],
             dayNamesNarrow: ["Ba", "Ba.e", "Çə.a", "Çə", "Cü.a", "Cü", "Şə"],
+            monthNamesShort: ["yan", "fev", "mart", "apr", "may", "iyun", "iyul", "avq", "sent", "okt", "noy", "dek"],
          },
          start_date: "",
          start_time: "",
@@ -469,6 +470,7 @@ export default {
       // setTimeout(() => {
          this.$refs.datePicker.$locale.monthNames = [...this.datePickerOptions.monthNames];
          this.$refs.datePicker.$locale.dayNamesNarrow = [...this.datePickerOptions.dayNamesNarrow];
+         this.$refs.datePicker.$locale.monthNamesShort = [...this.datePickerOptions.monthNamesShort];
 
          // console.log(this.$refs.datePicker.$locale)
          // console.log([...this.datePickerOptions.monthNames])
