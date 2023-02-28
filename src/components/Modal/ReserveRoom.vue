@@ -240,8 +240,6 @@ import {required, email, minLength, helpers} from "@vuelidate/validators";
 import {storeToRefs} from "pinia";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
 import Loading from "@/components/Loading.vue";
-import {diffDates} from "@fullcalendar/core/internal";
-import * as timers from "timers";
 
 export default {
    components: {
@@ -299,10 +297,10 @@ export default {
    },
 
    methods: {
-      diffDates,
+
       chooseRoom(event) {
          this.room_id = event.id;
-         this.emails = [];
+         // this.emails = [];
       },
       addTag(event) {
 
@@ -430,7 +428,6 @@ export default {
 
       emails: {
          handler() {
-            console.log('sss')
             if (this.emails.length <= 0) {
                this.emailLengthValid = false;
             } else {
