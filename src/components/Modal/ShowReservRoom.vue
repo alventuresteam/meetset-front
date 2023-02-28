@@ -2,7 +2,7 @@
    <div class="modal-overlay">
       <div class="modal" @click.stop>
          <div class="modal__head">
-            <h6 v-if="showDeletButtons" class="modal__head-title">Otaq rezervasiyasını sil</h6>
+            <h6 v-if="showDeleteButtons" class="modal__head-title">Otaq rezervasiyasını sil</h6>
 
             <h6 v-else-if="showEditButtons" class="modal__head-title">Otaq rezervasiyasını redaktə et</h6>
 
@@ -17,8 +17,8 @@
                 </span>
          </div>
 
-         <form class="modal__form" @submit.prevent="uppdateHandler">
-            <div v-if="showDeletButtons">
+         <form class="modal__form" @submit.prevent="updateHandler">
+            <div v-if="showDeleteButtons">
                <p class="modal__form-delete">
                   Bu otaq rezervasiyasını silmək istədiyinizə əminsiniz?
                </p>
@@ -36,13 +36,11 @@
                      <template #default="{ inputValue, inputEvents }">
                         <input class="input " placeholder="Tarix" :value="inputValue" v-on="inputEvents"/>
                         <img @click="$refs.datePicker.togglePopover()" class='input-icon'
-                             src="../../assets/images/svg/calendar.svg"/>
+                             src="../../assets/images/svg/calendar.svg" alt="input-icon"/>
                      </template>
                   </DatePicker>
 
-                  <span class="errorText" v-if="userStore.errorMsg">
-                            {{ userStore.errorMsg }}
-                        </span>
+
 
                   <span
                      class="errorText"
@@ -115,7 +113,7 @@
                      v-for="error in v$.updateReservation.room_id.$errors"
                      :key="error.$uid"
                   >
-              Otaq boşdur
+              Otaq boş ola bilməz
             </span>
                </div>
 
@@ -134,7 +132,7 @@
                      v-for="error in v$.updateReservation.organizer_name.$errors"
                      :key="error.$uid"
                   >
-              İclası təşkil edən şəxs boşdur
+              İclası təşkil edən şəxs boş ola bilməz
             </span>
                </div>
 
@@ -163,21 +161,18 @@
                         @keydown.188="addTag"
                         @keyup.space="addTag"
                         @keydown.delete="removeLastTag"
+                        @focusout="userStore.error = null"
+
                      />
                   </div>
 
-                  <span
+                  <span class="errorText" v-if="emailLengthValid === false">
+                  E-mail boş ola bilməz
+               </span>
+                  <span class="errorText" v-if="updateReservation.emails && updateReservation.emails.length && emailLengthType === false">
+                  E-maildə səhvlik var
+               </span>
 
-                     class="errorText"
-                     v-if="userStore.error && userStore.error.emails"
-                  >
-                      E-maildə səhvlik var
-                   </span>
-
-
-                  <template v-if="v$.updateReservation.checkEmails.$errors.length">
-                     <span class="errorText"> E-maildə səhvlik var</span>
-                  </template>
                </div>
 
                <div class="modal__form-group">
@@ -195,7 +190,7 @@
                      v-for="error in v$.updateReservation.title.$errors"
                      :key="error.$uid"
                   >
-              Görüşlə başlığı boşdur
+              Görüşlə başlığı boş ola bilməz
             </span>
                </div>
 
@@ -213,7 +208,7 @@
                   type="button"
                   class="submitWhite"
                   aria-label="Silmək"
-                  @click="activeDelet"
+                  @click="activeDelete"
                >
                   Sil
                   <img
@@ -232,7 +227,7 @@
                </button>
             </div>
 
-            <div v-if="showDeletButtons" class="modal__form-group modal__flex">
+            <div v-if="showDeleteButtons" class="modal__form-group modal__flex">
                <button
                   type="button"
                   class="submitWhite"
@@ -246,8 +241,7 @@
                   type="submit"
                   class="submitWhite"
                   id="messg"
-                  aria-label="Sil"
-
+                  aria-label="Bəli"
                >
                   <span>Bəli</span>
 
@@ -267,7 +261,7 @@ import {useRoomStore} from "../../stores/room";
 import {TimePickerComponent} from "@syncfusion/ej2-vue-calendars";
 import moment from "moment";
 import {useVuelidate} from "@vuelidate/core";
-import {required, email, minLength, helpers} from "@vuelidate/validators";
+import {required} from "@vuelidate/validators";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
 import {DatePicker} from "v-calendar";
 import Loading from "@/components/Loading.vue";
@@ -281,6 +275,8 @@ export default {
       DatePicker,
 
    },
+
+
    data() {
       return {
          datePickerOptions: {
@@ -290,8 +286,12 @@ export default {
          clickLoad: false,
          updateReservation: {},
          updateReservationRoom: {},
+
+         emailLengthValid: null,
+         emailLengthType: null,
+
          showEditButtons: true,
-         showDeletButtons: false,
+         showDeleteButtons: false,
          timeFormat: "HH:mm",
          limit: 250,
          waterMark: "Saat",
@@ -315,25 +315,8 @@ export default {
             start_time: {required},
             organizer_name: {required},
             start_date: {required},
-            emails: {
-               minLength: minLength(1),
-               $each: helpers.forEach({
-                  required,
-                  email,
-               }),
-            },
-            checkEmails: {
-               minLength: minLength(1),
-               $each: helpers.forEach({
-                  email: {
-                     required,
-                     email,
-                  },
-               }),
-            },
             room_id: {required},
             title: {required},
-            // comment: { required },
          },
       };
    },
@@ -352,8 +335,8 @@ export default {
          this.updateReservation.emails = [];
       },
 
-
       addTag(event) {
+
          let room = this.getRoom.find(
             (item) => item.id === this.updateReservation.room_id
          );
@@ -367,7 +350,6 @@ export default {
          if (this.updateReservation.emails.includes(val)) {
             return;
          }
-         event.preventDefault();
          if (val.length > 0) {
             this.updateReservation.emails.push(val);
             event.target.value = "";
@@ -382,71 +364,65 @@ export default {
             this.removeTag(this.updateReservation.emails.length - 1);
          }
       },
-
-      activeDelet() {
-         this.showDeletButtons = true;
+      activeDelete() {
+         this.showDeleteButtons = true;
          this.showEditButtons = false;
       },
-
 
       async handleDelete(item) {
          this.clickLoad = true;
          await this.userStore.deletReservation(item);
          await this.useStoreRoom.fetchRoom();
-
          this.clickLoad = false;
-
-         this.userStore.errorMsg = "";
-         this.userStore.error = [];
          this.emitter.emit("refresh");
-         this.$emit("close-modal");
-
-
-
+         this.close()
          this.$toast.success(`Uğurla silindi`);
       },
 
-      async uppdateHandler(e) {
-         const result = await this.v$.$validate();
-         this.updateReservation.checkEmails = this.updateReservation.emails.map(
-            (item) => {
-               return {
-                  email: item,
-               };
-            }
-         );
+      async updateHandler(e) {
+         if (this.updateReservation.emails.length <= 0) {
+            this.emailLengthValid = false;
+         }
+
+         if ((await this.v$.$validate()).valueOf() === false) {
+            return
+         }
+
+         if (this.emailLengthValid === false || this.emailLengthType === false) {
+            return
+         }
 
          this.clickLoad = true;
 
          this.updateReservation.start_date = this.formattedDate;
-
          this.updateReservation.start_time = this.formattedTime;
          this.updateReservation.end_time = this.formattedEndTime;
 
          await this.userStore.updateReservation(this.updateReservation);
          await this.useStoreRoom.fetchRoom();
+         this.emitter.emit("refresh");
 
 
-         if (!this.userStore.error && !this.userStore.errorMsg) {
+         if (this.userStore.errorMsg) {
             this.clickLoad = false;
-            this.userStore.errorMsg = "";
-            this.userStore.error = "";
-            this.emitter.emit("refresh");
-            this.$emit("close-modal");
+            this.$toast.error(this.userStore.errorMsg);
+         }
 
+         if (!this.userStore.error && !this.userStore.errorMsg && this.showEditButtons) {
+            this.clickLoad = false;
+            this.close();
             this.$toast.success(`Uğurlu redaktə edildi`);
          }
 
-         if (this.userStore.error || this.userStore.errorMsg) {
+         if (this.userStore.error ) {
             this.clickLoad = false;
          }
-
       },
 
       close() {
          this.$emit("close-modal");
          this.userStore.errorMsg = "";
-         this.userStore.error = "";
+         this.userStore.error = [];
       },
 
       changeValue: function (args) {
@@ -473,15 +449,33 @@ export default {
       return {userStore, useStoreRoom, v$: useVuelidate()};
    },
 
-   computed: {
+   watch:{
+     'updateReservation.emails': {
+         handler() {
+            if (this.updateReservation.emails.length <= 0) {
+               this.emailLengthValid = false;
+            } else {
+               this.emailLengthValid = true;
+            }
 
+            this.updateReservation.emails.forEach(email => {
+               if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+                  this.emailLengthType = true
+               } else {
+                  this.emailLengthType = false
+               }
+            })
+         },
+         deep: true
+      }
+   },
+
+   computed: {
 
       getRoom() {
          return this.useStoreRoom.getRoom;
       },
-      minDate() {
-         return new Date().toISOString().split("T")[0];
-      },
+
       formattedTime() {
          return moment(this.updateReservation.start_time, "H:mm").format("HH:mm");
       },
@@ -495,4 +489,3 @@ export default {
    },
 };
 </script>
-

@@ -3,7 +3,7 @@
       <div class="modal modal__rezerv" @click.stop>
          <div class="modal__head">
             <h6 class="modal__head-title">Otaq rezerv et</h6>
-            <span class="modal__head-close" @click="$emit('close-modal')">
+            <span class="modal__head-close" @click="close">
               <img
                  loading="lazy"
                  src="../../assets/images/svg/modalClose.svg"
@@ -27,9 +27,6 @@
                   </template>
                </DatePicker>
 
-               <span class="errorText" v-if="userStore.errorMsg">
-                  {{ userStore.errorMsg }}
-               </span>
 
                <span
                   class="errorText"
@@ -48,7 +45,6 @@
                      :change="onEnableEndTime"
                      :step="step"
                      :min="currentDateTime"
-                     @beforeOpen="onBeforeOpen"
                      :enabled="true"
                      :readonly="startRead"
                      :placeholder="waterMark"
@@ -63,7 +59,7 @@
                      v-for="error in v$.start_time.$errors"
                      :key="error.$uid"
                   >
-               Başlama tarixi boş
+              Başlama tarixi ola bilməz
             </span>
                </div>
                <div class="input">

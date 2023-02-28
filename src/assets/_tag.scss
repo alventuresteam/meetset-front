@@ -23,6 +23,18 @@
     border: transparent;
   }
 
+
+.tag-input__tag > span {
+  cursor: pointer;
+  cursor: pointer;
+  opacity: 0.75;
+  display: inline-block;
+  color: rgba(46, 144, 250, 1);
+  background-color: transparent;
+  border: transparent;
+
+}
+
   .tag-input__text {
     border: none;
     outline: none;

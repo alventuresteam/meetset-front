@@ -32,6 +32,8 @@ const routes = [
             if (JSON.parse(localStorage.getItem('user')).role === 1) {
                window.location.href = "/user";
             }
+         } else {
+            window.location.href = "/";
          }
       }
    },
@@ -47,6 +49,8 @@ const routes = [
                   if (JSON.parse(localStorage.getItem('user')).role === 0) {
                      window.location.href = "/calendar";
                   }
+               } else {
+                  window.location.href = "/";
                }
             }
          },
@@ -59,6 +63,8 @@ const routes = [
                   if (JSON.parse(localStorage.getItem('user')).role === 0) {
                      window.location.href = "/calendar";
                   }
+               } else {
+                  window.location.href = "/";
                }
             }
          },
@@ -71,6 +77,8 @@ const routes = [
                   if (JSON.parse(localStorage.getItem('user')).role === 0) {
                      window.location.href = "/calendar";
                   }
+               } else {
+                  window.location.href = "/";
                }
             }
          },
