@@ -59,7 +59,7 @@
                      v-for="error in v$.start_time.$errors"
                      :key="error.$uid"
                   >
-              Başlama tarixi ola bilməz
+            Başlama vaxti boş ola bilməz
             </span>
                </div>
                <div class="input">
@@ -120,7 +120,7 @@
                   v-for="error in v$.organizer_name.$errors"
                   :key="error.$uid"
                >
-               Təşkilatçı boşdu
+               Təşkilatçı boş ola bilməz
              </span>
             </div>
 
@@ -141,48 +141,26 @@
                   </div>
 
                   <textarea
-                     :disabled="!room_id"
                      maxlength="255"
                      class="tag-input__text"
                      @keydown.enter="addTag"
                      @keydown.188="addTag"
                      @keyup.space="addTag"
                      @keydown.delete="removeLastTag"
+                     @focusout="userStore.error = null"
                   />
                </div>
 
-               <span
-                  class="errorText"
-                  v-for="error in v$.checkEmails.$errors"
-                  :key="error.$uid"
-               >
-                  <span v-if="error.$message === 'Value is not a valid email address'">E-mail yanlışdır</span>
-                  <!--                                    <span v-if="error.$response.$data[0].email.required === true">Email boş ola bilməz</span>-->
-                  <!--                     {{error.$message[0][0]}}-->
-                  <!--                      <template v-for="err in error.$message">-->
-                  <!--                        {{ err === "Value is required" ? "Email boş ola bilməz" : "" }}-->
-                  <!--                        {{-->
-                  <!--                            err[0] === "Value is not a valid email address"-->
-                  <!--                               ? "E-mail yanlışdır"-->
-                  <!--                               : ""-->
-                  <!--                         }}-->
+               <span class="errorText" v-if="emailLengthValid === false">
+                  E-mail boş ola bilməz
+               </span>
 
-                  <!--                         {{err}}-->
-                  <!--                      </template>-->
-                     <p
-                        class="errorText"
-                        v-if="error.$message === 'Value is required'"
-                     >
-                        Email boş ola bilməz
-                     </p>
+               <span class="errorText" v-if="emails.length && emailLengthType === false">
+                  E-maildə səhvlik var
+               </span>
 
-                     <p
-                        class="errorText"
-                        v-if="error.$message[0][0] === 'Value is not a valid email address'"
-                     >
-                        E-mail yanlışdır
-                     </p>
-                 </span>
+               <!--               <pre>{{this.emailLengthValid}} emailLengthValid</pre>-->
+               <!--               <pre>{{this.emailLengthType}} emailLengthType</pre>-->
             </div>
 
             <div class="modal__form-group">
@@ -199,8 +177,8 @@
                   v-for="error in v$.title.$errors"
                   :key="error.$uid"
                >
-            Görüşün başlığı boşdur
-          </span>
+               Görüşün başlığı boş ola bilməz
+             </span>
             </div>
 
             <div class="modal__form-group">
@@ -209,7 +187,6 @@
                    placeholder="Görüşlə bağlı qeydlər"
                    id="messg"
                    v-model.lazy="comment"
-                   v-on:input="check"
                 >
                 </textarea>
             </div>
@@ -219,7 +196,7 @@
                   aria-label="İmtina"
                   type="button"
                   class="submitWhite"
-                  @click="$emit('close-modal')"
+                  @click="close"
                >
                   Xeyir
                </button>
@@ -239,14 +216,15 @@
    </div>
 
    <div v-show="clickLoad" class="loading-dots">
-      <loading />
+      <loading/>
    </div>
 </template>
 
 <style>
-   .disabled {
-      background: rgb(204 204 204 / 38%);
-   }
+.disabled {
+   pointer-events: none;
+   background: rgb(204 204 204 / 38%);
+}
 </style>
 
 <script>
@@ -262,6 +240,8 @@ import {required, email, minLength, helpers} from "@vuelidate/validators";
 import {storeToRefs} from "pinia";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
 import Loading from "@/components/Loading.vue";
+import {diffDates} from "@fullcalendar/core/internal";
+import * as timers from "timers";
 
 export default {
    components: {
@@ -284,7 +264,8 @@ export default {
          room_id: "",
          organizer_name: "",
          emails: [],
-         checkEmails: [],
+         emailLengthValid: null,
+         emailLengthType: null,
          title: "",
          comment: "",
          clickLoad: false,
@@ -313,63 +294,18 @@ export default {
          end_time: {required},
          room_id: {required},
          organizer_name: {required},
-         emails: {
-            minLength: minLength(1),
-            required,
-            $each: helpers.forEach({
-               // email: {
-               //    required,
-               //    email,
-               // },
-               required,
-               email,
-            }),
-         },
-         checkEmails: {
-            minLength: minLength(1),
-            required,
-            $each: helpers.forEach({
-               email: {
-                  required,
-                  email,
-               },
-            }),
-         },
          title: {required},
-         //   comment: { required },
       };
    },
 
    methods: {
+      diffDates,
       chooseRoom(event) {
          this.room_id = event.id;
          this.emails = [];
       },
-
-      onBeforeOpen(args) {
-         // Get the entered time
-         const enteredTime = new Date(args.target.value);
-
-         // Check if the entered time is in the past
-         if (enteredTime < this.currentDateTime) {
-
-            args.preventDefault();
-            // Reset the time to the current time
-            args.target.value = this.currentDateTime.toLocaleTimeString();
-
-
-         }
-      },
-
       addTag(event) {
-         event.preventDefault();
 
-         const result = this.v$.$validate();
-         this.checkEmails = this.emails.map((item) => {
-            return {
-               email: item,
-            };
-         });
 
          let room = this.getRoom.find((item) => item.id === this.room_id);
          if (room.capacity <= this.emails.length) {
@@ -397,19 +333,17 @@ export default {
       },
 
       async addPerson() {
-         // this.v$.emails.$touch();
+         if (this.emails.length <= 0) {
+            this.emailLengthValid = false;
+         }
 
-         // if (this.v$.$invalid) {
-         //    this.$toast.error('Заполните обязательные поля!');
-         // return
-         // }
+         if ((await this.v$.$validate()).valueOf() === false) {
+            return
+         }
 
-         const result = await this.v$.$validate();
-         this.checkEmails = this.emails.map((item) => {
-            return {
-               email: item,
-            };
-         });
+         if (this.emailLengthValid === false || this.emailLengthType === false) {
+            return
+         }
 
          this.clickLoad = true;
 
@@ -423,20 +357,29 @@ export default {
             this.title,
             this.comment
          );
+
+         if (!this.userStore.error && !this.userStore.errorMsg) {
+            this.clickLoad = false;
+            this.close()
+            this.$toast.success(`Rezerv uğurlu keçdi`);
+         }
          await this.useStoreRoom.fetchRoom();
          this.emitter.emit("refresh");
 
-         if (this.userStore.error || this.userStore.errorMsg) {
+         if (this.userStore.errorMsg) {
             this.clickLoad = false;
+            this.$toast.error(this.userStore.errorMsg);
          }
 
-         if (!this.userStore.error && !this.userStore.errorMsg) {
-            this.$emit("close-modal");
+         if (this.userStore.error) {
             this.clickLoad = false;
-            this.userStore.errorMsg = "";
-            this.userStore.error = [];
-            this.$toast.success(`Rezerv uğurlu keçdi`);
          }
+      },
+
+      close() {
+         this.userStore.errorMsg = "";
+         this.userStore.error = [];
+         this.$emit("close-modal");
       },
 
       changeValue: function (args) {
@@ -455,35 +398,12 @@ export default {
             this.isStartTimeChange = true;
          }
       },
-      check() {
-         this.comment = this.comment.substr(0, this.limit);
-      },
-      onBlur() {
-         let today = new Date().toISOString().split("T")[0];
-         if (this.start_date < today) {
-            this.start_date = today;
-            this.type = "text";
-         }
-      },
    },
 
    mounted() {
-      // setTimeout(() => {
       this.$refs.datePicker.$locale.monthNames = [...this.datePickerOptions.monthNames];
       this.$refs.datePicker.$locale.dayNamesNarrow = [...this.datePickerOptions.dayNamesNarrow];
       this.$refs.datePicker.$locale.monthNamesShort = [...this.datePickerOptions.monthNamesShort];
-
-      // console.log(this.$refs.datePicker.$locale)
-      // console.log([...this.datePickerOptions.monthNames])
-      // }, 0);
-      // let dtToday = new Date();
-      // let month = dtToday.getMonth() + 1;
-      // let day = dtToday.getDate();
-      // let year = dtToday.getFullYear();
-      // if (month < 10) month = "0" + month.toString();
-      // if (day < 10) day = "0" + day.toString();
-      // let maxDate = year + "-" + month + "-" + day;
-      // document.getElementById("date").setAttribute("min", maxDate);
    },
 
    setup() {
@@ -501,7 +421,31 @@ export default {
 
    watch: {
       dateDifference(val) {
-         if (val === true) this.currentDateTime = new Date(2023, 1, 1, 0);
+         if (val === true) {
+            this.currentDateTime = new Date(2023, 1, 1, 0);
+         } else {
+            this.currentDateTime = new Date();
+         }
+      },
+
+      emails: {
+         handler() {
+            console.log('sss')
+            if (this.emails.length <= 0) {
+               this.emailLengthValid = false;
+            } else {
+               this.emailLengthValid = true;
+            }
+
+            this.emails.forEach(email => {
+               if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+                  this.emailLengthType = true
+               } else {
+                  this.emailLengthType = false
+               }
+            })
+         },
+         deep: true
       }
    },
 
@@ -511,6 +455,7 @@ export default {
             return this.start_date > new Date();
          }
       },
+
       startVal() {
          // Round the current time to the nearest 10-minute interval
          const currentMinute = this.currentDateTime.getMinutes();
@@ -519,16 +464,6 @@ export default {
 
          // Return the rounded time as the start value
          return this.currentDateTime;
-      },
-
-      endVal() {
-         // Round the current time to the nearest 10-minute interval
-         const currentMinute = this.min.getMinutes();
-         const roundedMinute = Math.ceil(currentMinute / 10) * 10;
-         this.min.setMinutes(roundedMinute);
-
-         // Return the rounded time as the start value
-         return this.min;
       },
 
       getRoom() {
