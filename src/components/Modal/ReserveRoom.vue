@@ -59,7 +59,11 @@
                      v-for="error in v$.start_time.$errors"
                      :key="error.$uid"
                   >
+
+               Başlama tarixi boş
+
               Başlama tarixi ola bilməz
+
             </span>
                </div>
                <div class="input">

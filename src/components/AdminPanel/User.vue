@@ -63,8 +63,6 @@
                            id="messg"
                         >
                            <span>Bəli</span>
-
-
                         </button>
                      </div>
                   </form>
@@ -141,6 +139,7 @@ export default {
          this.showDeletButtons = false;
          this.clickLoad = false;
          this.$toast.success(`Istifadəçi uğurla silindi`);
+         document.body.style.overflow = ''
       },
    },
 
