@@ -71,7 +71,7 @@
                         v-for="error in v$.updateReservation.start_time.$errors"
                         :key="error.$uid"
                      >
-                                Başlama vaxti boş ola bilməz error
+                             Başlama vaxti boş ola bilməz error
                           </span>
                   </div>
 

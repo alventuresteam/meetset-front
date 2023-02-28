@@ -159,8 +159,8 @@
                   E-maildə səhvlik var
                </span>
 
-<!--               <pre>{{this.emailLengthValid}} emailLengthValid</pre>-->
-<!--               <pre>{{this.emailLengthType}} emailLengthType</pre>-->
+               <!--               <pre>{{this.emailLengthValid}} emailLengthValid</pre>-->
+               <!--               <pre>{{this.emailLengthType}} emailLengthType</pre>-->
             </div>
 
             <div class="modal__form-group">
@@ -302,7 +302,7 @@ export default {
       diffDates,
       chooseRoom(event) {
          this.room_id = event.id;
-         this.emails = [];
+         // this.emails = [];
       },
       addTag(event) {
 
@@ -430,6 +430,7 @@ export default {
 
       emails: {
          handler() {
+            console.log('sss')
             if (this.emails.length <= 0) {
                this.emailLengthValid = false;
             } else {
