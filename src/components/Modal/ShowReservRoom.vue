@@ -2,7 +2,7 @@
    <div class="modal-overlay">
       <div class="modal" @click.stop>
          <div class="modal__head">
-            <h6 v-if="showDeletButtons" class="modal__head-title">Otaq rezervasiyasını sil</h6>
+            <h6 v-if="showDeleteButtons" class="modal__head-title">Otaq rezervasiyasını sil</h6>
 
             <h6 v-else-if="showEditButtons" class="modal__head-title">Otaq rezervasiyasını redaktə et</h6>
 
@@ -18,7 +18,7 @@
          </div>
 
          <form class="modal__form" @submit.prevent="updateHandler">
-            <div v-if="showDeletButtons">
+            <div v-if="showDeleteButtons">
                <p class="modal__form-delete">
                   Bu otaq rezervasiyasını silmək istədiyinizə əminsiniz?
                </p>
@@ -36,7 +36,7 @@
                      <template #default="{ inputValue, inputEvents }">
                         <input class="input " placeholder="Tarix" :value="inputValue" v-on="inputEvents"/>
                         <img @click="$refs.datePicker.togglePopover()" class='input-icon'
-                             src="../../assets/images/svg/calendar.svg"/>
+                             src="../../assets/images/svg/calendar.svg" alt="input-icon"/>
                      </template>
                   </DatePicker>
 
@@ -157,30 +157,21 @@
                      <textarea
                         class="tag-input__text"
                         maxlength="50"
-                        @focusout="userStore.error = null"
                         @keydown.enter="addTag"
                         @keydown.188="addTag"
                         @keyup.space="addTag"
                         @keydown.delete="removeLastTag"
+                        @focusout="userStore.error = null"
+
                      />
                   </div>
 
-                  <span
-                     class="errorText"
-                     v-if="userStore.error && userStore.error.emails"
-                  >
-                      E-mail boş ola bilməz
-                   </span>
-
-
-                  <span
-                     class="errorText"
-                     v-if="userStore.error && userStore.error['emails.0']"
-                  >
-                     E-maildə səhvlik var
-                   </span>
-
-
+                  <span class="errorText" v-if="emailLengthValid === false">
+                  E-mail boş ola bilməz
+               </span>
+                  <span class="errorText" v-if="updateReservation.emails && updateReservation.emails.length && emailLengthType === false">
+                  E-maildə səhvlik var
+               </span>
 
                </div>
 
@@ -236,7 +227,7 @@
                </button>
             </div>
 
-            <div v-if="showDeletButtons" class="modal__form-group modal__flex">
+            <div v-if="showDeleteButtons" class="modal__form-group modal__flex">
                <button
                   type="button"
                   class="submitWhite"
@@ -270,7 +261,7 @@ import {useRoomStore} from "../../stores/room";
 import {TimePickerComponent} from "@syncfusion/ej2-vue-calendars";
 import moment from "moment";
 import {useVuelidate} from "@vuelidate/core";
-import {required, email, minLength, helpers} from "@vuelidate/validators";
+import {required} from "@vuelidate/validators";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
 import {DatePicker} from "v-calendar";
 import Loading from "@/components/Loading.vue";
@@ -284,6 +275,8 @@ export default {
       DatePicker,
 
    },
+
+
    data() {
       return {
          datePickerOptions: {
@@ -293,10 +286,12 @@ export default {
          clickLoad: false,
          updateReservation: {},
          updateReservationRoom: {},
-         checkEmails: [],
+
+         emailLengthValid: null,
+         emailLengthType: null,
 
          showEditButtons: true,
-         showDeletButtons: false,
+         showDeleteButtons: false,
          timeFormat: "HH:mm",
          limit: 250,
          waterMark: "Saat",
@@ -320,22 +315,6 @@ export default {
             start_time: {required},
             organizer_name: {required},
             start_date: {required},
-            emails: {
-               minLength: minLength(1),
-               $each: helpers.forEach({
-                  required,
-                  email,
-               }),
-            },
-            checkEmails: {
-               minLength: minLength(1),
-               $each: helpers.forEach({
-                  email: {
-                     required,
-                     email,
-                  },
-               }),
-            },
             room_id: {required},
             title: {required},
          },
@@ -356,14 +335,8 @@ export default {
          this.updateReservation.emails = [];
       },
 
-
       addTag(event) {
 
-         this.checkEmails = this.updateReservation.emails.map((item) => {
-            return {
-               email: item,
-            };
-         });
          let room = this.getRoom.find(
             (item) => item.id === this.updateReservation.room_id
          );
@@ -391,12 +364,10 @@ export default {
             this.removeTag(this.updateReservation.emails.length - 1);
          }
       },
-
       activeDelete() {
-         this.showDeletButtons = true;
+         this.showDeleteButtons = true;
          this.showEditButtons = false;
       },
-
 
       async handleDelete(item) {
          this.clickLoad = true;
@@ -409,16 +380,17 @@ export default {
       },
 
       async updateHandler(e) {
+         if (this.updateReservation.emails.length <= 0) {
+            this.emailLengthValid = false;
+         }
 
-         await this.v$.$validate();
+         if ((await this.v$.$validate()).valueOf() === false) {
+            return
+         }
 
-         this.updateReservation.checkEmails = this.updateReservation.emails.map(
-            (item) => {
-               return {
-                  email: item,
-               };
-            }
-         );
+         if (this.emailLengthValid === false || this.emailLengthType === false) {
+            return
+         }
 
          this.clickLoad = true;
 
@@ -450,7 +422,7 @@ export default {
       close() {
          this.$emit("close-modal");
          this.userStore.errorMsg = "";
-         this.userStore.error = "";
+         this.userStore.error = [];
       },
 
       changeValue: function (args) {
@@ -475,6 +447,27 @@ export default {
       const userStore = useReservationStore();
       const useStoreRoom = useRoomStore();
       return {userStore, useStoreRoom, v$: useVuelidate()};
+   },
+
+   watch:{
+     'updateReservation.emails': {
+         handler() {
+            if (this.updateReservation.emails.length <= 0) {
+               this.emailLengthValid = false;
+            } else {
+               this.emailLengthValid = true;
+            }
+
+            this.updateReservation.emails.forEach(email => {
+               if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+                  this.emailLengthType = true
+               } else {
+                  this.emailLengthType = false
+               }
+            })
+         },
+         deep: true
+      }
    },
 
    computed: {

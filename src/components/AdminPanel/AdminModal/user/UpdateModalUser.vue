@@ -11,7 +11,7 @@
             <div class="modal__form-group">
                <input
                   class="input input__100"
-                  v-model.lazy="updateDataPerson.name"
+                  v-model.trim="updateDataPerson.name"
                   placeholder="Ad, soyad"
                   maxlength="250"
                   type="text"
@@ -29,7 +29,7 @@
             <div class="modal__form-group">
                <input
                   class="input input__100"
-                  v-model.lazy="updateDataPerson.fin_code"
+                  v-model.trim="updateDataPerson.fin_code"
                   placeholder="FİN nömrə"
                   maxlength="7"
                   type="text"
@@ -64,7 +64,7 @@
             <div class="modal__form-group">
                <input
                   class="input input__100"
-                  v-model.lazy="updateDataPerson.email"
+                  v-model.trim="updateDataPerson.email"
                   placeholder="E-mail"
                   maxlength="250"
                   type="text"
@@ -88,7 +88,7 @@
                   class="input input__100"
                   placeholder="Şifrə"
                   maxlength="64"
-                  v-model.lazy="updateDataPerson.password"
+                  v-model.trim="updateDataPerson.password"
                   type="text"
                />
 
@@ -97,7 +97,7 @@
                   class="input input__100"
                   placeholder="Şifrə"
                   maxlength="64"
-                  v-model.lazy="updateDataPerson.password"
+                  v-model.trim="updateDataPerson.password"
                   type="password"
 
                />

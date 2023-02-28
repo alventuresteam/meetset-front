@@ -141,34 +141,26 @@
                   </div>
 
                   <textarea
-                     :disabled="!room_id"
                      maxlength="255"
                      class="tag-input__text"
                      @keydown.enter="addTag"
-                     @focusout="userStore.error = null"
-
                      @keydown.188="addTag"
                      @keyup.space="addTag"
                      @keydown.delete="removeLastTag"
+                     @focusout="userStore.error = null"
                   />
                </div>
 
-               <span
-                  class="errorText"
-                  v-if="userStore.error && userStore.error.emails"
-               >
-                      E-mail boş ola bilməz
-                   </span>
+               <span class="errorText" v-if="emailLengthValid === false">
+                  E-mail boş ola bilməz
+               </span>
 
+               <span class="errorText" v-if="emails.length && emailLengthType === false">
+                  E-maildə səhvlik var
+               </span>
 
-               <span
-                  class="errorText"
-                  v-if="userStore.error && userStore.error['emails.0']"
-               >
-                     E-maildə səhvlik var
-                   </span>
-
-
+<!--               <pre>{{this.emailLengthValid}} emailLengthValid</pre>-->
+<!--               <pre>{{this.emailLengthType}} emailLengthType</pre>-->
             </div>
 
             <div class="modal__form-group">
@@ -185,8 +177,8 @@
                   v-for="error in v$.title.$errors"
                   :key="error.$uid"
                >
-            Görüşün başlığı boş ola bilməz
-          </span>
+               Görüşün başlığı boş ola bilməz
+             </span>
             </div>
 
             <div class="modal__form-group">
@@ -195,7 +187,6 @@
                    placeholder="Görüşlə bağlı qeydlər"
                    id="messg"
                    v-model.lazy="comment"
-                   v-on:input="check"
                 >
                 </textarea>
             </div>
@@ -231,6 +222,7 @@
 
 <style>
 .disabled {
+   pointer-events: none;
    background: rgb(204 204 204 / 38%);
 }
 </style>
@@ -249,6 +241,7 @@ import {storeToRefs} from "pinia";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
 import Loading from "@/components/Loading.vue";
 import {diffDates} from "@fullcalendar/core/internal";
+import * as timers from "timers";
 
 export default {
    components: {
@@ -271,7 +264,8 @@ export default {
          room_id: "",
          organizer_name: "",
          emails: [],
-         checkEmails: [],
+         emailLengthValid: null,
+         emailLengthType: null,
          title: "",
          comment: "",
          clickLoad: false,
@@ -300,30 +294,7 @@ export default {
          end_time: {required},
          room_id: {required},
          organizer_name: {required},
-         emails: {
-            minLength: minLength(1),
-            required,
-            $each: helpers.forEach({
-               // email: {
-               //    required,
-               //    email,
-               // },
-               required,
-               email,
-            }),
-         },
-         checkEmails: {
-            minLength: minLength(1),
-            required,
-            $each: helpers.forEach({
-               email: {
-                  required,
-                  email,
-               },
-            }),
-         },
          title: {required},
-         //   comment: { required },
       };
    },
 
@@ -333,15 +304,8 @@ export default {
          this.room_id = event.id;
          this.emails = [];
       },
-
-
       addTag(event) {
 
-         this.checkEmails = this.emails.map((item) => {
-            return {
-               email: item,
-            };
-         });
 
          let room = this.getRoom.find((item) => item.id === this.room_id);
          if (room.capacity <= this.emails.length) {
@@ -369,13 +333,17 @@ export default {
       },
 
       async addPerson() {
+         if (this.emails.length <= 0) {
+            this.emailLengthValid = false;
+         }
 
-          await this.v$.$validate();
-         this.checkEmails = this.emails.map((item) => {
-            return {
-               email: item,
-            };
-         });
+         if ((await this.v$.$validate()).valueOf() === false) {
+            return
+         }
+
+         if (this.emailLengthValid === false || this.emailLengthType === false) {
+            return
+         }
 
          this.clickLoad = true;
 
@@ -389,6 +357,12 @@ export default {
             this.title,
             this.comment
          );
+
+         if (!this.userStore.error && !this.userStore.errorMsg) {
+            this.clickLoad = false;
+            this.close()
+            this.$toast.success(`Rezerv uğurlu keçdi`);
+         }
          await this.useStoreRoom.fetchRoom();
          this.emitter.emit("refresh");
 
@@ -399,12 +373,6 @@ export default {
 
          if (this.userStore.error) {
             this.clickLoad = false;
-         }
-
-         if (!this.userStore.error && !this.userStore.errorMsg) {
-            this.clickLoad = false;
-            this.close()
-            this.$toast.success(`Rezerv uğurlu keçdi`);
          }
       },
 
@@ -428,16 +396,6 @@ export default {
             this.min = value;
          } else {
             this.isStartTimeChange = true;
-         }
-      },
-      check() {
-         this.comment = this.comment.substr(0, this.limit);
-      },
-      onBlur() {
-         let today = new Date().toISOString().split("T")[0];
-         if (this.start_date < today) {
-            this.start_date = today;
-            this.type = "text";
          }
       },
    },
@@ -468,6 +426,25 @@ export default {
          } else {
             this.currentDateTime = new Date();
          }
+      },
+
+      emails: {
+         handler() {
+            if (this.emails.length <= 0) {
+               this.emailLengthValid = false;
+            } else {
+               this.emailLengthValid = true;
+            }
+
+            this.emails.forEach(email => {
+               if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+                  this.emailLengthType = true
+               } else {
+                  this.emailLengthType = false
+               }
+            })
+         },
+         deep: true
       }
    },
 
@@ -477,7 +454,6 @@ export default {
             return this.start_date > new Date();
          }
       },
-
 
       startVal() {
          // Round the current time to the nearest 10-minute interval
