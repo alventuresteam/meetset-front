@@ -169,18 +169,15 @@
                   <span
 
                      class="errorText"
-                     v-if="userStore.error || userStore.error.emails"
+                     v-if="userStore.error && userStore.error.emails"
                   >
-
-                     {{userStore.error}}
-
-                     {{userStore.error.emails[0]}}
+                      E-maildə səhvlik var
                    </span>
 
 
-<!--                  <template v-if="v$.updateReservation.checkEmails.$errors.length">-->
-<!--                     <span class="errorText"> E-maildə səhvlik var</span>-->
-<!--                  </template>-->
+                  <template v-if="v$.updateReservation.checkEmails.$errors.length">
+                     <span class="errorText"> E-maildə səhvlik var</span>
+                  </template>
                </div>
 
                <div class="modal__form-group">
@@ -250,7 +247,6 @@
                   class="submitWhite"
                   id="messg"
                   aria-label="Sil"
-
                >
                   <span>Bəli</span>
 
@@ -399,14 +395,14 @@ export default {
 
          this.clickLoad = false;
 
+         // if (!this.userStore.error && !this.userStore.errorMsg) {
          this.userStore.errorMsg = "";
          this.userStore.error = [];
          this.emitter.emit("refresh");
          this.$emit("close-modal");
 
-
-
          this.$toast.success(`Uğurla silindi`);
+         // }
       },
 
       async uppdateHandler(e) {
