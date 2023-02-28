@@ -16,7 +16,7 @@
 
             <div style="position: absolute; bottom: -32px">
 
-                    <span v-if="!isValidIpAddress(form.ip_address)"
+                    <span v-show="!isValidIpAddress(form.ip_address)"
                           class="errorText">Düzgun IP adres yazın</span>
 
 
@@ -43,21 +43,21 @@
          </div>
       </div>
 
-         <UploadFile
-            @file="form.logo = $event"
-         />
+      <UploadFile
+         @file="form.logo = $event"
+      />
 
-         <button aria-label="Yadda saxla" type="submit" class="setting__save">
-            Yadda saxla
+      <button aria-label="Yadda saxla" type="submit" class="setting__save">
+         Yadda saxla
 
-            <span>
+         <span>
                 <img
                    loading="lazy"
                    src="../../assets/images/svg/check.svg"
                    alt="check"
                 />
             </span>
-         </button>
+      </button>
    </form>
 
    <div v-show="clickLoad" class="loading-dots">
@@ -85,18 +85,13 @@ export default {
    },
    setup() {
       const userStore = useSettingStore();
-
-      onMounted(() => {
-         userStore.fetchSetting();
-      });
-
       return {userStore};
    },
-   mounted() {
-      setTimeout(() => {
+   async mounted() {
          this.form.ip_address = this.userStore.getSetting.ip_address;
          this.form.port = this.userStore.getSetting.port;
-      }, 1000)
+      await this.userStore.fetchSetting();
+
    },
    methods: {
 

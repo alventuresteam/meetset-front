@@ -28,7 +28,6 @@
                </DatePicker>
 
 
-
                <span
                   class="errorText"
                   v-for="error in v$.start_date.$errors"
@@ -60,7 +59,7 @@
                      v-for="error in v$.start_time.$errors"
                      :key="error.$uid"
                   >
-              Başlama tarixi boş
+              Başlama tarixi ola bilməz
             </span>
                </div>
                <div class="input">
@@ -121,7 +120,7 @@
                   v-for="error in v$.organizer_name.$errors"
                   :key="error.$uid"
                >
-               Təşkilatçı boşdu
+               Təşkilatçı boş ola bilməz
              </span>
             </div>
 
@@ -146,6 +145,8 @@
                      maxlength="255"
                      class="tag-input__text"
                      @keydown.enter="addTag"
+                     @focusout="userStore.error = null"
+
                      @keydown.188="addTag"
                      @keyup.space="addTag"
                      @keydown.delete="removeLastTag"
@@ -154,25 +155,20 @@
 
                <span
                   class="errorText"
-                  v-for="error in v$.checkEmails.$errors"
-                  :key="error.$uid"
+                  v-if="userStore.error && userStore.error.emails"
                >
-                  <span v-if="error.$message === 'Value is not a valid email address'">E-mail yanlışdır</span>
+                      E-mail boş ola bilməz
+                   </span>
 
-                     <span
-                        class="errorText"
-                        v-if="error.$message === 'Value is required'"
-                     >
-                        Email boş ola bilməz
-                     </span>
 
-                     <p
-                        class="errorText"
-                        v-if="error.$message[0][0] === 'Value is not a valid email address'"
-                     >
-                        E-mail yanlışdır
-                     </p>
-                 </span>
+               <span
+                  class="errorText"
+                  v-if="userStore.error && userStore.error['emails.0']"
+               >
+                     E-maildə səhvlik var
+                   </span>
+
+
             </div>
 
             <div class="modal__form-group">
@@ -189,7 +185,7 @@
                   v-for="error in v$.title.$errors"
                   :key="error.$uid"
                >
-            Görüşün başlığı boşdur
+            Görüşün başlığı boş ola bilməz
           </span>
             </div>
 
@@ -373,14 +369,8 @@ export default {
       },
 
       async addPerson() {
-         // this.v$.emails.$touch();
 
-         // if (this.v$.$invalid) {
-         //    this.$toast.error('Заполните обязательные поля!');
-         // return
-         // }
-
-         const result = await this.v$.$validate();
+          await this.v$.$validate();
          this.checkEmails = this.emails.map((item) => {
             return {
                email: item,
@@ -402,15 +392,12 @@ export default {
          await this.useStoreRoom.fetchRoom();
          this.emitter.emit("refresh");
 
-         if(this.userStore.errorMsg){
+         if (this.userStore.errorMsg) {
             this.clickLoad = false;
-
-
             this.$toast.error(this.userStore.errorMsg);
-
          }
 
-         if (this.userStore.error  ) {
+         if (this.userStore.error) {
             this.clickLoad = false;
          }
 
@@ -421,11 +408,10 @@ export default {
          }
       },
 
-      close(){
+      close() {
          this.userStore.errorMsg = "";
          this.userStore.error = [];
          this.$emit("close-modal");
-
       },
 
       changeValue: function (args) {

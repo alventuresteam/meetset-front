@@ -130,7 +130,7 @@
           </span>
         </div>
         <div class="modal__form-group modal__flex">
-          <button class="submitWhite" @click="close">İmtina</button>
+          <button type="button" class="submitWhite" @click="close">İmtina</button>
 
           <button
             class="submit"

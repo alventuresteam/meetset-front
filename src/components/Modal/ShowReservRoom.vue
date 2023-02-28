@@ -17,7 +17,7 @@
                 </span>
          </div>
 
-         <form class="modal__form" @submit.prevent="uppdateHandler">
+         <form class="modal__form" @submit.prevent="updateHandler">
             <div v-if="showDeletButtons">
                <p class="modal__form-delete">
                   Bu otaq rezervasiyasını silmək istədiyinizə əminsiniz?
@@ -40,9 +40,7 @@
                      </template>
                   </DatePicker>
 
-                  <span class="errorText" v-if="userStore.errorMsg">
-                            {{ userStore.errorMsg }}
-                        </span>
+
 
                   <span
                      class="errorText"
@@ -115,7 +113,7 @@
                      v-for="error in v$.updateReservation.room_id.$errors"
                      :key="error.$uid"
                   >
-              Otaq boşdur
+              Otaq boş ola bilməz
             </span>
                </div>
 
@@ -134,7 +132,7 @@
                      v-for="error in v$.updateReservation.organizer_name.$errors"
                      :key="error.$uid"
                   >
-              İclası təşkil edən şəxs boşdur
+              İclası təşkil edən şəxs boş ola bilməz
             </span>
                </div>
 
@@ -159,6 +157,7 @@
                      <textarea
                         class="tag-input__text"
                         maxlength="50"
+                        @focusout="userStore.error = null"
                         @keydown.enter="addTag"
                         @keydown.188="addTag"
                         @keyup.space="addTag"
@@ -167,17 +166,22 @@
                   </div>
 
                   <span
-
                      class="errorText"
                      v-if="userStore.error && userStore.error.emails"
                   >
-                      E-maildə səhvlik var
+                      E-mail boş ola bilməz
                    </span>
 
 
-                  <template v-if="v$.updateReservation.checkEmails.$errors.length">
-                     <span class="errorText"> E-maildə səhvlik var</span>
-                  </template>
+                  <span
+                     class="errorText"
+                     v-if="userStore.error && userStore.error['emails.0']"
+                  >
+                     E-maildə səhvlik var
+                   </span>
+
+
+
                </div>
 
                <div class="modal__form-group">
@@ -195,7 +199,7 @@
                      v-for="error in v$.updateReservation.title.$errors"
                      :key="error.$uid"
                   >
-              Görüşlə başlığı boşdur
+              Görüşlə başlığı boş ola bilməz
             </span>
                </div>
 
@@ -213,7 +217,7 @@
                   type="button"
                   class="submitWhite"
                   aria-label="Silmək"
-                  @click="activeDelet"
+                  @click="activeDelete"
                >
                   Sil
                   <img
@@ -246,7 +250,7 @@
                   type="submit"
                   class="submitWhite"
                   id="messg"
-                  aria-label="Sil"
+                  aria-label="Bəli"
                >
                   <span>Bəli</span>
 
@@ -289,6 +293,8 @@ export default {
          clickLoad: false,
          updateReservation: {},
          updateReservationRoom: {},
+         checkEmails: [],
+
          showEditButtons: true,
          showDeletButtons: false,
          timeFormat: "HH:mm",
@@ -332,7 +338,6 @@ export default {
             },
             room_id: {required},
             title: {required},
-            // comment: { required },
          },
       };
    },
@@ -353,6 +358,12 @@ export default {
 
 
       addTag(event) {
+
+         this.checkEmails = this.updateReservation.emails.map((item) => {
+            return {
+               email: item,
+            };
+         });
          let room = this.getRoom.find(
             (item) => item.id === this.updateReservation.room_id
          );
@@ -366,7 +377,6 @@ export default {
          if (this.updateReservation.emails.includes(val)) {
             return;
          }
-         event.preventDefault();
          if (val.length > 0) {
             this.updateReservation.emails.push(val);
             event.target.value = "";
@@ -382,7 +392,7 @@ export default {
          }
       },
 
-      activeDelet() {
+      activeDelete() {
          this.showDeletButtons = true;
          this.showEditButtons = false;
       },
@@ -392,21 +402,16 @@ export default {
          this.clickLoad = true;
          await this.userStore.deletReservation(item);
          await this.useStoreRoom.fetchRoom();
-
          this.clickLoad = false;
-
-         // if (!this.userStore.error && !this.userStore.errorMsg) {
-         this.userStore.errorMsg = "";
-         this.userStore.error = [];
          this.emitter.emit("refresh");
-         this.$emit("close-modal");
-
+         this.close()
          this.$toast.success(`Uğurla silindi`);
-         // }
       },
 
-      async uppdateHandler(e) {
-         const result = await this.v$.$validate();
+      async updateHandler(e) {
+
+         await this.v$.$validate();
+
          this.updateReservation.checkEmails = this.updateReservation.emails.map(
             (item) => {
                return {
@@ -418,28 +423,28 @@ export default {
          this.clickLoad = true;
 
          this.updateReservation.start_date = this.formattedDate;
-
          this.updateReservation.start_time = this.formattedTime;
          this.updateReservation.end_time = this.formattedEndTime;
 
          await this.userStore.updateReservation(this.updateReservation);
          await this.useStoreRoom.fetchRoom();
+         this.emitter.emit("refresh");
 
 
-         if (!this.userStore.error && !this.userStore.errorMsg) {
+         if (this.userStore.errorMsg) {
             this.clickLoad = false;
-            this.userStore.errorMsg = "";
-            this.userStore.error = "";
-            this.emitter.emit("refresh");
-            this.$emit("close-modal");
+            this.$toast.error(this.userStore.errorMsg);
+         }
 
+         if (!this.userStore.error && !this.userStore.errorMsg && this.showEditButtons) {
+            this.clickLoad = false;
+            this.close();
             this.$toast.success(`Uğurlu redaktə edildi`);
          }
 
-         if (this.userStore.error || this.userStore.errorMsg) {
+         if (this.userStore.error ) {
             this.clickLoad = false;
          }
-
       },
 
       close() {
@@ -474,13 +479,10 @@ export default {
 
    computed: {
 
-
       getRoom() {
          return this.useStoreRoom.getRoom;
       },
-      minDate() {
-         return new Date().toISOString().split("T")[0];
-      },
+
       formattedTime() {
          return moment(this.updateReservation.start_time, "H:mm").format("HH:mm");
       },
@@ -494,4 +496,3 @@ export default {
    },
 };
 </script>
-
