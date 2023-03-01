@@ -14,37 +14,38 @@
                @input="onIpAddressInput"
             />
 
-<!--            <div style="position: absolute; bottom: -32px">-->
-
-<!--                    <span v-if="!isValidIpAddress(form.ip_address)"-->
-<!--                          class="errorText">Düzgun IP adres yazın</span>-->
-<!--            </div>-->
-
-
+            <div style="position: absolute; bottom: -32px">
+                 <span v-if="ipInvalid" class="errorText">
+                    Düzgun IP adres yazın
+                 </span>
+            </div>
          </div>
 
          <div class="setting__group" style="position: relative">
             <label class="label">Serverin port adresi</label>
             <input
                class="input"
+               type="text"
+               maxlength="4"
                v-model="form.port"
-               type="number"
-               min="0"
-               max="9999"
+               oninput="this.value = this.value.replace(/[a-zа-я]/gi, '')"
             />
 
-<!--            <div style="position: absolute; bottom: -32px">-->
-<!--               <span v-if="form.port > 9999" class="errorText">Port 4 rəqəmdən çox ola bilməz </span>-->
-<!--            </div>-->
-
+            <div style="position: absolute; bottom: -32px">
+               <span v-if="form.port && form.port.length < 4" class="errorText">Port 4 rəqəmdən çox ola bilməz </span>
+            </div>
          </div>
       </div>
 
       <UploadFile
          @file="form.logo = $event"
       />
-
-      <button aria-label="Yadda saxla" type="submit" class="setting__save">
+      <button
+         aria-label="Yadda saxla"
+         type="submit"
+         class="setting__save"
+         :disabled="ipInvalid || form.port.length < 4"
+      >
          Yadda saxla
 
          <span>
@@ -68,7 +69,7 @@ import UploadFile from "@/components/UploadFile.vue";
 import Loading from "@/components/Loading.vue";
 
 export default {
-   components: {Loading, UploadFile},
+   components: { Loading, UploadFile },
    data() {
       return {
          form: {
@@ -77,6 +78,7 @@ export default {
             logo: ''
          },
          clickLoad: false,
+         ipInvalid: false
       };
    },
    setup() {
@@ -87,16 +89,20 @@ export default {
       await this.userStore.fetchSetting();
       this.form.ip_address = await this.userStore.getSetting.ip_address;
       this.form.port = await this.userStore.getSetting.port;
-
    },
    methods: {
-
       isValidIpAddress(ipAddress) {
          const ipRegex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
          return ipRegex.test(ipAddress);
       },
 
       onIpAddressInput(event) {
+         if (!this.isValidIpAddress(this.form.ip_address)) {
+            this.ipInvalid = true
+         } else {
+            this.ipInvalid = false
+         }
+
          const numericRegex = /[0-9.]/g;
          event.target.value = event.target.value.match(numericRegex).join('');
       },
@@ -115,19 +121,11 @@ export default {
 
          this.clickLoad = true;
 
-         if (this.form.port.length > 4 || !this.isValidIpAddress(this.form.ip_address)) {
-            this.clickLoad = false;
-         }
-
-         if (this.form.port.length < 4 && this.isValidIpAddress(this.form.ip_address)) {
-            await this.userStore.updateSetting(formData);
-            await this.userStore.fetchSetting();
-            this.clickLoad = false;
-            await this.$toast.success('Yadda saxlanıldı');
-         }
-
-
+         await this.userStore.updateSetting(formData);
+         await this.userStore.fetchSetting();
+         this.clickLoad = false;
+         await this.$toast.success('Yadda saxlanıldı');
       }
-   },
+   }
 };
 </script>
