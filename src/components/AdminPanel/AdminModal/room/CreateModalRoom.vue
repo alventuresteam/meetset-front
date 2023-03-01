@@ -97,10 +97,12 @@
 
 
       </div>
+
+      <div v-show="clickLoad" class="loading-dots">
+         <loading/>
+      </div>
    </div>
-   <div v-show="clickLoad" class="loading-dots">
-      <loading/>
-   </div>
+
 </template>
 
 <script>
@@ -171,11 +173,7 @@ export default {
    },
 
    setup() {
-      // onMounted(() => {
-      //   userStore.fetchRoom();
-      // });
       const userStore = useRoomStore();
-
       return {userStore, v$: useVuelidate()};
    },
 };

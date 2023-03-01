@@ -299,7 +299,6 @@ export default {
    methods: {
       chooseRoom(event) {
          this.room_id = event.id;
-         this.emails = [];
       },
       addTag(event) {
 

@@ -105,10 +105,11 @@
 
 
         </div>
+       <div v-show="clickLoad" class="loading-dots">
+          <loading/>
+       </div>
     </div>
-  <div v-show="clickLoad" class="loading-dots">
-    <loading/>
-  </div>
+
 </template>
 
 <script>

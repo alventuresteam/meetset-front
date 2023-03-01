@@ -79,14 +79,18 @@
 
 
                </div>
+               <div v-show="clickLoad" class="loading-dots">
+                  <loading/>
+               </div>
+
             </div>
+
+
          </template>
 
          <template #fallback>Load...</template>
       </Suspense>
-      <div v-show="clickLoad" class="loading-dots">
-         <loading/>
-      </div>
+
       <Suspense v-if="showUpdateModalRoom">
          <template #default>
             <UpdateModalRoom
