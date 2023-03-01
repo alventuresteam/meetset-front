@@ -73,6 +73,12 @@ export default {
             {
                key: "today",
                highlight: true,
+               // highlight: {
+                  // color: 'transparent',
+                  // fillMode: 'light',
+                  // borderColor: 'red',
+                  // class: 'today'
+               // },
                dates: moment().format("LL"),
             },
             {
