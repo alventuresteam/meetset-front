@@ -51,7 +51,6 @@
         }
 
         &-dot {
-            background-color: white !important;
             width: 4px !important;
             height: 4px !important;
         }
@@ -72,9 +71,18 @@
         &-day {
             min-height: 40px !important;
 
+            &.is-today {
+                .vc-highlight {
+                    border: 1px solid silver;
+                    background-color: transparent !important;
+                }
+                .vc-day-content {
+                    color: #121926 !important;
+                }
+            }
+
             &-box-center-bottom {
                 margin-bottom: 9px !important;
-                //margin-left: 2px !important;
             }
 
             &-content {
@@ -101,6 +109,7 @@
 
         &-highlight {
             background: #155eef !important;
+            color: blue !important;
             width: 38px !important;
             height: 38px !important;
             border-radius: 12px !important;

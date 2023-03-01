@@ -121,20 +121,24 @@ export default defineComponent({
 
             this.$nextTick(() => {
                 if (this.events.length > 0) {
-                    const lastEvents = this.events.filter(item => {
-                        let a = moment(this.itemDate).startOf('day');
-                        let b = moment(item.start).startOf('day');
-                        return a.diff(b, 'days') === 0
-                    });
-                    const sorted = lastEvents.sort(function(left, right) {
-                        return moment(left.start).format('X') - moment(right.start).format('X')
-                    })
-                    const lastEvent = sorted[0];
-                    const lastEventDate = moment(lastEvent.start).format("HH:mm");
-                    this.$refs.calendar.getApi().scrollToTime(lastEventDate);
-                }
-            })
+                    // const lastEvents = this.events.filter(item => {
+                    //     let a = moment(this.itemDate).startOf('day');
+                    //     let b = moment(item.start).startOf('day');
+                    //     return a.diff(b, 'days') === 0
+                    // });
+                    // const sorted = lastEvents.sort(function(left, right) {
+                    //     return moment(left.start).format('X') - moment(right.start).format('X')
+                    // })
+                    // const lastEvent = sorted[0];
+                    // const lastEventDate = moment(lastEvent.start).format("HH:mm");
+                    // this.$refs.calendar.getApi().scrollToTime(lastEventDate);
 
+                   let time = moment(new Date()).format("HH:mm").split(':');
+                   time[time.length - 1] = '00';
+
+                   this.$refs.calendar.getApi().scrollToTime(time.join(':'));
+                }
+            });
         },
     },
 
