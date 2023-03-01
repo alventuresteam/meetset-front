@@ -297,8 +297,10 @@ export default {
    },
 
    methods: {
+
       chooseRoom(event) {
          this.room_id = event.id;
+         // this.emails = [];
       },
       addTag(event) {
 
@@ -426,7 +428,6 @@ export default {
 
       emails: {
          handler() {
-            console.log('sss')
             if (this.emails.length <= 0) {
                this.emailLengthValid = false;
             } else {
