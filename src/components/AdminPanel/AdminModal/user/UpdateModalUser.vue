@@ -185,25 +185,22 @@ export default {
       async uppdateHandler() {
          const result = await this.v$.$validate();
 
-
          if (result) {
             this.clickLoad = true;
             await this.userStore.updatePerson(this.updateDataPerson);
             await this.userStore.fetchPerson();
-            if (this.userStore.errorMsg) {
-               this.clickLoad = false;
-            }
-
+            if (this.userStore.errorMsg) this.clickLoad = false;
 
             if (!this.userStore.error && !this.userStore.errorMsg) {
-
                this.clickLoad = false;
 
                this.$toast.success(`Istifadəçi redaktə edildi`);
                this.userStore.errorMsg = "";
-               this.userStore.error = "";
+               this.userStore.error = [];
 
                this.$emit("close-modal");
+
+               document.body.style.overflow = '';
             }
          }
       },
