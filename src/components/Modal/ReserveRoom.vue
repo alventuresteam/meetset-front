@@ -236,7 +236,7 @@ import {DatePicker} from "v-calendar";
 import {useReservationStore} from "../../stores/reservations";
 import {useRoomStore} from "../../stores/room";
 import {useVuelidate} from "@vuelidate/core";
-import {required, email, minLength, helpers} from "@vuelidate/validators";
+import {required,  minLength, } from "@vuelidate/validators";
 import {storeToRefs} from "pinia";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
 import Loading from "@/components/Loading.vue";

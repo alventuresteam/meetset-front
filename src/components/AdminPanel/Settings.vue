@@ -14,11 +14,13 @@
                @input="onIpAddressInput"
             />
 
-<!--            <div style="position: absolute; bottom: -32px">-->
+            <div style="position: absolute; bottom: -32px">
 
-<!--                    <span v-if="!isValidIpAddress(form.ip_address)"-->
-<!--                          class="errorText">Düzgun IP adres yazın</span>-->
-<!--            </div>-->
+                    <span v-show="!isValidIpAddress(form.ip_address)"
+                          class="errorText">Düzgun IP adres yazın</span>
+
+
+            </div>
 
 
          </div>
@@ -33,9 +35,15 @@
                max="9999"
             />
 
-<!--            <div style="position: absolute; bottom: -32px">-->
-<!--               <span v-if="form.port > 9999" class="errorText">Port 4 rəqəmdən çox ola bilməz </span>-->
-<!--            </div>-->
+
+            <span
+               style="position: absolute; bottom: -32px"
+               class="errorText"
+               v-for="error in v$.form.port.$errors"
+               :key="error.$uid"
+            >
+               <span class="errorText">Port 4 rəqəmdən çox ola bilməz </span>
+          </span>
 
          </div>
       </div>
@@ -63,9 +71,12 @@
 </template>
 
 <script>
+import {useVuelidate} from "@vuelidate/core";
+import {required,  minLength} from "@vuelidate/validators";
 import {useSettingStore} from "../../stores/setting.js";
 import UploadFile from "@/components/UploadFile.vue";
 import Loading from "@/components/Loading.vue";
+import {useRoomStore} from "@/stores/room";
 
 export default {
    components: {Loading, UploadFile},
@@ -81,13 +92,24 @@ export default {
    },
    setup() {
       const userStore = useSettingStore();
-      return {userStore};
+      return {userStore,v$: useVuelidate()};
    },
    async mounted() {
       await this.userStore.fetchSetting();
-      this.form.ip_address = await this.userStore.getSetting.ip_address;
-      this.form.port = await this.userStore.getSetting.port;
 
+         this.form.ip_address = await this.userStore.getSetting.ip_address;
+         this.form.port = await this.userStore.getSetting.port;
+
+   },
+
+
+   validations() {
+      return {
+         form:{
+            ip_address: {required},
+            port: {required, minLength:minLength(4)},
+         }
+      };
    },
    methods: {
 
@@ -115,11 +137,11 @@ export default {
 
          this.clickLoad = true;
 
-         if (this.form.port.length > 4 || !this.isValidIpAddress(this.form.ip_address)) {
+         if (this.form.port > 9999 || !this.isValidIpAddress(this.form.ip_address)) {
             this.clickLoad = false;
          }
 
-         if (this.form.port.length < 4 && this.isValidIpAddress(this.form.ip_address)) {
+         if (this.form.port < 9999 && this.isValidIpAddress(this.form.ip_address)) {
             await this.userStore.updateSetting(formData);
             await this.userStore.fetchSetting();
             this.clickLoad = false;

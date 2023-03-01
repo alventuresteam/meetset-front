@@ -60,6 +60,14 @@
                   type="text"
                />
 
+               <span
+                  class="errorText"
+                  v-for="error in v$.address.$errors"
+                  :key="error.$uid"
+               >
+            Yerləşdiyi bina boş ola bilməz
+          </span>
+
             </div>
 
             <div class="modal__form-group">
@@ -71,14 +79,15 @@
                   placeholder="Yerləşdiyi mərtəbə"
                   type="number"
                />
-            </div>
-            <span
-               class="errorText"
-               v-for="error in v$.floor.$errors"
-               :key="error.$uid"
-            >
+               <span
+                  class="errorText"
+                  v-for="error in v$.floor.$errors"
+                  :key="error.$uid"
+               >
           Yerləşdiyi mərtəbə boş ola bilməz
         </span>
+            </div>
+
             <div class="modal__form-group modal__flex">
                <button
                   aria-label="İmtina"
@@ -168,7 +177,7 @@ export default {
          name: {required},
          capacity: {required},
          address: {required},
-         floor: {}
+         floor: {required}
       };
    },
 
