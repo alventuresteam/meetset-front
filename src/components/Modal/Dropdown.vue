@@ -38,7 +38,7 @@ export default {
     },
     data() {
         return {
-            selected: "Otağı seçin",
+            selected: "Otaq seçin",
             open: false,
         };
     },

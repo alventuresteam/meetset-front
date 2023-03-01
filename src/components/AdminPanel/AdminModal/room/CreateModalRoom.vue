@@ -15,7 +15,7 @@
             <div class="modal__form-group">
                <input
                   class="input input__100"
-                  placeholder="Otağın adı"
+                  placeholder="Otaqın adı"
                   maxlength="30"
                   type="text"
                   v-model.lazy="name"
@@ -39,7 +39,8 @@
                   max="25"
                   class="input input__100"
                   placeholder="İşçi tutumu (nəfər)"
-                  type="number"
+                  @input="onIpAddressInput"
+                  type="text"
                />
                <span
                   class="errorText"
@@ -77,6 +78,8 @@
                   v-model.lazy="floor"
                   class="input input__100"
                   placeholder="Yerləşdiyi mərtəbə"
+                  @input="onIpAddressInput"
+
                   type="number"
                />
                <span
@@ -126,6 +129,11 @@ export default {
       closeModal() {
          this.$emit('close-modal');
          document.body.style.overflow = ''
+      },
+
+      onIpAddressInput(event) {
+         const numericRegex = /[^0-9.]/g;
+         event.target.value = event.target.value.replace(numericRegex, '');
       },
       async addRoom() {
          const result = await this.v$.$validate();

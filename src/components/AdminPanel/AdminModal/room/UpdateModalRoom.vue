@@ -37,6 +37,7 @@
                   class="input input__100"
                   min="1"
                   max="25"
+                  @input="onIpAddressInput"
                   placeholder="İşçi tutumu (nəfər)"
                   type="number"
                />
@@ -75,6 +76,7 @@
                   class="input input__100"
                   min="1"
                   max="25"
+                  @input="onIpAddressInput"
                   placeholder="Yerləşdiyi mərtəbə"
                   type="number"
                />
@@ -157,7 +159,12 @@ export default {
    },
 
    methods: {
-      async uppdateHandler() {
+
+      onIpAddressInput(event) {
+         const numericRegex = /[^0-9.]/g;
+         event.target.value = event.target.value.replace(numericRegex, '');
+      },
+         async uppdateHandler() {
          const result = await this.v$.$validate();
          if (result) {
             this.clickLoad = true;

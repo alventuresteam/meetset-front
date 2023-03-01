@@ -83,7 +83,7 @@
                      v-for="error in v$.end_time.$errors"
                      :key="error.$uid"
                   >
-              Bitmə tarixi boş ola bilməz
+              Bitmə vaxtı boş ola bilməz
             </span>
                </div>
             </div>

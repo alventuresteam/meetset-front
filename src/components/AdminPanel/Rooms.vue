@@ -16,7 +16,7 @@
 
          <div class="user__info">
             <div class="user__info-box email">
-               <span class="user__info-subtitle email">Otağın detalları</span>
+               <span class="user__info-subtitle email">Otaqın detalları</span>
                <h2 class="user__info-title emailName">
                   Bina {{ item.address }} / Mərtəbə {{ item.floor }} / Otaq
                   {{ item.name }}
