@@ -35,6 +35,13 @@
             width: 100%;
             pointer-events: none;
             overflow: hidden;
+
+            @media screen and (max-width: 1300px) {
+                max-width: 260px;
+                .fc-datagrid-expander fc-datagrid-expander-placeholder{
+                    margin-right: 0 !important;
+                }
+            }
             &:after {
                 position: absolute;
                 content: "";
@@ -97,6 +104,11 @@
             max-width: 444px;
             min-width: 444px;
             padding: 32px 24px;
+
+            @media screen and (max-width:1300px) {
+            max-width: 400px;
+            min-width: 400px;
+            }
         }
 
         &-highlight {
