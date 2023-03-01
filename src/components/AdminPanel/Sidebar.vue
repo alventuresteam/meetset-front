@@ -1,7 +1,8 @@
 <template>
     <aside class="sidebar">
+<!--       :src="useSetting.getSetting.logo"-->
         <img
-            :src="useSetting.getSetting.logo"
+           src="../../assets/images/logo/logo.png"
             alt="sidebar logo"
             class="sidebar__logo"
         />

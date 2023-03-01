@@ -80,7 +80,7 @@
             v-for="error in v$.email.$errors"
             :key="error.$uid"
           >
-            {{error.$message === 'Value is required' ? 'Şifrə boş ola bilməz' : 'Şifrə min 6 simvol olmalıdır'}}
+            {{error.$message === 'Value is required' ? 'E-mail boş ola bilməz' : 'E-mail səhvlik var'}}
           </span>
         </div>
 

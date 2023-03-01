@@ -83,7 +83,7 @@
                      v-for="error in v$.end_time.$errors"
                      :key="error.$uid"
                   >
-              Bitmə tarixi boş ola bilməz
+              Bitmə vaxtı boş ola bilməz
             </span>
                </div>
             </div>
@@ -196,7 +196,7 @@
                   class="submitWhite"
                   @click="close"
                >
-                  Xeyir
+                  Xeir
                </button>
 
                <button
@@ -234,7 +234,7 @@ import {DatePicker} from "v-calendar";
 import {useReservationStore} from "../../stores/reservations";
 import {useRoomStore} from "../../stores/room";
 import {useVuelidate} from "@vuelidate/core";
-import {required, email, minLength, helpers} from "@vuelidate/validators";
+import {required,  minLength, } from "@vuelidate/validators";
 import {storeToRefs} from "pinia";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
 import Loading from "@/components/Loading.vue";

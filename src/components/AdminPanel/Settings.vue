@@ -26,13 +26,15 @@
             <input
                class="input"
                type="text"
-               maxlength="4"
-               v-model="form.port"
+               maxlength="5"
+               v-model.trim="form.port"
                oninput="this.value = this.value.replace(/[a-zа-я]/gi, '')"
             />
 
             <div style="position: absolute; bottom: -32px">
-               <span v-if="form.port && form.port.length < 4" class="errorText">Port 4 rəqəmdən çox ola bilməz </span>
+               <span v-if="form.port && form.port.length > 5" class="errorText">Port 6 rəqəmdən çox ola bilməz </span>
+               <span v-if="form.port && form.port.length < 2" class="errorText">Port 2 rəqəmdən az ola bilməz </span>
+
             </div>
          </div>
       </div>
@@ -44,7 +46,7 @@
          aria-label="Yadda saxla"
          type="submit"
          class="setting__save"
-         :disabled="ipInvalid || form.port.length < 4"
+         :disabled="ipInvalid || form.port.length > 5 || form.port.length < 2"
       >
          Yadda saxla
 
@@ -103,8 +105,8 @@ export default {
             this.ipInvalid = false
          }
 
-         const numericRegex = /[0-9.]/g;
-         event.target.value = event.target.value.match(numericRegex).join('');
+         const numericRegex = /[^0-9.]/g;
+         event.target.value = event.target.value.replace(numericRegex, '');
       },
       async save() {
          let formData = new FormData();

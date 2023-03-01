@@ -15,7 +15,7 @@
             <div class="modal__form-group">
                <input
                   class="input input__100"
-                  placeholder="Otağın adı"
+                  placeholder="Otaqın adı"
                   maxlength="30"
                   type="text"
                   v-model.lazy="name"
@@ -39,7 +39,8 @@
                   max="25"
                   class="input input__100"
                   placeholder="İşçi tutumu (nəfər)"
-                  type="number"
+                  @input="onIpAddressInput"
+                  type="text"
                />
                <span
                   class="errorText"
@@ -60,6 +61,14 @@
                   type="text"
                />
 
+               <span
+                  class="errorText"
+                  v-for="error in v$.address.$errors"
+                  :key="error.$uid"
+               >
+            Yerləşdiyi bina boş ola bilməz
+          </span>
+
             </div>
 
             <div class="modal__form-group">
@@ -69,16 +78,19 @@
                   v-model.lazy="floor"
                   class="input input__100"
                   placeholder="Yerləşdiyi mərtəbə"
+                  @input="onIpAddressInput"
+
                   type="number"
                />
-            </div>
-            <span
-               class="errorText"
-               v-for="error in v$.floor.$errors"
-               :key="error.$uid"
-            >
+               <span
+                  class="errorText"
+                  v-for="error in v$.floor.$errors"
+                  :key="error.$uid"
+               >
           Yerləşdiyi mərtəbə boş ola bilməz
         </span>
+            </div>
+
             <div class="modal__form-group modal__flex">
                <button
                   aria-label="İmtina"
@@ -117,6 +129,11 @@ export default {
       closeModal() {
          this.$emit('close-modal');
          document.body.style.overflow = ''
+      },
+
+      onIpAddressInput(event) {
+         const numericRegex = /[^0-9.]/g;
+         event.target.value = event.target.value.replace(numericRegex, '');
       },
       async addRoom() {
          const result = await this.v$.$validate();
@@ -168,7 +185,7 @@ export default {
          name: {required},
          capacity: {required},
          address: {required},
-         floor: {}
+         floor: {required}
       };
    },
 
