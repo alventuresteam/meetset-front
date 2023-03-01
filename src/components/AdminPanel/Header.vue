@@ -44,8 +44,8 @@
                />
             </div>
 
-            <ul v-if="hideDropdown" class="dropDown">
-               <li class="dropDown__item" @click="logout()">
+            <ul v-if="hideDropdown" class="dropDown" @click="logout()">
+               <li class="dropDown__item" >
                   <img
                      loading="lazy"
                      src="../../assets/images/svg/exitBold.svg"

@@ -196,7 +196,7 @@
                   class="submitWhite"
                   @click="close"
                >
-                  Xeyir
+                  Xeir
                </button>
 
                <button

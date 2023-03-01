@@ -27,7 +27,7 @@
                class="input"
                type="text"
                maxlength="4"
-               v-model="form.port"
+               v-model.trim="form.port"
                oninput="this.value = this.value.replace(/[a-zа-я]/gi, '')"
             />
 

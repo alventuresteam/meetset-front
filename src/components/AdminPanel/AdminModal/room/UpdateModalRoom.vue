@@ -81,7 +81,7 @@
 
                <span
                   class="errorText"
-                  v-for="error in v$.updateDataRoom.capacity.$errors"
+                  v-for="error in v$.updateDataRoom.floor.$errors"
                   :key="error.$uid"
                >
             Yerləşdiyi mərtəbə ola bilməz
@@ -147,7 +147,7 @@ export default {
             name: {required},
             capacity: {required},
             address: {required},
-            floor: {}
+            floor: {required}
          },
       };
    },

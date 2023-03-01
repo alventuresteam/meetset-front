@@ -95,7 +95,7 @@
                         v-for="error in v$.updateReservation.end_time.$errors"
                         :key="error.$uid"
                      >
-                Bitmə tarixi boş ola bilməz
+                Bitmə vaxti boş ola bilməz
               </span>
                   </div>
                </div>
@@ -232,8 +232,8 @@
                   type="button"
                   class="submitWhite"
                   @click="close"
-                  aria-label="Xeyir">
-                  Xeyir
+                  aria-label="Xeir">
+                  Xeir
                </button>
 
                <button
@@ -300,7 +300,7 @@ export default {
          startEnable: false,
          startRead: false,
          endRead: false,
-         min: new Date(),
+         min: null,
          isStartTimeChange: true,
          step: 10,
          endVal: null,

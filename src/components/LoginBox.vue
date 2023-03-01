@@ -11,7 +11,7 @@
             type="text"
             class="input"
             placeholder="İstifadəçi adı vəya e-mail"
-            v-model.lazy="email"
+            v-model.trim="email"
          />
 
          <span
@@ -74,6 +74,8 @@
 
          <input type="submit" class="submit" value="Daxil ol "/>
       </form>
+
+
    </div>
    <div v-show="clickLoad" class="loading-dots">
       <loading/>
