@@ -148,6 +148,7 @@
                      @keyup.space="addTag"
                      @keydown.delete="removeLastTag"
                      @focusout="userStore.error = null"
+                     :disabled="emailLengthType === false"
                   />
                </div>
 
@@ -158,9 +159,6 @@
                <span class="errorText" v-if="emails.length && emailLengthType === false">
                   E-maildə səhvlik var
                </span>
-
-               <!--               <pre>{{this.emailLengthValid}} emailLengthValid</pre>-->
-               <!--               <pre>{{this.emailLengthType}} emailLengthType</pre>-->
             </div>
 
             <div class="modal__form-group">
@@ -303,18 +301,12 @@ export default {
          // this.emails = [];
       },
       addTag(event) {
-
-
          let room = this.getRoom.find((item) => item.id === this.room_id);
-         if (room.capacity <= this.emails.length) {
-            return;
-         }
+         if (room.capacity <= this.emails.length) return;
 
          let val = event.target.value.trim();
 
-         if (this.emails.includes(val)) {
-            return;
-         }
+         if (this.emails.includes(val)) return;
 
          if (val.length > 0) {
             this.emails.push(val);
@@ -323,6 +315,7 @@ export default {
       },
       removeTag(index) {
          this.emails.splice(index, 1);
+         this.emailLengthType = null;
       },
       removeLastTag(event) {
          if (event.target.value.length === 0) {
@@ -331,17 +324,9 @@ export default {
       },
 
       async addPerson() {
-         if (this.emails.length <= 0) {
-            this.emailLengthValid = false;
-         }
-
-         if ((await this.v$.$validate()).valueOf() === false) {
-            return
-         }
-
-         if (this.emailLengthValid === false || this.emailLengthType === false) {
-            return
-         }
+         if (this.emails.length <= 0) this.emailLengthValid = false;
+         if ((await this.v$.$validate()).valueOf() === false) return
+         if (this.emailLengthValid === false || this.emailLengthType === false) return
 
          this.clickLoad = true;
 
@@ -369,9 +354,7 @@ export default {
             this.$toast.error(this.userStore.errorMsg);
          }
 
-         if (this.userStore.error) {
-            this.clickLoad = false;
-         }
+         if (this.userStore.error) this.clickLoad = false;
       },
 
       close() {
@@ -384,7 +367,6 @@ export default {
          this.endVal = args.value;
       },
       onEnableEndTime: function (args) {
-         /*Enables end time if start time is selected*/
          let value;
          if (this.isStartTimeChange) {
             this.endEnable = true;
@@ -436,9 +418,9 @@ export default {
 
             this.emails.forEach(email => {
                if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
-                  this.emailLengthType = true
+                  this.emailLengthType = true;
                } else {
-                  this.emailLengthType = false
+                  this.emailLengthType = false;
                }
             })
          },
