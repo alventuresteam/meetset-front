@@ -6,7 +6,7 @@
          </div>
 
          <div class="loginSecond__box">
-            <p>Görüşləri və iclasları keçirmək üçün görüş otaqlarını əvvəlcədən planlayın</p>
+            <p>Görüş və iclasların öncədən planlanması</p>
          </div>
       </div>
    </div>

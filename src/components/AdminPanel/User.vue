@@ -66,8 +66,10 @@
                         </button>
                      </div>
                   </form>
+               </div>
 
-
+               <div v-show="clickLoad" class="loading-dots">
+                  <loading/>
                </div>
             </div>
          </template>
@@ -87,9 +89,7 @@
          <template #fallback>Load...</template>
       </Suspense>
    </div>
-   <div v-show="clickLoad" class="loading-dots">
-      <loading/>
-   </div>
+
 </template>
 
 <script>

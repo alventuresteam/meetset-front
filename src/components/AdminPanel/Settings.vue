@@ -14,13 +14,11 @@
                @input="onIpAddressInput"
             />
 
-            <div style="position: absolute; bottom: -32px">
+<!--            <div style="position: absolute; bottom: -32px">-->
 
-                    <span v-show="!isValidIpAddress(form.ip_address)"
-                          class="errorText">Düzgun IP adres yazın</span>
-
-
-            </div>
+<!--                    <span v-if="!isValidIpAddress(form.ip_address)"-->
+<!--                          class="errorText">Düzgun IP adres yazın</span>-->
+<!--            </div>-->
 
 
          </div>
@@ -35,10 +33,9 @@
                max="9999"
             />
 
-            <div style="position: absolute; bottom: -32px">
-               <span v-if="form.port > 9999" class="errorText">Port 4 rəqəmdən çox ola bilməz </span>
-
-            </div>
+<!--            <div style="position: absolute; bottom: -32px">-->
+<!--               <span v-if="form.port > 9999" class="errorText">Port 4 rəqəmdən çox ola bilməz </span>-->
+<!--            </div>-->
 
          </div>
       </div>
@@ -66,7 +63,6 @@
 </template>
 
 <script>
-import {onMounted, ref} from "vue";
 import {useSettingStore} from "../../stores/setting.js";
 import UploadFile from "@/components/UploadFile.vue";
 import Loading from "@/components/Loading.vue";
@@ -88,9 +84,9 @@ export default {
       return {userStore};
    },
    async mounted() {
-         this.form.ip_address = this.userStore.getSetting.ip_address;
-         this.form.port = this.userStore.getSetting.port;
       await this.userStore.fetchSetting();
+      this.form.ip_address = await this.userStore.getSetting.ip_address;
+      this.form.port = await this.userStore.getSetting.port;
 
    },
    methods: {
@@ -99,6 +95,7 @@ export default {
          const ipRegex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
          return ipRegex.test(ipAddress);
       },
+
       onIpAddressInput(event) {
          const numericRegex = /[0-9.]/g;
          event.target.value = event.target.value.match(numericRegex).join('');
@@ -118,11 +115,11 @@ export default {
 
          this.clickLoad = true;
 
-         if (this.form.port > 9999 || !this.isValidIpAddress(this.form.ip_address)) {
+         if (this.form.port.length > 4 || !this.isValidIpAddress(this.form.ip_address)) {
             this.clickLoad = false;
          }
 
-         if (this.form.port < 9999 && this.isValidIpAddress(this.form.ip_address)) {
+         if (this.form.port.length < 4 && this.isValidIpAddress(this.form.ip_address)) {
             await this.userStore.updateSetting(formData);
             await this.userStore.fetchSetting();
             this.clickLoad = false;

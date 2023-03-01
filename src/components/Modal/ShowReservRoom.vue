@@ -332,7 +332,7 @@ export default {
    methods: {
       chooseRoom(event) {
          this.updateReservation.room_id = event.id;
-         this.updateReservation.emails = [];
+         // this.updateReservation.emails = [];
       },
 
       addTag(event) {
