@@ -35,11 +35,10 @@
                <input
                   v-model.lazy="updateDataRoom.capacity"
                   class="input input__100"
-                  min="1"
-                  max="25"
+                  maxlength="2"
                   @input="onIpAddressInput"
                   placeholder="İşçi tutumu (nəfər)"
-                  type="number"
+                  type="text"
                />
 
                <span
@@ -74,11 +73,10 @@
                <input
                   v-model.lazy="updateDataRoom.floor"
                   class="input input__100"
-                  min="1"
-                  max="25"
+                 maxlength="2"
                   @input="onIpAddressInput"
                   placeholder="Yerləşdiyi mərtəbə"
-                  type="number"
+                  type="text"
                />
 
                <span
@@ -159,6 +157,8 @@ export default {
    },
 
    methods: {
+
+
 
       onIpAddressInput(event) {
          const numericRegex = /[^0-9.]/g;

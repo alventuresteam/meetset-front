@@ -146,6 +146,7 @@
                      @keydown.enter="addTag"
                      @keydown.188="addTag"
                      @keyup.space="addTag"
+                     @keydown.enter.prevent
                      @keydown.delete="removeLastTag"
                      @focusout="userStore.error = null"
                      :disabled="emailLengthType === false"
@@ -185,6 +186,9 @@
                    placeholder="Görüşlə bağlı qeydlər"
                    id="messg"
                    v-model.lazy="comment"
+                   style="background: none;"
+
+                   maxlength="500"
                 >
                 </textarea>
             </div>
@@ -204,7 +208,6 @@
                   class="submit"
                   type="submit"
                   placeholder="Görüşlə bağlı qeydlər"
-                  id="messg"
                >
                   <span>Yadda saxla</span>
                </button>

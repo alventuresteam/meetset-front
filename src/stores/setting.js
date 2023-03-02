@@ -19,7 +19,8 @@ export const useSettingStore = defineStore("setting", {
                 await axios.get("https://meetset.al.ventures/api/setting")
                     .then((res) => {
                         const setting = res.data;
-                        return (this.setting = setting);
+                        this.setting = setting;
+                        return setting
                     });
             } catch (error) {
                 console.error(error);
@@ -30,7 +31,8 @@ export const useSettingStore = defineStore("setting", {
             this.error = null;
             this.errorMsg = null;
             await axios.post(`https://meetset.al.ventures/api/setting/update`, data)
-                .then((res) => { })
+                .then((res) => {
+                })
                 .catch((err) => {
                     if (err.response.status === 422) {
                         this.error = err.response.data.errors;

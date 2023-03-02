@@ -17,14 +17,39 @@
                 </span>
          </div>
 
-         <form class="modal__form" @submit.prevent="updateHandler">
-            <div v-if="showDeleteButtons">
+         <div v-if="showDeleteButtons">
+            <form class="modal__form" @submit.prevent="handleDelete(updateReservation)">
+
                <p class="modal__form-delete">
                   Bu otaq rezervasiyasını silmək istədiyinizə əminsiniz?
                </p>
-            </div>
 
-            <div v-else>
+               <div v-if="showDeleteButtons" class="modal__form-group modal__flex">
+                  <button
+                     type="button"
+                     class="submitWhite"
+                     @click="close"
+                     aria-label="Xeir">
+                     Xeir
+                  </button>
+                  <button
+
+                     type="submit"
+                     class="submitWhite"
+                     id="messg"
+                     aria-label="Bəli"
+                  >
+                     <span>Bəli</span>
+
+                  </button>
+               </div>
+
+            </form>
+         </div>
+
+         <div v-else>
+            <form class="modal__form" @submit.prevent="updateHandler">
+
                <div class="modal__form-group">
                   <DatePicker
                      :popover="{ visibility: 'focus' }"
@@ -39,7 +64,6 @@
                              src="../../assets/images/svg/calendar.svg" alt="input-icon"/>
                      </template>
                   </DatePicker>
-
 
 
                   <span
@@ -160,6 +184,7 @@
                         @keydown.enter="addTag"
                         @keydown.188="addTag"
                         @keyup.space="addTag"
+                        @keydown.enter.prevent
                         @keydown.delete="removeLastTag"
                         @focusout="userStore.error = null"
 
@@ -169,7 +194,8 @@
                   <span class="errorText" v-if="emailLengthValid === false">
                   E-mail boş ola bilməz
                </span>
-                  <span class="errorText" v-if="updateReservation.emails && updateReservation.emails.length && emailLengthType === false">
+                  <span class="errorText"
+                        v-if="updateReservation.emails && updateReservation.emails.length && emailLengthType === false">
                   E-maildə səhvlik var
                </span>
 
@@ -198,56 +224,43 @@
             <textarea
                class="input input__100 input__height"
                placeholder="Görüşlə bağlı qeydlər"
-               id="messg"
+               style="background: none;"
                v-model.lazy="updateReservation.comment"
+               maxlength="500"
+
             />
                </div>
-            </div>
-            <div v-if="showEditButtons" class="modal__form-group modal__flex">
-               <button
-                  type="button"
-                  class="submitWhite"
-                  aria-label="Silmək"
-                  @click="activeDelete"
-               >
-                  Sil
-                  <img
-                     loading="lazy"
-                     src="../../assets/images/svg/delet.svg"
-                     alt="delet"
-                  />
-               </button>
-               <button
-                  type="submit"
-                  class="submit"
-                  id="messg"
-                  aria-label="Yadda Saxla"
-               >
-                  <span>Yadda saxla</span>
-               </button>
-            </div>
 
-            <div v-if="showDeleteButtons" class="modal__form-group modal__flex">
-               <button
-                  type="button"
-                  class="submitWhite"
-                  @click="close"
-                  aria-label="Xeir">
-                  Xeir
-               </button>
+               <div v-if="showEditButtons" class="modal__form-group modal__flex">
+                  <button
+                     type="button"
+                     class="submitWhite"
+                     aria-label="Silmək"
+                     @click="activeDelete"
+                  >
+                     Sil
+                     <img
+                        loading="lazy"
+                        src="../../assets/images/svg/delet.svg"
+                        alt="delet"
+                     />
+                  </button>
+                  <button
+                     type="submit"
+                     class="submit"
+                     id="messg"
+                     aria-label="Yadda Saxla"
+                  >
+                     <span>Yadda saxla</span>
+                  </button>
+               </div>
 
-               <button
-                  @click="handleDelete(updateReservation)"
-                  type="submit"
-                  class="submitWhite"
-                  id="messg"
-                  aria-label="Bəli"
-               >
-                  <span>Bəli</span>
 
-               </button>
-            </div>
-         </form>
+            </form>
+
+         </div>
+
+
       </div>
    </div>
    <div v-show="clickLoad" class="loading-dots">
@@ -330,6 +343,7 @@ export default {
       this.$refs.datePicker.$locale.dayNamesNarrow = [...this.datePickerOptions.dayNamesNarrow];
    },
    methods: {
+
       chooseRoom(event) {
          this.updateReservation.room_id = event.id;
          // this.updateReservation.emails = [];
@@ -414,7 +428,7 @@ export default {
             this.$toast.success(`Uğurlu redaktə edildi`);
          }
 
-         if (this.userStore.error ) {
+         if (this.userStore.error) {
             this.clickLoad = false;
          }
       },
@@ -449,8 +463,8 @@ export default {
       return {userStore, useStoreRoom, v$: useVuelidate()};
    },
 
-   watch:{
-     'updateReservation.emails': {
+   watch: {
+      'updateReservation.emails': {
          handler() {
             if (this.updateReservation.emails.length <= 0) {
                this.emailLengthValid = false;

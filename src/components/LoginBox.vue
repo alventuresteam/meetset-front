@@ -19,12 +19,14 @@
             v-for="error in v$.email.$errors"
             :key="error.$uid"
          >
-       {{ error.$message === 'Value is not a valid email address' ? 'Email düzgün qeyid olunmayıb' : 'Email boş ola bilməz' }}
+       {{
+               error.$message === 'Value is not a valid email address' ? 'Email düzgün qeyid olunmayıb' : 'Email boş ola bilməz'
+            }}
       </span>
          <div class="formBox">
             <input
                v-if="passwordShow"
-               v-model.lazy="password"
+               v-model.trim.lazy="password"
                type="password"
                class="input"
                placeholder="Şifrə "
@@ -32,7 +34,7 @@
 
             <input
                v-else
-               v-model.lazy="password"
+               v-model.trim.lazy="password"
                type="text"
                class="input"
                placeholder="Şifrə "
@@ -56,16 +58,27 @@
             </div>
          </div>
 
-         <span
-            class="errorText"
+         <div
+
             v-for="error in v$.password.$errors"
             :key="error.$uid"
          >
- {{
-               error.$message === "Value is required"
-                  ? "Şifrə boş ola bilməz"
-                  : "Şifrə min 6 simvol olmalıdır"
-            }}      </span>
+
+<span class="errorText" v-if="error.$message === 'This field should be at least 6 characters long'">
+            Şifrə min 6 simvol olmalıdır
+</span>
+
+
+            <span v-else></span>
+
+            <span class="errorText" v-if="error.$message === 'Value is required'">
+           Şifrə boş ola bilməz
+</span>
+
+            <span v-else></span>
+
+
+         </div>
 
          <span class="errorText" v-if="userStore.error"
          >Email və ya şifrə yanlışdır</span
@@ -134,12 +147,23 @@ export default {
          password: {required, minLength: minLength(6)},
       };
    },
+
+
+  async mounted() {
+     this.clickLoad = true;
+
+     try {
+         await  this.useSetting.fetchSetting();
+         this.clickLoad = false;
+
+      }catch (err){
+         console.log(err)
+      }
+   },
    setup() {
       const useSetting = useSettingStore();
       const userStore = useUserStore();
-      onMounted(() => {
-         useSetting.fetchSetting();
-      });
+
       return {userStore, useSetting, v$: useVuelidate()};
    },
 };

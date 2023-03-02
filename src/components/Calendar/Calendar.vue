@@ -22,7 +22,7 @@
             </div>
 
             <div class="table-wrapper">
-               <div class="loaderGif" v-if="loader">
+               <div class="loading-dots" v-if="loader">
                   <loading/>
                </div>
 

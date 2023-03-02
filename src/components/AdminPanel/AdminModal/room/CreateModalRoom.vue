@@ -35,8 +35,7 @@
             <div class="modal__form-group">
                <input
                   v-model.lazy="capacity"
-                  min="1"
-                  max="25"
+                  maxlength="2"
                   class="input input__100"
                   placeholder="İşçi tutumu (nəfər)"
                   @input="onIpAddressInput"
@@ -73,14 +72,12 @@
 
             <div class="modal__form-group">
                <input
-                  min="1"
-                  max="25"
+                  maxlength="2"
                   v-model.lazy="floor"
                   class="input input__100"
                   placeholder="Yerləşdiyi mərtəbə"
                   @input="onIpAddressInput"
-
-                  type="number"
+                  type="text"
                />
                <span
                   class="errorText"

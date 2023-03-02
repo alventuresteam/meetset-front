@@ -36,7 +36,7 @@
 
       <Suspense v-if="showDeletButtons">
          <template #default>
-            <div class="modal-overlay" >
+            <div class="modal-overlay">
                <div class="modal modal__remove" @click.stop>
                   <div class="modal__head" v-show="showDeletButtons">
                      <h6 class="modal__head-title">İstifadəçini sil</h6>
@@ -110,6 +110,7 @@ export default {
          showDeletButtons: false,
          clickLoad: false,
          id: "",
+
       };
    },
 
@@ -143,6 +144,12 @@ export default {
       },
    },
 
+  async mounted() {
+     await this.userStore.fetchPerson();
+     this.$emit("success");
+
+   },
+
    setup() {
       const UpdateModalUser = defineAsyncComponent({
          loader: () => import("../../components/AdminPanel/AdminModal/user/UpdateModalUser.vue"),
@@ -151,9 +158,6 @@ export default {
          suspensible: true,
       });
 
-      onMounted(() => {
-         userStore.fetchPerson();
-      });
 
       const showUpdateModalUser = ref(false);
 

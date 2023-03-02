@@ -45,13 +45,13 @@
             >
                <div class="modal modal__remove" @click.stop>
                   <div class="modal__head" v-show="showDeletButtons">
-                     <h6 class="modal__head-title">Otaqı sil</h6>
+                     <h6 class="modal__head-title">Otağı sil</h6>
                   </div>
 
                   <form class="modal__form" @submit.prevent="handleDelete(id)">
                      <div>
                         <p class="modal__form-delete">
-                           Bu otaqı silmək istədiyinizə əminsiniz?
+                           Bu otağı silmək istədiyinizə əminsiniz?
                         </p>
                      </div>
 
@@ -126,6 +126,13 @@ export default {
       };
    },
 
+   async mounted() {
+
+      await this.userStore.fetchRoom();
+      this.$emit("success");
+
+   },
+
    methods: {
       refusal() {
          this.showDeletButtons = false;
@@ -166,9 +173,7 @@ export default {
          suspensible: true,
       });
 
-      onMounted(() => {
-         userStore.fetchRoom();
-      });
+
       const showUpdateModalRoom = ref(false);
       return {userStore, showUpdateModalRoom, UpdateModalRoom};
    },

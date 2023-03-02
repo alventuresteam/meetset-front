@@ -60,7 +60,7 @@
       </button>
    </form>
 
-   <div v-show="clickLoad" class="loading-dots">
+   <div v-if="clickLoad" class="loading-dots">
       <loading/>
    </div>
 </template>
@@ -71,7 +71,7 @@ import UploadFile from "@/components/UploadFile.vue";
 import Loading from "@/components/Loading.vue";
 
 export default {
-   components: { Loading, UploadFile },
+   components: {Loading, UploadFile},
    data() {
       return {
          form: {
@@ -88,9 +88,22 @@ export default {
       return {userStore};
    },
    async mounted() {
-      await this.userStore.fetchSetting();
-      this.form.ip_address = await this.userStore.getSetting.ip_address;
-      this.form.port = await this.userStore.getSetting.port;
+      this.clickLoad = true;
+
+      try {
+         await this.userStore.fetchSetting();
+
+         this.form.ip_address = await this.userStore.getSetting.ip_address;
+         this.form.port = await this.userStore.getSetting.port;
+
+         if (this.form.ip_address && this.form.port) {
+            this.clickLoad = false;
+         }
+      } catch (err) {
+         console.log(err)
+      }
+
+
    },
    methods: {
       isValidIpAddress(ipAddress) {

@@ -208,13 +208,14 @@ export default defineComponent({
         await this.useUserStores.fetchUser();
 
          await this.useStoreRoom.fetchRoom();
+        await this.useStore.fetchReservation();
+
          this.$emit("success");
          this.emitter.on("refresh", () => {
             this.refetch();
             this.val++;
          });
 
-         this.useStore.fetchReservation();
          this.showCalendar = true;
          this.refetch();
       } catch (err) {
