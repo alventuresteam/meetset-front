@@ -166,16 +166,12 @@ export default {
       },
    },
    mounted() {
-         // setTimeout(() => {
-         //    this.$nextTick(() => {
-         //    console.log('22222222', this.$refs.datePicker)
-         //    this.$refs.datePicker.$locale.monthNames = [...this.datePickerOptions.monthNames];
-         //    this.$refs.datePicker.$locale.dayNamesNarrow = [...this.datePickerOptions.dayNamesNarrow];
-         //    this.$refs.datePicker.$locale.monthNamesShort = [...this.datePickerOptions.monthNamesShort];
-            // })
+
+      if(this.loader){
+         document.getElementById("app").style.overflow='hidden'
+      }
 
 
-         // }, 1000);
 
       const vcArrows = document.querySelectorAll('.vc-pane-container .vc-arrow');
 

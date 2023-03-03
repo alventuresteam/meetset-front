@@ -62,7 +62,7 @@
                            class="submitWhite"
                            @click="refusal"
                         >
-                           Xeir
+                           Xeyr
                         </button>
 
                         <button

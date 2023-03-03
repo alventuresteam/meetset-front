@@ -3,7 +3,7 @@
       <Sidebar/>
       <div class="adminRightSide">
          <div v-if="$route.path === '/user'">
-            <Header title="Istifadəçilər"/>
+            <Header title="İstifadəçilər"/>
          </div>
 
          <div v-if="$route.path === '/rooms'">

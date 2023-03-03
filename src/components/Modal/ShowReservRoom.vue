@@ -29,8 +29,8 @@
                      type="button"
                      class="submitWhite"
                      @click="close"
-                     aria-label="Xeir">
-                     Xeir
+                     aria-label="Xeyr">
+                     Xeyr
                   </button>
                   <button
 
@@ -142,7 +142,7 @@
                </div>
 
                <div class="modal__form-group">
-                  <label for="user" class="label">İclası təşkil edən şəxs</label>
+                  <label for="user" class="label">İclası təşkil edən şəxsin adı və soyadı</label>
                   <input
                      v-model.lazy="updateReservation.organizer_name"
                      class="input input__100"
@@ -161,7 +161,7 @@
                </div>
 
                <div class="modal__form-group">
-                  <label for="emails" class="label">Dəvət ediləcəklər</label>
+                  <label for="emails" class="label">Dəvət ediləcək şəxslərin mail ünvanları</label>
 
                   <div class="tag-input input input__100 input__height-auto">
                      <div
@@ -192,11 +192,11 @@
                   </div>
 
                   <span class="errorText" v-if="emailLengthValid === false">
-                  E-mail boş ola bilməz
+                  Mail boş ola bilməz
                </span>
                   <span class="errorText"
                         v-if="updateReservation.emails && updateReservation.emails.length && emailLengthType === false">
-                  E-maildə səhvlik var
+                  Maildə səhvlik var
                </span>
 
                </div>

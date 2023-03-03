@@ -68,7 +68,7 @@
           <input
             class="input input__100"
             v-model.trim="email"
-            placeholder="E-mail"
+            placeholder="Mail"
             maxlength="250"
             type="text"
             autocomplete="off"
@@ -80,7 +80,7 @@
             v-for="error in v$.email.$errors"
             :key="error.$uid"
           >
-            {{error.$message === 'Value is required' ? 'E-mail boş ola bilməz' : 'E-mail səhvlik var'}}
+            {{error.$message === 'Value is required' ? 'Mail boş ola bilməz' : 'Mail səhvlik var'}}
           </span>
         </div>
 

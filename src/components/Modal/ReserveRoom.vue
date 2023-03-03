@@ -47,7 +47,7 @@
                      :min="currentDateTime"
                      :enabled="true"
                      :readonly="startRead"
-                     :placeholder="waterMark"
+                     placeholder="Başlama Saatı"
                      :openOnFocus="true"
                      :format="timeFormat"
                      :value="startVal"
@@ -66,7 +66,7 @@
                   <ejs-timepicker
                      v-model.lazy="end_time"
                      id="endPicker"
-                     :placeholder="waterMark"
+                     placeholder="Bitmə Saatı"
                      :enabled="true"
                      :readonly="endRead"
                      :min="min"
@@ -106,7 +106,7 @@
             </div>
 
             <div class="modal__form-group">
-               <label for="user" class="label">İclası təşkil edən şəxs</label>
+               <label for="user" class="label">İclası təşkil edən şəxsin adı və soyadı</label>
                <input
                   v-model.lazy="organizer_name"
                   class="input input__100"
@@ -125,7 +125,7 @@
             </div>
 
             <div class="modal__form-group">
-               <label for="emails" class="label">Dəvət ediləcəklər</label>
+               <label for="emails" class="label">Dəvət ediləcək şəxslərin mail ünvanları</label>
 
                <div
                   :class="{ disabled: !room_id }"
@@ -154,11 +154,11 @@
                </div>
 
                <span class="errorText" v-if="emailLengthValid === false">
-                  E-mail boş ola bilməz
+                  Mail boş ola bilməz
                </span>
 
                <span class="errorText" v-if="emails.length && emailLengthType === false">
-                  E-maildə səhvlik var
+                  Maildə səhvlik var
                </span>
             </div>
 
@@ -200,7 +200,7 @@
                   class="submitWhite"
                   @click="close"
                >
-                  Xeir
+                  Xeyr
                </button>
 
                <button
@@ -209,7 +209,7 @@
                   type="submit"
                   placeholder="Görüşlə bağlı qeydlər"
                >
-                  <span>Yadda saxla</span>
+                  <span>Rezerv et</span>
                </button>
             </div>
          </form>

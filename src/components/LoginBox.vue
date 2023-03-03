@@ -10,7 +10,7 @@
          <input
             type="text"
             class="input"
-            placeholder="İstifadəçi adı vəya e-mail"
+            placeholder="İstifadəçi adı vəya mail"
             v-model.trim="email"
          />
 
@@ -20,7 +20,7 @@
             :key="error.$uid"
          >
        {{
-               error.$message === 'Value is not a valid email address' ? 'Email düzgün qeyid olunmayıb' : 'Email boş ola bilməz'
+               error.$message === 'Value is not a valid email address' ? 'Mail düzgün qeyid olunmayıb' : 'Mail boş ola bilməz'
             }}
       </span>
          <div class="formBox">

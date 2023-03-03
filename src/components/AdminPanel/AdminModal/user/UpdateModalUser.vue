@@ -65,7 +65,7 @@
                <input
                   class="input input__100"
                   v-model.trim="updateDataPerson.email"
-                  placeholder="E-mail"
+                  placeholder="Mail"
                   maxlength="250"
                   type="text"
                />
@@ -75,7 +75,7 @@
                   v-for="error in v$.updateDataPerson.email.$errors"
                   :key="error.$uid"
                >
-       {{ error.$message === 'Value is not a valid email address' ? 'Email düzgün qeyid olunmayıb' : 'Email boş ola bilməz' }}
+       {{ error.$message === 'Value is not a valid email address' ? 'Mail düzgün qeyid olunmayıb' : 'Mail boş ola bilməz' }}
           </span>
 
                <span class="errorText" v-if="userStore.errorMsg">Email mövcuddur</span>
