@@ -21,7 +21,7 @@
             <form class="modal__form" @submit.prevent="handleDelete(updateReservation)">
 
                <p class="modal__form-delete">
-                  Bu otaq rezervasiyasını silmək istədiyinizə əminsiniz?
+                  Bu otaq rezervasiyasını silmək istədiyinizə əminsinizmi?
                </p>
 
                <div v-if="showDeleteButtons" class="modal__form-group modal__flex">

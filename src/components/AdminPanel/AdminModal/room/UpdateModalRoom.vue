@@ -2,7 +2,7 @@
    <div class="modal-overlay">
       <div class="modal modal__room" @click.stop>
          <div class="modal__head">
-            <h6 class="modal__head-title">Otaqı redaktə et</h6>
+            <h6 class="modal__head-title">Otağı redaktə et</h6>
             <span class="modal__head-close" @click="close()">
           <img
              loading="lazy"

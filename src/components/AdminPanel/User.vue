@@ -43,7 +43,7 @@
                   </div>
                   <form class="modal__form" @submit.prevent="handleDelete(id)">
                      <p class="modal__form-delete">
-                        Bu istifadəçini silmək istədiyinizə əminsiniz?
+                        Bu istifadəçini silmək istədiyinizə əminsinizmi?
                      </p>
 
                      <div class="modal__form-group modal__flex">

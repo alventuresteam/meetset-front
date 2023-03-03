@@ -16,7 +16,7 @@ export const useUserStore = defineStore("user", {
       async fetchUser() {
          try {
             await axios
-               .get("https://meetset.al.ventures/api/auth/user")
+               .get("auth/user")
                .then((res) => {
                   console.log(res);
 
@@ -29,7 +29,7 @@ export const useUserStore = defineStore("user", {
       },
 
       async signIn(email, password) {
-         return await axios.post("https://meetset.al.ventures/api/auth/login", {email, password})
+         return await axios.post("auth/login", {email, password})
             .then((res) => {
                const token = res.data.token;
                const user = res.data.user;
@@ -49,7 +49,7 @@ export const useUserStore = defineStore("user", {
       },
 
       async signOut() {
-         await axios.post("https://meetset.al.ventures/api/auth/logout",
+         await axios.post("auth/logout",
             {}, {
                headers: {
                   Authorization: 'Bearer ' + this.token

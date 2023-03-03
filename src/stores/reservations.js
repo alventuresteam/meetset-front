@@ -20,7 +20,7 @@ export const useReservationStore = defineStore("reservation", {
     async fetchReservation() {
       try {
         await axios
-          .get("https://meetset.al.ventures/api/reservations")
+          .get("reservations")
           .then((res) => {
             return (this.reservation = res.data);
           });
@@ -43,7 +43,7 @@ export const useReservationStore = defineStore("reservation", {
       this.errorMsg = null;
 
       await axios
-        .post("https://meetset.al.ventures/api/reservations/create", {
+        .post("reservations/create", {
           start_date,
           start_time,
           end_time,
@@ -72,7 +72,7 @@ export const useReservationStore = defineStore("reservation", {
       this.errorMsg = null;
       await axios
         .post(
-          `https://meetset.al.ventures/api/reservations/${item.id}/update`,
+          `reservations/${item.id}/update`,
           {
             start_date: item.start_date,
             start_time: item.start_time,
@@ -100,7 +100,7 @@ export const useReservationStore = defineStore("reservation", {
     async deletReservation(item) {
       await axios
         .post(
-          `https://meetset.al.ventures/api/reservations/${item.id}/delete`,
+          `reservations/${item.id}/delete`,
           {
             start_date: item.start_date,
             start_time: item.start_time,

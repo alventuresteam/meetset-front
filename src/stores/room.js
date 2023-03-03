@@ -19,7 +19,7 @@ export const useRoomStore = defineStore("rooms", {
       async fetchRoom() {
          try {
             await axios
-               .get("https://meetset.al.ventures/api/rooms")
+               .get("rooms")
                .then((res) => {
                   return this.rooms = res.data;
                });
@@ -32,7 +32,7 @@ export const useRoomStore = defineStore("rooms", {
          this.error = null;
          this.errorMsg = null;
          await axios
-            .post("https://meetset.al.ventures/api/rooms/create", {
+            .post("rooms/create", {
                name,
                capacity,
                address,
@@ -53,7 +53,7 @@ export const useRoomStore = defineStore("rooms", {
          this.error = null;
          this.errorMsg = null;
          await axios
-            .post(`https://meetset.al.ventures/api/rooms/${item.id}/update`, {
+            .post(`rooms/${item.id}/update`, {
                name: item.name,
                capacity: item.capacity,
                address: item.address,
@@ -71,7 +71,7 @@ export const useRoomStore = defineStore("rooms", {
 
       async deleteRoom(id) {
          await axios
-            .post(`https://meetset.al.ventures/api/rooms/${id}/delete`)
+            .post(`rooms/${id}/delete`)
             .then((res) => {
             })
             .catch((err) => {

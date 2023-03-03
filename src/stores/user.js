@@ -18,7 +18,7 @@ export const usePersonStore = defineStore("person", {
    actions: {
       async fetchPerson() {
          try {
-            await axios.get("https://meetset.al.ventures/api/users").then((res) => {
+            await axios.get("users").then((res) => {
                const person = res.data;
                return (this.person = person);
             });
@@ -32,7 +32,7 @@ export const usePersonStore = defineStore("person", {
          this.error = null;
          this.errorMsg = null;
          await axios
-            .post("https://meetset.al.ventures/api/users/create", {
+            .post("users/create", {
                name,
                fin_code,
                position,
@@ -55,7 +55,7 @@ export const usePersonStore = defineStore("person", {
          this.error = null;
          this.errorMsg = null;
          await axios
-            .post(`https://meetset.al.ventures/api/users/${item.id}/update`, {
+            .post(`users/${item.id}/update`, {
                name: item.name,
                fin_code: item.fin_code,
                position: item.position,
@@ -82,7 +82,7 @@ export const usePersonStore = defineStore("person", {
 
       async deletePerson(id) {
          await axios
-            .post(`https://meetset.al.ventures/api/users/${id}/delete`)
+            .post(`users/${id}/delete`)
             .then((res) => {
                console.log(res);
             })

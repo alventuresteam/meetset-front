@@ -51,7 +51,7 @@
                   <form class="modal__form" @submit.prevent="handleDelete(id)">
                      <div>
                         <p class="modal__form-delete">
-                           Bu otağı silmək istədiyinizə əminsiniz?
+                           Bu otağı silmək istədiyinizə əminsinizmi?
                         </p>
                      </div>
 

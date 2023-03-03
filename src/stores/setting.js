@@ -16,7 +16,7 @@ export const useSettingStore = defineStore("setting", {
     actions: {
         async fetchSetting() {
             try {
-                await axios.get("https://meetset.al.ventures/api/setting")
+                await axios.get(`setting`)
                     .then((res) => {
                         const setting = res.data;
                         this.setting = setting;
@@ -30,7 +30,7 @@ export const useSettingStore = defineStore("setting", {
         async updateSetting(data) {
             this.error = null;
             this.errorMsg = null;
-            await axios.post(`https://meetset.al.ventures/api/setting/update`, data)
+            await axios.post(`setting/update`, data)
                 .then((res) => {
                 })
                 .catch((err) => {
