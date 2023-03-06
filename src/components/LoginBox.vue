@@ -129,7 +129,7 @@ export default {
             if (!this.userStore.error) {
                this.clickLoad = false;
                if (user.role === 1)
-                  window.location.href = "/user";
+                  window.location.href = "/admin";
                else
                   window.location.href = "/calendar";
             }

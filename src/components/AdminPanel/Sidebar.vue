@@ -75,7 +75,7 @@ export default {
                 {
                     id: "1",
                     name: "İstifadəçilər",
-                    route: "/user",
+                    route: "/admin",
                     img: "profile.svg",
                 },
                 {

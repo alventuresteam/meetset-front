@@ -2,7 +2,7 @@
    <div class="admin">
       <Sidebar/>
       <div class="adminRightSide">
-         <div v-if="$route.path === '/user'">
+         <div v-if="$route.path === '/admin'">
             <Header title="İstifadəçilər"/>
          </div>
 
@@ -14,7 +14,7 @@
             <Header title="Tənzimləmələr"/>
          </div>
 
-         <div v-if="$route.path === '/user'">
+         <div v-if="$route.path === '/admin'">
             <Suspense>
                <template #default>
                   <User @success="download"/>

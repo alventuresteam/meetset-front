@@ -425,7 +425,7 @@ export default {
          if (!this.userStore.error && !this.userStore.errorMsg && this.showEditButtons) {
             this.clickLoad = false;
             this.close();
-            this.$toast.success(`Uğurlu redaktə edildi`);
+            this.$toast.success(`Uğurla redaktə olundu`);
          }
 
          if (this.userStore.error) {

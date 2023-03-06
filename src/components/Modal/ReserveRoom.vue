@@ -347,7 +347,7 @@ export default {
          if (!this.userStore.error && !this.userStore.errorMsg) {
             this.clickLoad = false;
             this.close()
-            this.$toast.success(`Rezerv uğurlu keçdi`);
+            this.$toast.success(`Uğurla rezerv  olundu`);
          }
          await this.useStoreRoom.fetchRoom();
          this.emitter.emit("refresh");

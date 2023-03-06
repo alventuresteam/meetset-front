@@ -10,7 +10,7 @@ const routes = [
             if (JSON.parse(localStorage.getItem('user')).role === 0) {
                window.location.href = "/calendar";
             } else {
-               window.location.href = "/user";
+               window.location.href = "/admin";
             }
          }
       }
@@ -30,7 +30,7 @@ const routes = [
       beforeEnter: () => {
          if (localStorage.getItem('user')) {
             if (JSON.parse(localStorage.getItem('user')).role === 1) {
-               window.location.href = "/user";
+               window.location.href = "/admin";
             }
          } else {
             window.location.href = "/";
@@ -41,7 +41,7 @@ const routes = [
    {
       children: [
          {
-            path: "/user",
+            path: "/admin",
             name: "User",
             component: () => import("@/views/Admin.vue"),
             beforeEnter: () => {
