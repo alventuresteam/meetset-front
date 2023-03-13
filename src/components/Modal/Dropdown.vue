@@ -44,11 +44,11 @@ export default {
     },
 
     mounted() {
-        setTimeout(() => {
-            this.options?.forEach((item) => {
+       this.$nextTick(() => {
+          this.options?.forEach((item) => {
                 if (item.id === this.default) this.selected = item.name;
             });
-        }, 10);
+        });
     },
 };
 </script>

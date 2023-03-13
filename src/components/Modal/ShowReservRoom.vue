@@ -54,8 +54,9 @@
                   <DatePicker
                      :popover="{ visibility: 'focus' }"
                      :min-date="new Date()"
-                     ref="datePicker"
                      :max-date="new Date(2030, 1, 4)"
+
+                     ref="datePicker"
                      v-model.lazy="updateReservation.start_date"
                   >
                      <template #default="{ inputValue, inputEvents }">
@@ -82,6 +83,7 @@
                         id="startPicker"
                         :change="onEnableEndTime"
                         :enabled="true"
+                        :min="currentDateTime"
                         :openOnFocus="true"
                         :readonly="startRead"
                         :placeholder="waterMark"
@@ -156,6 +158,7 @@
                      v-for="error in v$.updateReservation.organizer_name.$errors"
                      :key="error.$uid"
                   >
+
               İclası təşkil edən şəxs boş ola bilməz
             </span>
                </div>
@@ -259,7 +262,6 @@
             </form>
 
          </div>
-
 
       </div>
    </div>
@@ -451,8 +453,9 @@ export default {
             value = new Date(args.value);
             value.setMinutes(value.getMinutes() + this.step);
             this.min = value;
+
          } else {
-            this.isStartTimeChange = true;
+                       this.isStartTimeChange = true;
          }
       },
    },
@@ -464,6 +467,16 @@ export default {
    },
 
    watch: {
+
+         dateDifference(val) {
+            if (val === true) {
+               this.currentDateTime = new Date(2023, 1, 1, 0);
+            } else {
+               this.currentDateTime = new Date();
+            }
+         },
+
+
       'updateReservation.emails': {
          handler() {
             if (this.updateReservation.emails.length <= 0) {
@@ -485,6 +498,23 @@ export default {
    },
 
    computed: {
+      dateDifference() {
+         if (this.updateReservation.start_date && new Date()) {
+            console.log('true')
+            return this.updateReservation.start_date > new Date();
+         }
+      },
+
+      startVal() {
+         // Round the current time to the nearest 10-minute interval
+         const currentMinute = this.currentDateTime.getMinutes();
+         const roundedMinute = Math.ceil(currentMinute / 10) * 10;
+         this.currentDateTime.setMinutes(roundedMinute);
+
+         // Return the rounded time as the start value
+         return this.updateReservation.start_time;
+      },
+
 
       getRoom() {
          return this.useStoreRoom.getRoom;

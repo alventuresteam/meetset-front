@@ -127,6 +127,9 @@ export default {
             if (item.textContent.split(' ')[0] === 'ноябрь') item.textContent = `Noyabr ${item.textContent.split(' ')[1]}`;
             if (item.textContent.split(' ')[0] === 'декабрь') item.textContent = `Dekabr ${item.textContent.split(' ')[1]}`;
          })
+
+         this.datePickerDay();
+
       },
       datePickerMonthDropdown() {
          const datePickerTitles = document.querySelectorAll('.vc-pane .vc-title');
@@ -184,9 +187,8 @@ export default {
             this.datePickerMonth();
             // this.datePickerMonthDropdown();
 
-            setTimeout(() => {
-               this.datePickerDay();
-            }, 300);
+            // setTimeout(() => {
+            // }, 300);
          })
       })
    },

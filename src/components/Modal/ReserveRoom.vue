@@ -237,7 +237,7 @@ import {DatePicker} from "v-calendar";
 import {useReservationStore} from "../../stores/reservations";
 import {useRoomStore} from "../../stores/room";
 import {useVuelidate} from "@vuelidate/core";
-import {required,  minLength, } from "@vuelidate/validators";
+import {required,  } from "@vuelidate/validators";
 import {storeToRefs} from "pinia";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
 import Loading from "@/components/Loading.vue";
@@ -368,6 +368,7 @@ export default {
 
       changeValue: function (args) {
          this.endVal = args.value;
+
       },
       onEnableEndTime: function (args) {
          let value;
