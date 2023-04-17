@@ -205,3 +205,8 @@ html {
     padding: 120px 0;
     height: 100%;
 }
+
+
+    body > div:nth-child(3) {
+        display: none !important;
+    }
