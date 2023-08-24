@@ -11,6 +11,7 @@ export const useReservationStore = defineStore("reservation", {
   state: () => ({
     reservation: [],
     error: [],
+    contacts:[],
     errorMsg: "",
 
     token: localStorage.getItem("token") || "",
@@ -123,9 +124,18 @@ export const useReservationStore = defineStore("reservation", {
            }
         });
     },
+      async searchContact(item) {
+      await axios
+        .get(`search-contacts?q=${item}`)
+        .then((res) => {return (this.contacts = res.data)})
+        .catch((err) => {
+          console.error(err);
+        });
+    },
   },
 
   getters: {
     getReservations: (state) => state.reservation,
+    getContact: (state) => state.contacts
   },
 });
