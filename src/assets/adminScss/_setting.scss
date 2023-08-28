@@ -1,7 +1,7 @@
 .setting {
     position: relative;
     max-width: 676px;
-
+    padding-bottom: 10px;
     &__title {
         color: #121926;
         font-family: TTInterfaces-DemiBold, sans-serif;
@@ -112,6 +112,7 @@
             align-items: center;
             border: 1px solid #CDD5DF;
             cursor: pointer;
+            font-family: TTHoves-Medium, sans-serif;
             border-radius: 8px;
             padding: 14px 16px;
             width: 50%;

@@ -47,6 +47,7 @@
 
         <div class="modal__flex modal__form-group" style="margin-bottom: 35px">
           <div class="input" style="margin-right: 12px">
+            <client-only>
             <time-picker-component
               v-model.lazy="start_time"
               id="startPicker"
@@ -60,7 +61,7 @@
               :format="timeFormat"
               :value="startVal"
             ></time-picker-component>
-
+            </client-only>
             <span
               style="margin-left: 5px"
               class="errorText"
@@ -71,6 +72,7 @@
             </span>
           </div>
           <div class="input">
+            <client-only>
             <time-picker-component
               v-model.lazy="end_time"
               id="endPicker"
@@ -84,7 +86,7 @@
               :value="endVal"
               :change="changeValue"
             ></time-picker-component>
-
+          </client-only>
             <span
               style="margin-left: 5px"
               class="errorText"

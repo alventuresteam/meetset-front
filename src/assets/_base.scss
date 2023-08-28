@@ -15,6 +15,7 @@ $white: #ffffff;
 @include FontFace(TTInterfaces-Medium, "./font/TTInterfaces-Medium.ttf");
 @include FontFace(TTInterfaces-Regular, "./font/TTInterfaces-Regular.ttf");
 @include FontFace(TTInterfaces-DemiBold, "./font/TTInterfaces-DemiBold.ttf");
+@include FontFace(TTHoves-Medium, "./font/TTHoves-Medium.ttf");
 
 .container {
     max-width: 1960px;
