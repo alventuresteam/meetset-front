@@ -57,7 +57,7 @@
               :enabled="true"
               :readonly="startRead"
               placeholder="Başlama Saatı"
-              :openOnFocus="true"
+            :openOnFocus="true"
               :format="timeFormat"
               :value="startVal"
             ></time-picker-component>
