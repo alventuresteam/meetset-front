@@ -49,13 +49,13 @@
           <div class="input" style="margin-right: 12px">
             <client-only>
             <time-picker-component
-              v-model.lazy="start_time"
+              v-model="start_time"
               id="startPicker"
               :change="onEnableEndTime"
               :step="step"
               :min="currentDateTime"
               :enabled="true"
-              :readonly="startRead"
+              :readonly="false"
               placeholder="Başlama Saatı"
               :openOnFocus="true"
               :format="timeFormat"
@@ -74,11 +74,11 @@
           <div class="input">
             <client-only>
             <time-picker-component
-              v-model.lazy="end_time"
+              v-model="end_time"
               id="endPicker"
               placeholder="Bitmə Saatı"
               :enabled="true"
-              :readonly="endRead"
+              :readonly="false"
               :min="min"
               :openOnFocus="true"
               :step="step"
