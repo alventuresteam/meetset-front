@@ -330,7 +330,7 @@ export default {
           "dek",
         ],
       },
-      start_date: "",
+      start_date: new Date(),
       start_time: "",
       end_time: "",
       room_id: "",

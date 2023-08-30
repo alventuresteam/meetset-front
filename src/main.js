@@ -20,7 +20,7 @@ import 'normalize.css';
 const pinia = createPinia()
 
 axios.defaults.baseURL = 'https://meetset.al.ventures/api/'
-// registerLicense("Ngo9BigBOggjHTQxAR8/V1NGaF1cWGhAYVF+WmFZfV1gdl9HY1ZRRWYuP1ZhSXxQdk1hUH9ZdXxRQ2FcUUQ==")
+registerLicense("Ngo9BigBOggjHTQxAR8/V1NGaF1cWGhAYVF+WmFZfV1gdl9HY1ZRRWYuP1ZhSXxQdk1hUH9ZdXxRQ2FcUUQ==")
 
 const emitter = mitt();
 
