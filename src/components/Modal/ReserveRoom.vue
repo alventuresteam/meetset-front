@@ -460,6 +460,7 @@ export default {
       this.endVal = args.value;
     },
     onEnableEndTime: function (args) {
+      console.log('sdsad')
       let value;
       if (this.isStartTimeChange) {
         this.endEnable = true;
@@ -561,15 +562,15 @@ export default {
       );
     },
 
-    startVal() {
-      // Round the current time to the nearest 10-minute interval
-      const currentMinute = this.currentDateTime.getMinutes();
-      const roundedMinute = Math.ceil(currentMinute / 10) * 10;
-      this.currentDateTime.setMinutes(roundedMinute);
+    // startVal() {
+    //   // Round the current time to the nearest 10-minute interval
+    //   const currentMinute = this.currentDateTime.getMinutes();
+    //   const roundedMinute = Math.ceil(currentMinute / 10) * 10;
+    //   this.currentDateTime.setMinutes(roundedMinute);
 
-      // Return the rounded time as the start value
-      return this.currentDateTime;
-    },
+    //   // Return the rounded time as the start value
+    //   return this.currentDateTime;
+    // },
 
     getRoom() {
       return this.useStoreRoom.getRoom;
