@@ -13,28 +13,30 @@
       </div>
       <form class="modal__form" @submit.prevent="addPerson()">
         <div class="modal__form-group">
-          <DatePicker
-            ref="datePicker"
-            v-model="selectedDate"
-            :popover="{ visibility: 'focus' }"
-            :min-date="new Date()"
-            :max-date="new Date(2030, 1, 4)"
-            v-model.lazy="start_date"
-          >
-            <template #default="{ inputValue, inputEvents }">
-              <input
-                class="input"
-                placeholder="Tarix"
-                :value="inputValue"
-                v-on="inputEvents"
-              />
-              <img
-                @click="$refs.datePicker.togglePopover()"
-                class="input-icon"
-                src="../../assets/images/svg/calendar.svg"
-              />
-            </template>
-          </DatePicker>
+          <client-only>
+            <DatePicker
+              ref="datePicker"
+              v-model="selectedDate"
+              :popover="{ visibility: 'focus' }"
+              :min-date="new Date()"
+              :max-date="new Date(2030, 1, 4)"
+              v-model.lazy="start_date"
+            >
+              <template #default="{ inputValue, inputEvents }">
+                <input
+                  class="input"
+                  placeholder="Tarix"
+                  :value="inputValue"
+                  v-on="inputEvents"
+                />
+                <img
+                  @click="$refs.datePicker.togglePopover()"
+                  class="input-icon"
+                  src="../../assets/images/svg/calendar.svg"
+                />
+              </template>
+            </DatePicker>
+          </client-only>
 
           <span
             class="errorText"
@@ -44,22 +46,23 @@
             Vaxt təyin olunmayıb
           </span>
         </div>
+
         <div class="modal__flex modal__form-group" style="margin-bottom: 35px">
           <div class="input" style="margin-right: 12px">
             <client-only>
-            <time-picker-component
-              v-model.lazy="start_time"
-              id="startPicker"
-              :change="onEnableEndTime"
-              :step="step"
-              :min="currentDateTime"
-              :enabled="true"
-              :readonly="startRead"
-              placeholder="Başlama Saatı"
-              :openOnFocus="true"
-              :format="timeFormat"
-              :value="startVal"
-            ></time-picker-component>
+              <time-picker-component
+                v-model.lazy="start_time"
+                id="startPicker"
+                :change="onEnableEndTime"
+                :step="step"
+                :min="currentDateTime"
+                :enabled="true"
+                :readonly="startRead"
+                placeholder="Başlama Saatı"
+                :openOnFocus="true"
+                :format="timeFormat"
+                :value="startVal"
+              ></time-picker-component>
             </client-only>
             <span
               style="margin-left: 5px"
@@ -72,20 +75,20 @@
           </div>
           <div class="input">
             <client-only>
-            <time-picker-component
-              v-model.lazy="end_time"
-              id="endPicker"
-              placeholder="Bitmə Saatı"
-              :enabled="true"
-              :readonly="endRead"
-              :min="min"
-              :openOnFocus="true"
-              :step="step"
-              :format="timeFormat"
-              :value="endVal"
-              :change="changeValue"
-            ></time-picker-component>
-          </client-only>
+              <time-picker-component
+                v-model.lazy="end_time"
+                id="endPicker"
+                placeholder="Bitmə Saatı"
+                :enabled="true"
+                :readonly="endRead"
+                :min="min"
+                :openOnFocus="true"
+                :step="step"
+                :format="timeFormat"
+                :value="endVal"
+                :change="changeValue"
+              ></time-picker-component>
+            </client-only>
             <span
               style="margin-left: 5px"
               class="errorText"
@@ -165,7 +168,13 @@
               v-model="inputText"
               @input="handleInput"
             />
-            <ul v-if="showSuggestions" :style="userStore.getContact.length ? 'border: 1px solid #ccc;' : ''" class="suggestions">
+            <ul
+              v-if="showSuggestions"
+              :style="
+                userStore.getContact.length ? 'border: 1px solid #ccc;' : ''
+              "
+              class="suggestions"
+            >
               <li
                 v-for="(suggestion, index) in userStore.getContact"
                 :key="index"
@@ -330,7 +339,7 @@ export default {
         ],
       },
       start_date: new Date(),
-      start_time: new Date(),
+      start_time: "",
       end_time: "",
       room_id: "",
       organizer_name: "",
@@ -352,11 +361,16 @@ export default {
       min: new Date(),
       isStartTimeChange: true,
       step: 10,
-      startVal: null,
-      endVal: null,
+      startVal: "",
+      endVal: "",
       timeFormat: "H:mm",
       inputText: "",
-      suggestions: ["aliesso23@gmail.com", "energon28@gmail.com", "vasif@mail.ru", "kenan31@mail.ru"],
+      suggestions: [
+        "aliesso23@gmail.com",
+        "energon28@gmail.com",
+        "vasif@mail.ru",
+        "kenan31@mail.ru",
+      ],
       showSuggestions: false,
     };
   },
@@ -389,7 +403,7 @@ export default {
         this.emails.push(val);
         event.target.value = "";
       }
-      this.inputText =""
+      this.inputText = "";
     },
     removeTag(index) {
       this.emails.splice(index, 1);
@@ -458,7 +472,7 @@ export default {
       }
     },
     handleInput() {
-      if (this.inputText.trim() === '') {
+      if (this.inputText.trim() === "") {
         this.showSuggestions = false;
       } else {
         this.showSuggestions = true;
@@ -466,7 +480,7 @@ export default {
       this.userStore.searchContact(this.inputText);
     },
     selectSuggestion(suggestion) {
-      this.emails.push(suggestion)
+      this.emails.push(suggestion);
       this.inputText = "";
       this.showSuggestions = false;
     },
@@ -483,9 +497,7 @@ export default {
       ...this.datePickerOptions.monthNamesShort,
     ];
     this.organizer_name = this.userstore.user.name;
-    
   },
-
 
   setup() {
     onMounted(() => {
@@ -544,7 +556,7 @@ export default {
     },
     filteredSuggestions() {
       return this.suggestions.filter(
-        suggestion =>
+        (suggestion) =>
           suggestion.toLowerCase().indexOf(this.inputText.toLowerCase()) !== -1
       );
     },
@@ -564,7 +576,7 @@ export default {
     },
 
     formattedTime() {
-      return moment(this.start_time).format("HH:mm");
+      return moment(this.start_time, "H:mm").format("HH:mm");
     },
 
     formattedDate() {
@@ -572,7 +584,7 @@ export default {
     },
 
     formattedEndTime() {
-      return moment(this.end_time).format("HH:mm");
+      return moment(this.end_time, "H:mm").format("HH:mm");
     },
   },
 };
