@@ -44,14 +44,31 @@
             Vaxt təyin olunmayıb
           </span>
         </div>
-
         <div class="modal__flex modal__form-group" style="margin-bottom: 35px">
           <div class="input" style="margin-right: 12px">
-            <client-only>
-            <time-picker-component
-
-            ></time-picker-component>
-            </client-only>
+            <div class="single-time-picker">
+              <select class="custom_tp"  v-model="start_time">
+                <option value="" disabled selected hidden>Başlama Saatı</option>
+                <option v-for="time in times" :key="time" :value="time">
+                  {{ time }}
+                </option>
+              </select>
+            </div>
+            <!-- <client-only>
+              <time-picker-component
+                v-model.lazy="start_time"
+                id="startPicker"
+                :change="onEnableEndTime"
+                :step="step"
+                :min="currentDateTime"
+                :enabled="true"
+                :readonly="startRead"
+                placeholder="Başlama Saatı"
+                :openOnFocus="true"
+                :format="timeFormat"
+                :value="startVal"
+              ></time-picker-component>
+            </client-only> -->
             <span
               style="margin-left: 5px"
               class="errorText"
@@ -62,21 +79,29 @@
             </span>
           </div>
           <div class="input">
-            <client-only>
-            <time-picker-component
-              v-model.lazy="end_time"
-              id="endPicker"
-              placeholder="Bitmə Saatı"
-              :enabled="true"
-              :readonly="endRead"
-              :min="min"
-              :openOnFocus="true"
-              :step="step"
-              :format="timeFormat"
-              :value="endVal"
-              :change="changeValue"
-            ></time-picker-component>
-          </client-only>
+            <div class="single-time-picker">
+              <select class="custom_tp"  v-model="end_time">
+                <option value="" disabled selected hidden>Bitm Saatı</option>
+                <option v-for="time in times" :key="time" :value="time">
+                  {{ time }}
+                </option>
+              </select>
+            </div>
+            <!-- <client-only>
+              <time-picker-component
+                v-model.lazy="end_time"
+                id="endPicker"
+                placeholder="Bitmə Saatı"
+                :enabled="true"
+                :readonly="endRead"
+                :min="min"
+                :openOnFocus="true"
+                :step="step"
+                :format="timeFormat"
+                :value="endVal"
+                :change="changeValue"
+              ></time-picker-component>
+            </client-only> -->
             <span
               style="margin-left: 5px"
               class="errorText"
@@ -156,7 +181,13 @@
               v-model="inputText"
               @input="handleInput"
             />
-            <ul v-if="showSuggestions" :style="userStore.getContact.length ? 'border: 1px solid #ccc;' : ''" class="suggestions">
+            <ul
+              v-if="showSuggestions"
+              :style="
+                userStore.getContact.length ? 'border: 1px solid #ccc;' : ''
+              "
+              class="suggestions"
+            >
               <li
                 v-for="(suggestion, index) in userStore.getContact"
                 :key="index"
@@ -237,7 +268,7 @@
   </div>
 </template>
 
-<style>
+<style lang="scss">
 .disabled {
   pointer-events: none;
   background: rgb(204 204 204 / 38%);
@@ -262,6 +293,14 @@
 
 .suggestions li:hover {
   background-color: #f2f2f2;
+}
+.custom_tp {
+  padding-bottom: 4px;
+  border: unset;
+  border-bottom: 1px solid black;
+  width: 100%;
+  outline: none;
+  font-size: 13px;
 }
 </style>
 
@@ -289,6 +328,7 @@ export default {
 
   data() {
     return {
+      selectedTime: "",
       datePickerOptions: {
         monthNames: [
           "Yanvar",
@@ -347,7 +387,12 @@ export default {
       endVal: null,
       timeFormat: "H:mm",
       inputText: "",
-      suggestions: ["aliesso23@gmail.com", "energon28@gmail.com", "vasif@mail.ru", "kenan31@mail.ru"],
+      suggestions: [
+        "aliesso23@gmail.com",
+        "energon28@gmail.com",
+        "vasif@mail.ru",
+        "kenan31@mail.ru",
+      ],
       showSuggestions: false,
     };
   },
@@ -380,7 +425,7 @@ export default {
         this.emails.push(val);
         event.target.value = "";
       }
-      this.inputText =""
+      this.inputText = "";
     },
     removeTag(index) {
       this.emails.splice(index, 1);
@@ -449,7 +494,7 @@ export default {
       }
     },
     handleInput() {
-      if (this.inputText.trim() === '') {
+      if (this.inputText.trim() === "") {
         this.showSuggestions = false;
       } else {
         this.showSuggestions = true;
@@ -457,7 +502,7 @@ export default {
       this.userStore.searchContact(this.inputText);
     },
     selectSuggestion(suggestion) {
-      this.emails.push(suggestion)
+      this.emails.push(suggestion);
       this.inputText = "";
       this.showSuggestions = false;
     },
@@ -474,9 +519,7 @@ export default {
       ...this.datePickerOptions.monthNamesShort,
     ];
     this.organizer_name = this.userstore.user.name;
-    
   },
-
 
   setup() {
     onMounted(() => {
@@ -502,7 +545,9 @@ export default {
         this.currentDateTime = new Date();
       }
     },
-
+    selectedTime(newValue) {
+      this.$emit("input", newValue);
+    },
     emails: {
       handler() {
         if (this.emails.length <= 0) {
@@ -535,11 +580,27 @@ export default {
     },
     filteredSuggestions() {
       return this.suggestions.filter(
-        suggestion =>
+        (suggestion) =>
           suggestion.toLowerCase().indexOf(this.inputText.toLowerCase()) !== -1
       );
     },
+    times() {
+      const timeOptions = [];
+      const now = new Date();
+      const currentHour = now.getHours();
+      const currentMinute = now.getMinutes();
 
+      for (let hour = currentHour; hour < 24; hour++) {
+        const startMinute = hour === currentHour ? Math.ceil(currentMinute / 10) * 10 : 0;
+
+        for (let minute = startMinute; minute < 60; minute += 10) {
+          const formattedTime = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+          timeOptions.push(formattedTime);
+        }
+      }
+
+      return timeOptions;
+    },
     startVal() {
       // Round the current time to the nearest 10-minute interval
       const currentMinute = this.currentDateTime.getMinutes();
