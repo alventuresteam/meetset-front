@@ -44,7 +44,6 @@
             Vaxt təyin olunmayıb
           </span>
         </div>
-
         <div class="modal__flex modal__form-group" style="margin-bottom: 35px">
           <div class="input" style="margin-right: 12px">
             <client-only>
@@ -331,7 +330,7 @@ export default {
         ],
       },
       start_date: new Date(),
-      start_time: "",
+      start_time: new Date(),
       end_time: "",
       room_id: "",
       organizer_name: "",
@@ -565,7 +564,7 @@ export default {
     },
 
     formattedTime() {
-      return moment(this.start_time, "H:mm").format("HH:mm");
+      return moment(this.start_time).format("HH:mm");
     },
 
     formattedDate() {
@@ -573,7 +572,7 @@ export default {
     },
 
     formattedEndTime() {
-      return moment(this.end_time, "H:mm").format("HH:mm");
+      return moment(this.end_time).format("HH:mm");
     },
   },
 };
