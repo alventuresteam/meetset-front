@@ -47,7 +47,7 @@
         <div class="modal__flex modal__form-group" style="margin-bottom: 35px">
           <div class="input" style="margin-right: 12px">
             <div class="single-time-picker">
-              <select class="custom_tp"  v-model="start_time">
+              <select class="custom_tp"   v-model="start_time">
                 <option value="" disabled selected hidden>Başlama Saatı</option>
                 <option v-for="time in times" :key="time" :value="time">
                   {{ time }}
@@ -81,8 +81,8 @@
           <div class="input">
             <div class="single-time-picker">
               <select class="custom_tp"  v-model="end_time">
-                <option value="" disabled selected hidden>Bitm Saatı</option>
-                <option v-for="time in times" :key="time" :value="time">
+                <option value="" disabled selected hidden>Bitmə Saatı</option>
+                <option v-for="time in endTimes" :key="time" :value="time">
                   {{ time }}
                 </option>
               </select>
@@ -413,6 +413,7 @@ export default {
       this.room_id = event.id;
       // this.emails = [];
     },
+
     addTag(event) {
       let room = this.getRoom.find((item) => item.id === this.room_id);
       if (room.capacity <= this.emails.length) return;
@@ -594,6 +595,23 @@ export default {
         const startMinute = hour === currentHour ? Math.ceil(currentMinute / 10) * 10 : 0;
 
         for (let minute = startMinute; minute < 60; minute += 10) {
+          const formattedTime = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+          timeOptions.push(formattedTime);
+        }
+      }
+
+      return timeOptions;
+    },
+    endTimes() {
+      const timeOptions = [];
+      const now = new Date();
+      const currentHour = now.getHours();
+      const currentMinute = now.getMinutes();
+
+      for (let hour = currentHour; hour < 24; hour++) {
+        const startMinute = hour === currentHour ? Math.ceil(currentMinute / 10) * 10 : 0;
+
+        for (let minute = startMinute + 10; minute < 60; minute += 10) {
           const formattedTime = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
           timeOptions.push(formattedTime);
         }

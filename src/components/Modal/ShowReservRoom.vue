@@ -95,9 +95,9 @@
           
             <div class="input" style="margin-right: 10px">
               <div class="single-time-picker">
-                <select class="custom_tp" v-model="updateReservation.start_time">
-                  <option value="" disabled selected hidden>
-                    Başlama Saatı
+                <select class="custom_tp"  v-model="updateReservation.start_time">
+                  <option :value="updateReservation.start_time" disabled selected hidden>
+                    {{ updateReservation.start_time }}
                   </option>
                   <option v-for="time in times" :key="time" :value="time">
                     {{ time }}
@@ -130,7 +130,7 @@
             <div class="input">
                  <div class="single-time-picker">
               <select class="custom_tp"  v-model="updateReservation.end_time">
-                <option value="" disabled selected hidden>Bitmə Saatı</option>
+                <option :value="updateReservation.end_time" disabled selected hidden>{{ updateReservation.end_time }}</option>
                 <option v-for="time in times" :key="time" :value="time">
                   {{ time }}
                 </option>
