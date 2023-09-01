@@ -427,6 +427,7 @@ export default {
         event.target.value = "";
       }
       this.inputText = "";
+      this.showSuggestions = false;
     },
     removeTag(index) {
       this.emails.splice(index, 1);

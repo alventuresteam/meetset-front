@@ -69,11 +69,12 @@
       </div>
       <LDAP :form="form" v-else></LDAP>
     </div>
+    <!-- :disabled="ipInvalid || form.port.length > 5 || form.port.length < 2" -->
+
     <button
       aria-label="Yadda saxla"
       type="submit"
       class="setting__save"
-      :disabled="ipInvalid || form.port.length > 5 || form.port.length < 2"
     >
       Yadda saxla
 
