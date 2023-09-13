@@ -1,7 +1,6 @@
 <template>
   <form action="" class="setting" @submit.prevent="save">
     <h1 class="setting__title">Server ayarları</h1>
-
     <div class="setting__flex">
       <div class="setting__group" style="position: relative">
         <label class="label">Server IP adresi</label>
@@ -64,28 +63,32 @@
           vasitəsilə əlavə et
         </div>
       </div>
-      <div style="margin-top: 32px"  v-if="showFirst === true" class="uploadfile" >
+      <div
+        style="margin-top: 32px"
+        v-if="showFirst === true"
+        class="uploadfile"
+      >
         <UploadExcel @file="form.file = $event" />
       </div>
-      <LDAP :form="form" v-else></LDAP>
+      <LDAP :data="userStore" :form="form" v-else></LDAP>
     </div>
     <!-- :disabled="ipInvalid || form.port.length > 5 || form.port.length < 2" -->
+    <div style="display: flex; gap: 16px">
+      <button aria-label="Yadda saxla" type="submit" class="setting__save">
+        Yadda saxla
 
-    <button
-      aria-label="Yadda saxla"
-      type="submit"
-      class="setting__save"
-    >
-      Yadda saxla
-
-      <span>
-        <img
-          loading="lazy"
-          src="../../assets/images/svg/check.svg"
-          alt="check"
-        />
-      </span>
-    </button>
+        <span>
+          <img
+            loading="lazy"
+            src="../../assets/images/svg/check.svg"
+            alt="check"
+          />
+        </span>
+      </button>
+      <button v-if="showFirst === false"  type="" aria-label="LDAP Import" @click="ldapimport" class="setting__save">
+        LDAP Import
+      </button>
+    </div>
   </form>
 
   <div v-if="clickLoad" class="loading-dots">
@@ -171,12 +174,16 @@ export default {
       }
 
       this.clickLoad = true;
-
+    
       await this.userStore.updateSetting(formData);
+
       await this.userStore.fetchSetting();
       this.clickLoad = false;
       await this.$toast.success("Yadda saxlanıldı");
     },
+    async ldapimport(){
+      await this.userStore.postLdap();
+    }
   },
   mounted() {
     this.showFirst = true;

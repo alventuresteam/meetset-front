@@ -23,7 +23,6 @@
         <input
           class="input"
           type="text"
-          maxlength="15"
           v-model="form.ldap_username"
         />
       </div>
@@ -121,10 +120,21 @@ export default {
       event.target.value = event.target.value.replace(numericRegex, "");
     },
   },
+  mounted(){
+    this.form.ldap_host = this.data.setting.ldap_host
+    this.form.ldap_username = this.data.setting.ldap_username
+    this.form.ldap_port = this.data.setting.ldap_port
+    this.form.ldap_password = this.data.setting.ldap_password
+    this.form.ldap_base_dn = this.data.setting.ldap_base_dn
+    this.form.ldap_timeout = this.data.setting.ldap_timeout
+  },
   props: {
     form: {
       type: Object,
     },
+    data:{
+      type :Object ,
+    }
   },
 };
 </script>
