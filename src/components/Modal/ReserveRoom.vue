@@ -589,8 +589,13 @@ export default {
     times() {
       const timeOptions = [];
       const now = new Date();
-      const currentHour = now.getHours();
-      const currentMinute = now.getMinutes();
+      const currentDate = now.getDate();
+      let currentHour = now.getHours();
+      let currentMinute = now.getMinutes();
+      if (currentDate !== this.selectedDate.getDate()) {
+         currentHour = "0";
+         currentMinute = "0";
+      }
 
       for (let hour = currentHour; hour < 24; hour++) {
         const startMinute = hour === currentHour ? Math.ceil(currentMinute / 10) * 10 : 0;
@@ -606,8 +611,13 @@ export default {
     endTimes() {
       const timeOptions = [];
       const now = new Date();
-      const currentHour = now.getHours();
-      const currentMinute = now.getMinutes();
+      const currentDate = now.getDate();
+      let currentHour = now.getHours();
+      let currentMinute = now.getMinutes();
+      if (currentDate !== this.selectedDate.getDate()) {
+         currentHour = "0";
+         currentMinute = "0";
+      }
 
       for (let hour = currentHour; hour < 24; hour++) {
         const startMinute = hour === currentHour ? Math.ceil(currentMinute / 10) * 10 : 0;
