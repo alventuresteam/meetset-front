@@ -47,7 +47,11 @@
         <div class="modal__flex modal__form-group" style="margin-bottom: 35px">
           <div class="input" style="margin-right: 12px">
             <div class="single-time-picker">
-              <select class="custom_tp"   v-model="start_time">
+              <select
+                class="custom_tp"
+                v-model="start_time"
+                @change="scrollToSelectedOption"
+              >
                 <option value="" disabled selected hidden>Başlama Saatı</option>
                 <option v-for="time in times" :key="time" :value="time">
                   {{ time }}
@@ -80,7 +84,7 @@
           </div>
           <div class="input">
             <div class="single-time-picker">
-              <select class="custom_tp"  v-model="end_time">
+              <select class="custom_tp" v-model="end_time">
                 <option value="" disabled selected hidden>Bitmə Saatı</option>
                 <option v-for="time in endTimes" :key="time" :value="time">
                   {{ time }}
@@ -413,7 +417,14 @@ export default {
       this.room_id = event.id;
       // this.emails = [];
     },
+    scrollToSelectedOption() {
+      const selectElement = this.$el.querySelector('.custom_tp');
+      const selectedOption = selectElement.selectedOptions[0];
 
+      if (selectedOption) {
+        selectedOption.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      }
+    },
     addTag(event) {
       let room = this.getRoom.find((item) => item.id === this.room_id);
       if (room.capacity <= this.emails.length) return;
@@ -592,16 +603,21 @@ export default {
       const currentDate = now.getDate();
       let currentHour = now.getHours();
       let currentMinute = now.getMinutes();
+      this.start_time = "";
       if (currentDate !== this.selectedDate.getDate()) {
-         currentHour = "0";
-         currentMinute = "0";
+        currentHour = "0";
+        currentMinute = "0";
+        this.start_time = "08:00";
       }
 
       for (let hour = currentHour; hour < 24; hour++) {
-        const startMinute = hour === currentHour ? Math.ceil(currentMinute / 10) * 10 : 0;
+        const startMinute =
+          hour === currentHour ? Math.ceil(currentMinute / 10) * 10 : 0;
 
         for (let minute = startMinute; minute < 60; minute += 10) {
-          const formattedTime = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+          const formattedTime = `${String(hour).padStart(2, "0")}:${String(
+            minute
+          ).padStart(2, "0")}`;
           timeOptions.push(formattedTime);
         }
       }
@@ -614,16 +630,21 @@ export default {
       const currentDate = now.getDate();
       let currentHour = now.getHours();
       let currentMinute = now.getMinutes();
+      this.end_time = "";
       if (currentDate !== this.selectedDate.getDate()) {
-         currentHour = "0";
-         currentMinute = "0";
+        currentHour = "0";
+        currentMinute = "0";
+        this.end_time = "08:10";
       }
 
       for (let hour = currentHour; hour < 24; hour++) {
-        const startMinute = hour === currentHour ? Math.ceil(currentMinute / 10) * 10 : 0;
+        const startMinute =
+          hour === currentHour ? Math.ceil(currentMinute / 10) * 10 : 0;
 
         for (let minute = startMinute + 10; minute < 60; minute += 10) {
-          const formattedTime = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+          const formattedTime = `${String(hour).padStart(2, "0")}:${String(
+            minute
+          ).padStart(2, "0")}`;
           timeOptions.push(formattedTime);
         }
       }
