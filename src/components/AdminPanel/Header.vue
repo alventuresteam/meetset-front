@@ -4,7 +4,7 @@
 
       <div class="adminHeader__modules flex">
          <div
-            v-if="$route.name !== 'Rooms' && $route.name !== 'Settings'"
+            v-if="$route.name !== 'Rooms' && $route.name !== 'Settings' && $route.name !== 'Calendar' && $route.name !== 'Logs'"
             class="adminHeader__modules-users modalButton"
             @click="openModal"
          >
@@ -18,7 +18,7 @@
             />
          </div>
          <div
-            v-if="$route.name !== 'User' && $route.name !== 'Settings'"
+            v-if="$route.name !== 'User' && $route.name !== 'Settings' && $route.name !== 'Calendar' && $route.name !== 'Logs'"
             @click="openModalRoom"
             class="adminHeader__modules-rooms modalButton"
          >

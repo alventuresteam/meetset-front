@@ -28,7 +28,7 @@ export const usePersonStore = defineStore("person", {
       },
 
 
-      async createPerson(name, fin_code, position, email, password) {
+      async createPerson(name, fin_code, position, email, password, role) {
          this.error = null;
          this.errorMsg = null;
          await axios
@@ -37,7 +37,8 @@ export const usePersonStore = defineStore("person", {
                fin_code,
                position,
                email,
-               password
+               password,
+               role
             })
             .then((res) => {
             })
@@ -61,6 +62,7 @@ export const usePersonStore = defineStore("person", {
                position: item.position,
                email: item.email,
                password: item.password,
+               role: item.role,
             })
             .then((res) => {
 

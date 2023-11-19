@@ -24,10 +24,7 @@
                <div class="user__info-edit" @click="handleUpdate(item)">
                   Redaktə et
                </div>
-               <div
-                  class="user__info-remove"
-                  @click="deleteUser(item.id)"
-               >
+               <div class="user__info-remove" @click="deleteUser(item.id)">
                   Sil
                </div>
             </div>

@@ -43,6 +43,52 @@ export const useSettingStore = defineStore("setting", {
           }
         });
     },
+
+    async updateServerSetting(data) {
+      this.error = null;
+      this.errorMsg = null;
+      await axios
+          .post(`setting/update-server`, data)
+          .then((res) => {})
+          .catch((err) => {
+            if (err.response.status === 422) {
+              this.error = err.response.data.errors;
+              this.errorMsg = err.response.data.message;
+
+              console.error(err.response.data.message);
+            }
+          });
+    },
+    async updateLoginPageSetting(data) {
+      this.error = null;
+      this.errorMsg = null;
+      await axios
+          .post(`setting/update-login-page`, data)
+          .then((res) => {})
+          .catch((err) => {
+            if (err.response.status === 422) {
+              this.error = err.response.data.errors;
+              this.errorMsg = err.response.data.message;
+
+              console.error(err.response.data.message);
+            }
+          });
+    },
+    async updateEmployer(data) {
+      this.error = null;
+      this.errorMsg = null;
+      await axios
+          .post(`setting/update-employer`, data)
+          .then((res) => {})
+          .catch((err) => {
+            if (err.response.status === 422) {
+              this.error = err.response.data.errors;
+              this.errorMsg = err.response.data.message;
+
+              console.error(err.response.data.message);
+            }
+          });
+    },
     async postLdap() {
         this.error = null;
         this.errorMsg = null;

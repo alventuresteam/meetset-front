@@ -127,6 +127,21 @@
           </span>
             </div>
 
+           <div class="modal__form-group" style="margin-bottom: 40px">
+             <div class="participants" style="width: 100%">
+               <div class="participants_tab" style="width: 100%">
+                 <div class="tabs_item" style="width: 50%" @click="showFirst = true" :style="showFirst === true ? 'border: 1px solid blue' : ''">
+                   <input type="radio" v-model="showFirst" value="true" />
+                   Admin
+                 </div>
+                 <div class="tabs_item" style="width: 50%" @click="showFirst = false" :style="showFirst === false ? 'border: 1px solid blue' : ''">
+                   <input type="radio" v-model="showFirst" value="false" />
+                   İstifadəçi
+                 </div>
+               </div>
+             </div>
+           </div>
+
             <div class="modal__form-group modal__flex">
                <button aria-label="İmtina" type="button" class="submitWhite" @click="close()">
                   İmtina et
@@ -152,12 +167,12 @@
 </template>
 
 <script>
-import {usePersonStore} from "../../../../stores/user";
 import {ref} from "vue";
 import {storeToRefs} from "pinia";
+import {usePersonStore} from "@/stores/user";
 import {useVuelidate} from "@vuelidate/core";
-import {required, email, minLength} from "@vuelidate/validators";
 import Loading from "@/components/Loading.vue";
+import {required, email, minLength} from "@vuelidate/validators";
 
 export default {
    components: {Loading},
@@ -165,8 +180,9 @@ export default {
 
    data() {
       return {
-         updateDataPerson: {},
-         clickLoad: false,
+          updateDataPerson: {},
+          clickLoad: false,
+          showFirst: false,
       };
    },
 
@@ -178,6 +194,7 @@ export default {
             password: {minLength: minLength(6)},
             fin_code: {required},
             position: {required},
+            role: {required},
          },
       };
    },
@@ -188,6 +205,11 @@ export default {
 
          if (result) {
             this.clickLoad = true;
+
+           this.updateDataPerson.role = this.showFirst ? 1 : 0;
+
+           console.log(this.updateDataPerson.role);
+
             await this.userStore.updatePerson(this.updateDataPerson);
             await this.userStore.fetchPerson();
             if (this.userStore.errorMsg) this.clickLoad = false;
@@ -220,6 +242,7 @@ export default {
 
    mounted() {
       Object.assign(this.updateDataPerson, this.item);
+      this.showFirst = this.updateDataPerson.role === 1;
    },
 
    setup() {

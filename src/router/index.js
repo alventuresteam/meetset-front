@@ -55,6 +55,34 @@ const routes = [
             }
          },
          {
+            path: "/calendars",
+            name: "Calendar",
+            component: () => import("@/views/Admin.vue"),
+            beforeEnter: () => {
+               if (localStorage.getItem('user')) {
+                  if (JSON.parse(localStorage.getItem('user')).role === 0) {
+                     window.location.href = "/calendar";
+                  }
+               } else {
+                  window.location.href = "/";
+               }
+            }
+         },
+         {
+            path: "/logs",
+            name: "Logs",
+            component: () => import("@/views/Admin.vue"),
+            beforeEnter: () => {
+               if (localStorage.getItem('user')) {
+                  if (JSON.parse(localStorage.getItem('user')).role === 0) {
+                     window.location.href = "/calendar";
+                  }
+               } else {
+                  window.location.href = "/";
+               }
+            }
+         },
+         {
             path: "/rooms",
             name: "Rooms",
             component: () => import("@/views/Admin.vue"),

@@ -3,6 +3,12 @@
     padding: 0;
     box-sizing: border-box;
 }
+.ant-picker-dropdown{
+    z-index: 1056;
+}
+.anticon-close-circle{
+    display: none!important;
+}
 
 //colors
 $primaryGradient: var(--primaryGradient);

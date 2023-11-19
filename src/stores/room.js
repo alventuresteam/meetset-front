@@ -27,16 +27,11 @@ export const useRoomStore = defineStore("rooms", {
       }
     },
 
-    async createRoom(name, capacity, address, floor) {
+    async createRoom(data) {
       this.error = null;
       this.errorMsg = null;
       await axios
-        .post("rooms/create", {
-          name,
-          capacity,
-          address,
-          floor,
-        })
+        .post("rooms/create", data)
         .then((res) => {})
         .catch((err) => {
           if (err.response.status === 422) {
@@ -47,16 +42,11 @@ export const useRoomStore = defineStore("rooms", {
         });
     },
 
-    async updateRoom(item) {
+    async updateRoom(item, data) {
       this.error = null;
       this.errorMsg = null;
       await axios
-        .post(`rooms/${item.id}/update`, {
-          name: item.name,
-          capacity: item.capacity,
-          address: item.address,
-          floor: item.floor,
-        })
+        .post(`rooms/${item.id}/update`, data)
         .then((res) => {})
         .catch((err) => {
           if (err.response.status === 422) {

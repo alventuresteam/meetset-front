@@ -3,12 +3,9 @@
     <div class="modal modal__user" @click.stop>
       <div class="modal__head">
         <h6 class="modal__head-title">İstifadəçi yarat</h6>
-        <span class="modal__head-close" @click="close()"
-          ><img
-            loading="lazy"
-            src="../../../../assets/images/svg/modalClose.svg"
-            alt="modalClose"
-        /></span>
+        <span class="modal__head-close" @click="close()">
+          <img loading="lazy" src="../../../../assets/images/svg/modalClose.svg" alt="modalClose"/>
+        </span>
       </div>
       <form class="modal__form" @submit.prevent="addPerson">
         <div class="modal__form-group">
@@ -68,19 +65,19 @@
           <input
             class="input input__100"
             v-model.trim="email"
-            placeholder="Mail"
+            placeholder="E-mail"
             maxlength="250"
             type="text"
             autocomplete="off"
           />
-            <span class="errorText" v-if="userStore.errorMsg">Email mövcuddur</span>
+            <span class="errorText" v-if="userStore.errorMsg">E-mail mövcuddur</span>
 
           <span
             class="errorText"
             v-for="error in v$.email.$errors"
             :key="error.$uid"
           >
-            {{error.$message === 'Value is required' ? 'Mail boş ola bilməz' : 'Mail səhvlik var'}}
+            {{error.$message === 'Value is required' ? 'E-mail boş ola bilməz' : 'E-mail də səhvlik var'}}
           </span>
         </div>
 
@@ -129,6 +126,22 @@
             {{error.$message === 'Value is required' ? 'Şifrə boş ola bilməz' : 'Şifrə min 6 simvol olmalıdır'}}
           </span>
         </div>
+
+        <div class="modal__form-group" style="margin-bottom: 40px">
+          <div class="participants" style="width: 100%">
+            <div class="participants_tab" style="width: 100%">
+              <div class="tabs_item" style="width: 50%" @click="showFirst = true" :style="showFirst === true ? 'border: 1px solid blue' : ''">
+                <input type="radio" v-model="showFirst" value="true" />
+                Admin
+              </div>
+              <div class="tabs_item" style="width: 50%" @click="showFirst = false" :style="showFirst === false ? 'border: 1px solid blue' : ''">
+                <input type="radio" v-model="showFirst" value="false" />
+                İstifadəçi
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="modal__form-group modal__flex">
           <button type="button" class="submitWhite" @click="close">İmtina</button>
 
@@ -169,6 +182,7 @@ export default {
       fin_code: "",
       position: "",
       clickLoad: false,
+      showFirst: false,
     };
   },
   methods: {
@@ -184,7 +198,8 @@ export default {
           this.fin_code,
           this.position,
           this.email,
-          this.password
+          this.password,
+          this.showFirst ? 1 : 0
         );
         await this.userStore.fetchPerson();
 

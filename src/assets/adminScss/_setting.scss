@@ -98,7 +98,7 @@
     }
 
     .uploadFile {
-        margin-top: 50px;
+        margin-bottom: 20px;
     }
 }
 .participants{
@@ -128,4 +128,16 @@
               }
         }
     }
+}
+.text-danger{
+    color: var(--error-500, #F04438);
+    font-family: TT Interfaces;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+body > div:nth-child(3) {
+    display: unset !important;
 }

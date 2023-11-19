@@ -10,7 +10,7 @@
 
     <span>{{ fileName }}</span>
 
-    <label for="file">Yüklə</label>
+    <button type="button" @click="clickInput">Yüklə</button>
   </div>
 </template>
 
@@ -18,13 +18,16 @@
 export default {
   data() {
     return {
-      fileName: "Loqonu yükləyin",
+      fileName: "Şəkil yükləyin",
     };
   },
   methods: {
     uploadFile() {
       this.fileName = this.$refs.uploadFile__file.files[0].name;
       this.$emit("file", this.$refs.uploadFile__file.files[0]);
+    },
+    clickInput() {
+      this.$refs.uploadFile__file.click();
     },
   },
   props: {
@@ -54,7 +57,7 @@ export default {
     line-height: 22px;
     color: #697586;
   }
-  label {
+  button {
     padding: 9px 42px;
     font-weight: 500;
     font-size: 14px;
@@ -62,6 +65,8 @@ export default {
     color: #1e293b;
     border-radius: 6px;
     cursor: pointer;
+    border: 0;
+    outline: 0;
     background-color: #e2e8f0;
   }
 }
