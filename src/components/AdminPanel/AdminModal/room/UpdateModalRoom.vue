@@ -48,6 +48,42 @@
           <img :src="updateDataRoom.image" :alt="updateDataRoom.name" style="width: 50px; height: 50px; object-fit: contain"/>
         </div>
 
+        <div class="modal__form-group">
+          <label class="label">Dil seçimi 1</label>
+          <div class="input-group">
+            <input
+                v-model.lazy="updateDataRoom.status_az_1"
+                class="input input__100"
+                placeholder="Status 1"
+                type="text"
+            />
+            <input
+                v-model.lazy="updateDataRoom.status_az_2"
+                class="input input__100"
+                placeholder="Status 2"
+                type="text"
+            />
+          </div>
+        </div>
+
+        <div class="modal__form-group">
+          <label class="label">Dil seçimi 2</label>
+          <div class="input-group">
+            <input
+                v-model.lazy="updateDataRoom.status_en_1"
+                class="input input__100"
+                placeholder="Status 1"
+                type="text"
+            />
+            <input
+                v-model.lazy="updateDataRoom.status_en_2"
+                class="input input__100"
+                placeholder="Status 2"
+                type="text"
+            />
+          </div>
+        </div>
+
         <div class="modal__form-group" style="margin-bottom: 40px">
           <label class="label" for="image">Otağa şəkil əlavə et</label>
           <UploadFile class="uploadfile" id="image" @file="image = $event" />
@@ -123,8 +159,14 @@ export default {
         formData.append("capacity", this.updateDataRoom.capacity);
         formData.append("address", this.updateDataRoom.address);
         formData.append("floor", this.updateDataRoom.floor);
-        formData.append("image", this.image)
+        formData.append("status_az_1", this.updateDataRoom.status_az_1);
+        formData.append("status_az_2", this.updateDataRoom.status_az_2);
+        formData.append("status_en_1", this.updateDataRoom.status_en_1);
+        formData.append("status_en_2", this.updateDataRoom.status_en_2);
 
+        if (this.image) {
+          formData.append("image", this.image)
+        }
         await this.userStore.updateRoom(this.updateDataRoom, formData);
         await this.userStore.fetchRoom();
 

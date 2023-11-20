@@ -194,7 +194,10 @@ export default {
         formData.append("status_az_2", this.status_az_2);
         formData.append("status_en_1", this.status_en_1);
         formData.append("status_en_2", this.status_en_2);
-        formData.append("image", this.image)
+
+        if (this.image) {
+          formData.append("image", this.image)
+        }
 
         await this.userStore.createRoom(formData);
         await this.userStore.fetchRoom();
