@@ -92,6 +92,42 @@
         </span>
         </div>
 
+        <div class="modal__form-group">
+          <label class="label">Dil seçimi 1</label>
+          <div class="input-group">
+            <input
+                v-model.lazy="status_az_1"
+                class="input input__100"
+                placeholder="Status 1"
+                type="text"
+            />
+            <input
+                v-model.lazy="status_az_2"
+                class="input input__100"
+                placeholder="Status 2"
+                type="text"
+            />
+          </div>
+        </div>
+
+        <div class="modal__form-group">
+          <label class="label">Dil seçimi 2</label>
+          <div class="input-group">
+            <input
+                v-model.lazy="status_en_1"
+                class="input input__100"
+                placeholder="Status 1"
+                type="text"
+            />
+            <input
+                v-model.lazy="status_en_2"
+                class="input input__100"
+                placeholder="Status 2"
+                type="text"
+            />
+          </div>
+        </div>
+
         <div class="modal__form-group" style="margin-bottom: 40px">
           <label class="label" for="image">Otağa şəkil əlavə et</label>
           <UploadFile class="uploadfile" id="image" @file="image = $event" />
@@ -154,11 +190,14 @@ export default {
         formData.append("capacity", this.capacity);
         formData.append("address", this.address);
         formData.append("floor", this.floor);
+        formData.append("status_az_1", this.status_az_1);
+        formData.append("status_az_2", this.status_az_2);
+        formData.append("status_en_1", this.status_en_1);
+        formData.append("status_en_2", this.status_en_2);
         formData.append("image", this.image)
 
         await this.userStore.createRoom(formData);
         await this.userStore.fetchRoom();
-
 
         if (this.userStore.errorMsg) {
           this.clickLoad = false;
@@ -171,6 +210,10 @@ export default {
           this.capacity = "";
           this.address = "";
           this.floor = "";
+          this.status_az_1 = "";
+          this.status_az_2 = "";
+          this.status_en_1 = "";
+          this.status_en_2 = "";
           this.$toast.success(`Otaq uğurla yaradıldı`);
           this.userStore.errorMsg = "";
           this.userStore.error = null;
@@ -183,6 +226,10 @@ export default {
 
   data() {
     return {
+      status_az_1: "",
+      status_az_2: "",
+      status_en_1: "",
+      status_en_2: "",
       name: "",
       capacity: "",
       address: "",

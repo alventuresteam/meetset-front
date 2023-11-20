@@ -1,102 +1,51 @@
 <template>
   <div class="modal-overlay">
     <div class="modal modal__room" @click.stop>
+
       <div class="modal__head">
         <h6 class="modal__head-title">Otağı redaktə et</h6>
         <span class="modal__head-close" @click="close()">
-          <img
-              loading="lazy"
-              src="../../../../assets/images/svg/modalClose.svg"
-              alt=""
-          /></span>
+          <img loading="lazy" src="../../../../assets/images/svg/modalClose.svg" alt=""/>
+        </span>
       </div>
 
       <form action="" class="modal__form" @submit.prevent="uppdateHandler">
+
         <div class="modal__form-group">
           <label class="label">Otaqın adı</label>
-          <input
-              v-model.lazy="updateDataRoom.name"
-              class="input input__100"
-              placeholder="Otaqın adı"
-              maxlength="30"
-              type="text"
-          />
+          <input v-model.lazy="updateDataRoom.name" class="input input__100" placeholder="Otaqın adı" maxlength="30" type="text"/>
           <span class="errorText" v-if="userStore.errorMsg">Otaq mövcuddur</span>
-
-          <span
-              class="errorText"
-              v-for="error in v$.updateDataRoom.name.$errors"
-              :key="error.$uid"
-          >
+          <span class="errorText" v-for="error in v$.updateDataRoom.name.$errors" :key="error.$uid">
             Otaq boş ola bilməz
           </span>
         </div>
 
         <div class="modal__form-group">
           <label class="label">İşçi tutumu (nəfər)</label>
-          <input
-              v-model.lazy="updateDataRoom.capacity"
-              class="input input__100"
-              maxlength="2"
-              @input="onIpAddressInput"
-              placeholder="İşçi tutumu (nəfər)"
-              type="text"
-          />
-
-          <span
-              class="errorText"
-              v-for="error in v$.updateDataRoom.capacity.$errors"
-              :key="error.$uid"
-          >
+          <input v-model.lazy="updateDataRoom.capacity" class="input input__100" maxlength="2" @input="onIpAddressInput" placeholder="İşçi tutumu (nəfər)" type="text"/>
+          <span class="errorText" v-for="error in v$.updateDataRoom.capacity.$errors" :key="error.$uid">
             İşçi tutumu ola bilməz
           </span>
         </div>
 
         <div class="modal__form-group">
           <label class="label">Yerləşdiyi bina</label>
-          <input
-              v-model.lazy="updateDataRoom.address"
-              class="input input__100"
-              max="9999"
-              min="1"
-              placeholder="Yerləşdiyi bina"
-              type="text"
-          />
-
-          <span
-              class="errorText"
-              v-for="error in v$.updateDataRoom.address.$errors"
-              :key="error.$uid"
-          >
+          <input v-model.lazy="updateDataRoom.address" class="input input__100" max="9999" min="1" placeholder="Yerləşdiyi bina" type="text"/>
+          <span class="errorText" v-for="error in v$.updateDataRoom.address.$errors" :key="error.$uid">
             Yerləşdiyi bina boş ola bilməz
           </span>
         </div>
 
         <div class="modal__form-group">
           <label class="label">Yerləşdiyi mərtəbə</label>
-          <input
-              v-model.lazy="updateDataRoom.floor"
-              class="input input__100"
-              maxlength="2"
-              @input="onIpAddressInput"
-              placeholder="Yerləşdiyi mərtəbə"
-              type="text"
-          />
-
-          <span
-              class="errorText"
-              v-for="error in v$.updateDataRoom.floor.$errors"
-              :key="error.$uid"
-          >
+          <input v-model.lazy="updateDataRoom.floor" class="input input__100" maxlength="2" @input="onIpAddressInput" placeholder="Yerləşdiyi mərtəbə" type="text"/>
+          <span class="errorText" v-for="error in v$.updateDataRoom.floor.$errors" :key="error.$uid">
             Yerləşdiyi mərtəbə ola bilməz
           </span>
-
         </div>
 
         <div class="modal__form-group" v-if="updateDataRoom.image">
-          <img :src="updateDataRoom.image"
-               :alt="updateDataRoom.name"
-               style="width: 50px; height: 50px; object-fit: contain"/>
+          <img :src="updateDataRoom.image" :alt="updateDataRoom.name" style="width: 50px; height: 50px; object-fit: contain"/>
         </div>
 
         <div class="modal__form-group" style="margin-bottom: 40px">
@@ -105,23 +54,14 @@
         </div>
 
         <div class="modal__form-group modal__flex">
-          <button
-              aria-label="İmtina"
-              type="button"
-              class="submitWhite"
-              @click="close()">
+          <button aria-label="İmtina" type="button" class="submitWhite" @click="close()">
             İmtina et
           </button>
-          <button
-              class="submit"
-              type="submit"
-              aria-label="Yadda saxla"
-              placeholder="Görüşlə bağlı qeydlər">
+          <button class="submit" type="submit" aria-label="Yadda saxla" placeholder="Görüşlə bağlı qeydlər">
             <span>Yadda saxla</span>
           </button>
         </div>
       </form>
-
 
     </div>
     <div v-show="clickLoad" class="loading-dots">
@@ -132,6 +72,7 @@
 </template>
 
 <script>
+
 import {useRoomStore} from "@/stores/room";
 import {useVuelidate} from "@vuelidate/core";
 import {required} from "@vuelidate/validators";
@@ -152,7 +93,6 @@ export default {
       image: "",
     };
   },
-
   validations() {
     return {
       updateDataRoom: {
@@ -163,23 +103,22 @@ export default {
       },
     };
   },
-
   mounted() {
     Object.assign(this.updateDataRoom, this.item);
   },
-
   methods: {
     onIpAddressInput(event) {
       const numericRegex = /[^0-9.]/g;
       event.target.value = event.target.value.replace(numericRegex, '');
     },
     async uppdateHandler() {
+
       const result = await this.v$.$validate();
+
       if (result) {
         this.clickLoad = true;
 
         let formData = new FormData();
-
         formData.append("name", this.updateDataRoom.name);
         formData.append("capacity", this.updateDataRoom.capacity);
         formData.append("address", this.updateDataRoom.address);
@@ -193,18 +132,15 @@ export default {
           this.clickLoad = false;
         }
 
-
         if (!this.userStore.error && !this.userStore.errorMsg) {
-
           this.$toast.success(`Otaq uğurla redaktə olundu`);
           this.clickLoad = false;
-          this.userStore.errorMsg = "";
-          this.userStore.error = "";
+          this.userStore.errorMsg = null;
+          this.userStore.error = null;
           this.$emit("close-modal");
         }
       }
     },
-
     close() {
       this.$emit("close-modal");
       this.userStore.errorMsg = "";

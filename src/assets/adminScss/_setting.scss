@@ -30,6 +30,7 @@
         margin-bottom: 18px;
     }
 
+
     .input {
         height: 56px;
         border: 1px solid #cdd5df;
@@ -138,6 +139,14 @@
     line-height: normal;
 }
 
+.input-group{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.input-group input{
+    width: 45%;
+}
 body > div:nth-child(3) {
     display: unset !important;
 }
