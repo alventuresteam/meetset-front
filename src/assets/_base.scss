@@ -33,6 +33,13 @@ $white: #ffffff;
     }
 }
 
+.container-fluid {
+    height: 100%;
+    .main{
+        height: 100%;
+    }
+}
+
 
 .animationLoad{
     animation: loadAnimation 1s linear infinite;

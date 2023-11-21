@@ -1,4 +1,7 @@
 <template>
+  <a-space direction="horizontal" style="width: 100%; margin-bottom: 20px">
+    <a-date-picker v-model:value="valueDate" @change="dayClicked"/>
+  </a-space>
   <div class="calendar calendar-admin">
     <div class="container-fluid">
       <div class="table-wrapper">
@@ -6,25 +9,23 @@
           <loading/>
         </div>
 
-        <Table
-            @success="download"
-            :key="componentKey"
-            :itemLable="formattedDate"
-            :itemDate="selectedDay?.id"
-        />
+        <Table :key="componentKey"
+               :itemLable="formattedDate"
+               :itemDate="selectedDay?.id"
+               @success="download"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {Calendar, DatePicker} from "v-calendar";
-import CalendarHeader from "./CalendarHeader.vue";
-import Table from "./CalendarTable.vue";
+import {ref} from "vue";
 import moment from "moment";
 import az from 'moment/locale/az'
-import {ref} from "vue";
+import Table from "./CalendarTable.vue";
 import Loading from "@/components/Loading.vue";
+import {Calendar, DatePicker} from "v-calendar";
+import CalendarHeader from "./CalendarHeader.vue";
 
 export default {
   components: {
@@ -35,7 +36,14 @@ export default {
     Table,
   },
   data() {
+
+    let date = new Date();
+
+    let formatDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+
     return {
+      calendarDate: formatDate,
+      valueDate: moment(formatDate, 'YYYY-MM-DD'),
       datePickerOptions: {
         monthNames: ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avqust", "sentyabr", "oktyabr", "noyabr", "dekabr"],
         monthNamesShort: ["yan", "fev", "mart", "apr", "may", "iyun", "iyul", "avq", "sent", "okt", "noy", "dek"],
@@ -106,9 +114,7 @@ export default {
         if (item.textContent.split(' ')[0] === 'ноябрь') item.textContent = `Noyabr ${item.textContent.split(' ')[1]}`;
         if (item.textContent.split(' ')[0] === 'декабрь') item.textContent = `Dekabr ${item.textContent.split(' ')[1]}`;
       })
-
       //this.datePickerDay();
-
     },
     datePickerMonthDropdown() {
       const datePickerTitles = document.querySelectorAll('.vc-pane .vc-title');
@@ -141,23 +147,25 @@ export default {
     download() {
       this.loader = false
     },
-    dayClicked(day) {
-      this.selectedDay = day;
+    dayClicked(date, dateString) {
+      this.date = dateString;
+      this.calendarDate = dateString;
+      this.valueDate = moment(new Date(dateString), 'YYYY-MM-DD');
+
+      this.selectedDay = this.date;
       this.componentKey += this.selectedDay.day;
       this.loader = true;
     },
   },
   mounted() {
 
-    if(this.loader){
-      document.getElementById("app").style.overflow='hidden'
+    if (this.loader) {
+      document.getElementById("app").style.overflow = 'hidden'
     }
-
-
 
     const vcArrows = document.querySelectorAll('.vc-pane-container .vc-arrow');
 
-    //this.datePickerMonth();
+    // this.datePickerMonth();
     // this.datePickerMonthDropdown();
     // this.datePickerDay();
 
@@ -165,9 +173,6 @@ export default {
       btn.addEventListener('click', () => {
         this.datePickerMonth();
         // this.datePickerMonthDropdown();
-
-        // setTimeout(() => {
-        // }, 300);
       })
     })
   },

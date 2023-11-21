@@ -1,67 +1,69 @@
 <template>
    <div class="login__box">
-      <img loading="lazy"
-           :src="useSetting.getSetting.logo"
-           alt="meet-set logoin"
-           class="login__box-img"
-      />
+     <div>
+       <img loading="lazy"
+            v-if="useSetting.getSetting.logo"
+            :src="useSetting.getSetting.logo"
+            alt="meet-set logoin"
+            class="login__box-img"
+       />
 
-      <form action="" class="login__box-form" @submit.prevent="login">
+       <form action="" class="login__box-form" @submit.prevent="login">
          <input
-            type="text"
-            class="input"
-            placeholder="İstifadəçi adı vəya mail"
-            v-model.trim="email"
+             type="text"
+             class="input"
+             placeholder="İstifadəçi adı vəya mail"
+             v-model.trim="email"
          />
 
          <span
-            class="errorText"
-            v-for="error in v$.email.$errors"
-            :key="error.$uid"
+             class="errorText"
+             v-for="error in v$.email.$errors"
+             :key="error.$uid"
          >
        {{
-               error.$message === 'Value is not a valid email address' ? 'Mail düzgün qeyid olunmayıb' : 'Mail boş ola bilməz'
-            }}
+             error.$message === 'Value is not a valid email address' ? 'Mail düzgün qeyid olunmayıb' : 'Mail boş ola bilməz'
+           }}
       </span>
          <div class="formBox">
-            <input
+           <input
                v-if="passwordShow"
                v-model.trim.lazy="password"
                type="password"
                class="input"
                placeholder="Şifrə "
-            />
+           />
 
-            <input
+           <input
                v-else
                v-model.trim.lazy="password"
                type="text"
                class="input"
                placeholder="Şifrə "
-            />
+           />
 
-            <div @click="showPass()">
-               <img loading="lazy"
+           <div @click="showPass()">
+             <img loading="lazy"
 
-                    v-if="passwordShow"
-                    class="formBox__img"
-                    src="../assets/images/svg/passwordEye.svg"
-                    alt="meetSet Icon"
-               />
+                  v-if="passwordShow"
+                  class="formBox__img"
+                  src="../assets/images/svg/passwordEye.svg"
+                  alt="meetSet Icon"
+             />
 
-               <img loading="lazy"
-                    v-else
-                    class="formBox__img"
-                    src="../assets/images/svg/passwordShowEye.svg"
-                    alt="meetSet Icon"
-               />
-            </div>
+             <img loading="lazy"
+                  v-else
+                  class="formBox__img"
+                  src="../assets/images/svg/passwordShowEye.svg"
+                  alt="meetSet Icon"
+             />
+           </div>
          </div>
 
          <div
 
-            v-for="error in v$.password.$errors"
-            :key="error.$uid"
+             v-for="error in v$.password.$errors"
+             :key="error.$uid"
          >
 
 <span class="errorText" v-if="error.$message === 'This field should be at least 6 characters long'">
@@ -69,13 +71,13 @@
 </span>
 
 
-            <span v-else></span>
+           <span v-else></span>
 
-            <span class="errorText" v-if="error.$message === 'Value is required'">
+           <span class="errorText" v-if="error.$message === 'Value is required'">
            Şifrə boş ola bilməz
 </span>
 
-            <span v-else></span>
+           <span v-else></span>
 
 
          </div>
@@ -86,9 +88,8 @@
 
 
          <input type="submit" class="submit" value="Daxil ol "/>
-      </form>
-
-
+       </form>
+     </div>
    </div>
    <div v-show="clickLoad" class="loading-dots">
       <loading/>
@@ -97,8 +98,8 @@
 
 
 <script>
-import {useSettingStore} from "../stores/setting";
-import {useUserStore} from "../stores/auth";
+import {useSettingStore} from "@/stores/setting";
+import {useUserStore} from "@/stores/auth";
 import {useVuelidate} from "@vuelidate/core";
 import {required, email, minLength} from "@vuelidate/validators";
 import Loading from "@/components/Loading.vue";
@@ -129,7 +130,7 @@ export default {
             if (!this.userStore.error) {
                this.clickLoad = false;
                if (user.role === 1)
-                  window.location.href = "/admin";
+                  window.location.href = "/calendars";
                else
                   window.location.href = "/calendar";
             }

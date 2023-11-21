@@ -1,5 +1,5 @@
 <template>
-  <a-space direction="horizontal" style="margin-bottom: 20px">
+  <a-space direction="horizontal" style="width: 100%; margin-bottom: 20px">
     <a-input-search
         v-model:value="searchTerm"
         placeholder="İstifadəçi axtar"
@@ -8,28 +8,43 @@
     />
     <a-date-picker v-model:value="valueDate" @change="changeDate" />
   </a-space>
-  <a-table v-if="dataSources.length"
-           :dataSource="dataSources"
-           :pagination="pagination"
-           :columns="columns"
-           @change="handleTableChange"
-  />
+  <a-space direction="vertical" style="width: 100%; margin-bottom: 20px">
+    <a-table v-if="dataSources.length"
+             :dataSource="dataSources"
+             :pagination="pagination"
+             :columns="columns"
+             @change="handleTableChange"
+    />
+    <a-button type="primary" :size="size" @click="downloadSource" v-if="dataSources.length>0">
+      <template #icon>
+        <DownloadOutlined />
+      </template>
+      Excel Download
+    </a-button>
+  </a-space>
+
+
 </template>
 <script>
 import {defineComponent, ref} from "vue";
 import { usePagination } from 'vue-request';
+import { DownloadOutlined } from '@ant-design/icons-vue';
 import moment from "moment";
 import {Moment} from "moment/moment";
 import 'moment/dist/locale/tr';
 
 export default defineComponent({
 
+  components: [
+    DownloadOutlined
+  ],
   data: function () {
     let date = new Date();
 
     let formatDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
     return {
+      size: ref('large'),
       date: formatDate,
       searchTerm: '',
       valueDate: moment(formatDate, 'YYYY-MM-DD'),
@@ -73,6 +88,9 @@ export default defineComponent({
     };
   },
   methods: {
+    downloadSource() {
+      window.open(`https://meetset.al.ventures/api/logs/export?date=${this.date}&search_term=${this.searchTerm}`)
+    },
     onSearch(searchValue) {
       this.searchTerm = searchValue;
       this.page = 1;
@@ -128,3 +146,4 @@ export default defineComponent({
   }
 });
 </script>
+

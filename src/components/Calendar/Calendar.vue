@@ -165,6 +165,8 @@ export default {
       dayClicked(day) {
          this.selectedDay = day;
          this.componentKey += this.selectedDay.day;
+          console.log("DAY: ", day);
+          console.log("DAY: KEY", this.componentKey);
          this.loader = true;
       },
    },

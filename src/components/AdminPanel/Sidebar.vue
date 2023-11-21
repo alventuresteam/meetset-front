@@ -1,7 +1,13 @@
 <template>
   <aside class="sidebar">
-    <!--:src="useSetting.getSetting.logo"-->
-    <img src="../../assets/images/logo/logo.png" alt="sidebar logo" class="sidebar__logo"/>
+
+    <img loading="lazy"
+         v-if="useSetting.getSetting.logo_dark"
+         :src="useSetting.getSetting.logo_dark"
+         alt="meet-set logoin"
+         class="login__box-img"
+    />
+
 
     <div v-for="item in nav" :key="item.id">
       <router-link :class="['sidebar__item', { active: item.route === $route.path }]" :to="item.route">

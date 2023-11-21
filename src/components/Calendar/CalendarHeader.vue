@@ -4,6 +4,7 @@
             <img
                 loading="lazy"
                 class="header__img"
+                v-if="useSetting.getSetting.logo"
                 :src="useSetting.getSetting.logo"
                 alt="logo"
             />

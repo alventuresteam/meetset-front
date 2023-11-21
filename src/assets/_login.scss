@@ -15,8 +15,10 @@ select {
 
 .login {
     background-color: $white;
-    width: 498px;
-    padding-top: 264px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: auto;
 
     &__container {
@@ -25,12 +27,15 @@ select {
     }
 
     &__box {
-        margin-left: 300px;
+        //margin-left: 300px;
 
+        display: flex;
+        align-items: center;
+        justify-content: center;
         &-img {
             height: 44px;
-            width: 198px;
-            margin-bottom: 72px;
+            width: 100%;
+            object-fit: contain;
         }
 
         &-form {
@@ -186,37 +191,37 @@ select {
     }
 }
 
-@media (max-width: 1800px) {
-    .main {
-        .login__box {
-            margin-left: 250px;
-        }
-    }
-}
-
-@media (max-width: 1700px) {
-    .main {
-        .login__box {
-            margin-left: 200px;
-        }
-    }
-}
-
-@media (max-width: 1600px) {
-    .main {
-        .login__box {
-            margin-left: 150px;
-        }
-    }
-}
-
-@media (max-width: 1530px) {
-    .main {
-        .login__box {
-            margin-left: 100px;
-        }
-    }
-}
+//@media (max-width: 1800px) {
+//    .main {
+//        .login__box {
+//            margin-left: 250px;
+//        }
+//    }
+//}
+//
+//@media (max-width: 1700px) {
+//    .main {
+//        .login__box {
+//            margin-left: 200px;
+//        }
+//    }
+//}
+//
+//@media (max-width: 1600px) {
+//    .main {
+//        .login__box {
+//            margin-left: 150px;
+//        }
+//    }
+//}
+//
+//@media (max-width: 1530px) {
+//    .main {
+//        .login__box {
+//            margin-left: 100px;
+//        }
+//    }
+//}
 
 @media (max-width: 1450px) {
     .main {
@@ -227,25 +232,25 @@ select {
             }
         }
 
-        .login__box {
-            margin-left: 180px;
-        }
+        //.login__box {
+        //    margin-left: 180px;
+        //}
     }
 }
 
 @media (max-width: 1360px) {
     .main {
-        .login__box {
-            margin-left: 130px;
-        }
+        //.login__box {
+        //    margin-left: 130px;
+        //}
     }
 }
 
 @media (max-width: 1300px) {
     .main {
-        .login__box {
-            margin-left: 100px;
-        }
+        //.login__box {
+        //    margin-left: 100px;
+        //}
     }
 }
 
@@ -263,14 +268,22 @@ select {
 
 @media (max-width: 1155px) {
     .main {
-        .login__box {
-            margin: 0 50px;
-        }
+        //.login__box {
+        //    margin: 0 50px;
+        //}
 
         .loginSecond__box {
             p {
                 margin-left: 30px;
             }
+        }
+    }
+}
+
+@media (max-width: 968px) {
+    .main {
+        .loginSecond__box {
+           display: none;
         }
     }
 }
