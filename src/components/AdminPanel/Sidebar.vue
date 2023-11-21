@@ -6,6 +6,7 @@
          :src="useSetting.getSetting.logo_dark"
          alt="meet-set logoin"
          class="login__box-img"
+         style="margin-bottom: 40px"
     />
 
 
