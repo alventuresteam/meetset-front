@@ -11,7 +11,7 @@
       </div>
 
       <div v-if="$route.path === '/calendars'">
-        <Header title="Calendar"/>
+        <Header title="Təqvim"/>
       </div>
 
       <div v-if="$route.path === '/logs'">

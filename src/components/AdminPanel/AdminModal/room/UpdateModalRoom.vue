@@ -81,6 +81,9 @@
         </div>
 
         <div class="modal__form-group" v-if="updateDataRoom.image">
+
+          <div class="file-preview"></div>
+
           <img :src="updateDataRoom.image" :alt="updateDataRoom.name" style="width: 50px; height: 50px; object-fit: contain"/>
         </div>
 

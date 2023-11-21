@@ -132,7 +132,7 @@
 }
 .text-danger{
     color: var(--error-500, #F04438);
-    font-family: TT Interfaces;
+    font-family: TT Interfaces, serif;
     font-size: 22px;
     font-style: normal;
     font-weight: 600;
@@ -146,6 +146,12 @@
 }
 .input-group input{
     width: 45%;
+}
+.ant-select,
+.ant-time-picker-input,
+.ant-calendar-picker-input.ant-input {
+    line-height: 3.3;
+    border-radius: 6px;
 }
 body > div:nth-child(3) {
     display: unset !important;

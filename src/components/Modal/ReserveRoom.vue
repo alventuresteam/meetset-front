@@ -26,6 +26,7 @@
                              @change="changeStartTime"
                              :disabledHours="getStartTimeDisabledHours"
                              id="start-time"
+                             :minuteStep="10"
                              format="HH:mm" />
             </div>
             <div>
@@ -35,6 +36,7 @@
                              @change="changeEndTime"
                              :disabledHours="getEndTimeDisabledHours"
                              id="end-time"
+                             :minuteStep="10"
                              format="HH:mm" />
             </div>
           </a-space>
@@ -81,9 +83,34 @@
         </div>
 
         <div class="modal__form-group">
-          <label for="emails" class="label"
-            >Dəvət ediləcək şəxslərin mail ünvanları</label
+          <label for="options" class="label">Dəvət ediləcəklər ( To )</label>
+          <a-select
+              v-model:value="toValue"
+              mode="tags"
+              id="options"
+              style="width: 100%"
+              placeholder="Search members"
+              :options="options"
+              @change="handleChangeTo"
           >
+          </a-select>
+        </div>
+
+        <div class="modal__form-group">
+          <label for="optionsCC" class="label">Məlumat xarakterli dəvət ( CC )</label>
+          <a-select
+              v-model:value="ccValue"
+              mode="tags"
+              id="optionsCC"
+              style="width: 100%"
+              placeholder="Search members"
+              :options="optionsCC"
+              @change="handleChangeCC"
+          >
+          </a-select>
+        </div>
+        <!--<div class="modal__form-group">
+          <label for="emails" class="label">Dəvət ediləcək şəxslərin mail ünvanları</label>
           <div
             :class="{ disabled: !room_id }"
             class="tag-input input input__100 input__height-auto"
@@ -137,7 +164,7 @@
           >
             Maildə səhvlik var
           </span>
-        </div>
+        </div>-->
 
         <div class="modal__form-group">
           <input
@@ -269,6 +296,10 @@ export default {
       valueStartTime: moment(formatTime, 'HH:mm'),
       endTime: formatTime,
       valueEndTime: moment(formatTime, 'HH:mm'),
+      options: [{value: "bbeycanov@gmail.com"}],
+      optionsCC: [...Array(25)].map((_, i) => ({ value: (i + 10).toString(36) + (i + 1) })),
+      toValue: ref([]),
+      ccValue: ref([]),
       room_id: "",
       organizer_name: "",
       emails: [],
@@ -293,9 +324,9 @@ export default {
 
   validations() {
     return {
-      start_date: { required },
-      start_time: { required },
-      end_time: { required },
+      date: { required },
+      startTime: { required },
+      endTime: { required },
       room_id: { required },
       organizer_name: { required },
       title: { required },
@@ -303,6 +334,12 @@ export default {
   },
 
   methods: {
+    handleChangeTo(value) {
+      console.log(`selected ${value}`);
+    },
+    handleChangeCC(value) {
+      console.log(`selected ${value}`);
+    },
     getStartTimeDisabledHours(){
       let hours = [];
       for(let i =0; i < moment().hour(); i++){
@@ -317,15 +354,6 @@ export default {
       }
       return hours;
     },
-    getStartTimeDisabledMinutes(selectedHour) {
-      let minutes= [];
-      if (selectedHour === moment().hour()){
-        for(let i =0; i < moment().minute(); i++){
-          minutes.push(i);
-        }
-      }
-      return minutes;
-    },
     changeDate(date, dateString) {
       this.date = dateString;
       this.valueDate = moment(new Date(dateString), 'YYYY-MM-DD');
@@ -333,23 +361,12 @@ export default {
     },
     changeStartTime(date, timeString) {
       this.startTime = timeString;
-      //this.valueStartTime = moment(new Date(timeString), 'HH:mm');
     },
     changeEndTime(date, timeString) {
       this.endTime = timeString;
-      //this.valueEndTime = moment(new Date(timeString), 'HH:mm');
     },
     chooseRoom(event) {
       this.room_id = event.id;
-      // this.emails = [];
-    },
-    scrollToSelectedOption() {
-      const selectElement = this.$el.querySelector('.custom_tp');
-      const selectedOption = selectElement.selectedOptions[0];
-
-      if (selectedOption) {
-        selectedOption.scrollIntoView({ block: 'start', behavior: 'smooth' });
-      }
     },
     addTag(event) {
       let room = this.getRoom.find((item) => item.id === this.room_id);
@@ -379,23 +396,25 @@ export default {
     async addPerson() {
       if (this.emails.length <= 0) this.emailLengthValid = false;
       if ((await this.v$.$validate()).valueOf() === false) return;
+
       if (this.emailLengthValid === false || this.emailLengthType === false)
         return;
 
       this.clickLoad = true;
 
-      let formDate = new FormData();
+      let formData = new FormData();
 
       formData.append("start_date", this.date);
-      formData.append("start_date", this.startTime);
+      formData.append("start_time", this.startTime);
       formData.append("end_time", this.endTime);
       formData.append("room_id", this.room_id);
       formData.append("organizer_name", this.organizer_name);
-      formData.append("emails", this.emails);
+      formData.append("to_emails", this.toValue);
+      formData.append("cc_emails", this.ccValue);
       formData.append("title", this.title);
       formData.append("comment", this.comment);
 
-      await this.userStore.createReservation(formDate);
+      await this.userStore.createReservation(formData);
 
       if (!this.userStore.error && !this.userStore.errorMsg) {
         this.clickLoad = false;
@@ -431,6 +450,15 @@ export default {
   },
 
   mounted() {
+
+    // this.options = this.userstore.getContact.map((item) => {
+    //   return { value: item.email };
+    // });
+    //
+    // this.optionsCC = this.userstore.getContact.map((item) => {
+    //   return { value: item.email };
+    // });
+
     this.organizer_name = this.userstore.user.name;
   },
 
@@ -443,9 +471,7 @@ export default {
     const userstore = useUserStore();
     const userStore = useReservationStore();
     const useStoreRoom = useRoomStore();
-
     const { errors } = storeToRefs(userStore);
-
     return { userStore, userstore, useStoreRoom, errors, v$: useVuelidate() };
   },
 
@@ -460,7 +486,6 @@ export default {
     emails: {
       handler() {
         this.emailLengthValid = this.emails.length > 0;
-
         this.emails.forEach((email) => {
           this.emailLengthType = !!email.match(
               /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -476,12 +501,6 @@ export default {
       if (this.start_date && new Date()) {
         return this.start_date > new Date();
       }
-    },
-    filteredSuggestions() {
-      return this.suggestions.filter(
-        (suggestion) =>
-          suggestion.toLowerCase().indexOf(this.inputText.toLowerCase()) !== -1
-      );
     },
     getRoom() {
       return this.useStoreRoom.getRoom;
