@@ -10,7 +10,7 @@ const routes = [
             if (JSON.parse(localStorage.getItem('user')).role === 0) {
                window.location.href = "/calendar";
             } else {
-               window.location.href = "/admin";
+               window.location.href = "/calendars";
             }
          }
       }
@@ -30,7 +30,7 @@ const routes = [
       beforeEnter: () => {
          if (localStorage.getItem('user')) {
             if (JSON.parse(localStorage.getItem('user')).role === 1) {
-               window.location.href = "/admin";
+               window.location.href = "/calendars";
             }
          } else {
             window.location.href = "/";

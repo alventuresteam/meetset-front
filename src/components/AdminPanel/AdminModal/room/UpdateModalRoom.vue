@@ -44,10 +44,6 @@
           </span>
         </div>
 
-        <div class="modal__form-group" v-if="updateDataRoom.image">
-          <img :src="updateDataRoom.image" :alt="updateDataRoom.name" style="width: 50px; height: 50px; object-fit: contain"/>
-        </div>
-
         <div class="modal__form-group">
           <label class="label">Dil seçimi 1</label>
           <div class="input-group">
@@ -82,6 +78,10 @@
                 type="text"
             />
           </div>
+        </div>
+
+        <div class="modal__form-group" v-if="updateDataRoom.image">
+          <img :src="updateDataRoom.image" :alt="updateDataRoom.name" style="width: 50px; height: 50px; object-fit: contain"/>
         </div>
 
         <div class="modal__form-group" style="margin-bottom: 40px">

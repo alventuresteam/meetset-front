@@ -12,113 +12,38 @@
         </span>
       </div>
       <form class="modal__form" @submit.prevent="addPerson()">
-        <div class="modal__form-group">
-          <DatePicker
-            ref="datePicker"
-            v-model="selectedDate"
-            :popover="{ visibility: 'focus' }"
-            :min-date="new Date()"
-            :max-date="new Date(2030, 1, 4)"
-            v-model.lazy="start_date"
-          >
-            <template #default="{ inputValue, inputEvents }">
-              <input
-                class="input"
-                placeholder="Tarix"
-                :value="inputValue"
-                v-on="inputEvents"
-              />
-              <img
-                @click="$refs.datePicker.togglePopover()"
-                class="input-icon"
-                src="../../assets/images/svg/calendar.svg"
-              />
-            </template>
-          </DatePicker>
 
-          <span
-            class="errorText"
-            v-for="error in v$.start_date.$errors"
-            :key="error.$uid"
-          >
-            Vaxt təyin olunmayıb
-          </span>
-        </div>
-        <div class="modal__flex modal__form-group" style="margin-bottom: 35px">
-          <div class="input" style="margin-right: 12px">
-            <div class="single-time-picker">
-              <select
-                class="custom_tp"
-                v-model="start_time"
-                @change="scrollToSelectedOption"
-              >
-                <option value="" disabled selected hidden>Başlama Saatı</option>
-                <option v-for="time in times" :key="time" :value="time">
-                  {{ time }}
-                </option>
-              </select>
+        <div class="modal__form-group">
+          <a-space direction="horizontal">
+            <div>
+              <label for="date" class="label">Tarix</label>
+              <a-date-picker v-model:value="valueDate" id="date" @change="changeDate" />
             </div>
-            <!-- <client-only>
-              <time-picker-component
-                v-model.lazy="start_time"
-                id="startPicker"
-                :change="onEnableEndTime"
-                :step="step"
-                :min="currentDateTime"
-                :enabled="true"
-                :readonly="startRead"
-                placeholder="Başlama Saatı"
-                :openOnFocus="true"
-                :format="timeFormat"
-                :value="startVal"
-              ></time-picker-component>
-            </client-only> -->
-            <span
-              style="margin-left: 5px"
-              class="errorText"
-              v-for="error in v$.start_time.$errors"
-              :key="error.$uid"
-            >
-              Başlama vaxti boş ola bilməz
-            </span>
-          </div>
-          <div class="input">
-            <div class="single-time-picker">
-              <select class="custom_tp" v-model="end_time">
-                <option value="" disabled selected hidden>Bitmə Saatı</option>
-                <option v-for="time in endTimes" :key="time" :value="time">
-                  {{ time }}
-                </option>
-              </select>
+            <div>
+              <label for="start-time" class="label">Başlama vaxtı</label>
+              <a-time-picker v-model:value="valueStartTime"
+                             style="width: 100%"
+                             @change="changeStartTime"
+                             :disabledHours="getStartTimeDisabledHours"
+                             id="start-time"
+                             format="HH:mm" />
             </div>
-            <!-- <client-only>
-              <time-picker-component
-                v-model.lazy="end_time"
-                id="endPicker"
-                placeholder="Bitmə Saatı"
-                :enabled="true"
-                :readonly="endRead"
-                :min="min"
-                :openOnFocus="true"
-                :step="step"
-                :format="timeFormat"
-                :value="endVal"
-                :change="changeValue"
-              ></time-picker-component>
-            </client-only> -->
-            <span
-              style="margin-left: 5px"
-              class="errorText"
-              v-for="error in v$.end_time.$errors"
-              :key="error.$uid"
-            >
-              Bitmə vaxtı boş ola bilməz
-            </span>
-          </div>
+            <div>
+              <label for="end-time" class="label">Bitmə vaxtı</label>
+              <a-time-picker v-model:value="valueEndTime"
+                             style="width: 100%"
+                             @change="changeEndTime"
+                             :disabledHours="getEndTimeDisabledHours"
+                             id="end-time"
+                             format="HH:mm" />
+            </div>
+          </a-space>
         </div>
 
         <div class="modal__form-group">
+          <label for="select_room" class="label">Otağı seçin</label>
           <CustomSelect
+            id="select_room"
             :options="getRoom"
             :default="room_id"
             @selectValue="chooseRoom"
@@ -311,11 +236,11 @@
 <script>
 import moment from "moment";
 import { TimePickerComponent } from "@syncfusion/ej2-vue-calendars";
-import { onMounted } from "vue";
+import {onMounted, ref} from "vue";
 import { DatePicker } from "v-calendar";
-import { useUserStore } from "../../stores/auth";
-import { useReservationStore } from "../../stores/reservations";
-import { useRoomStore } from "../../stores/room";
+import { useUserStore } from "@/stores/auth";
+import { useReservationStore } from "@/stores/reservations";
+import { useRoomStore } from "@/stores/room";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { storeToRefs } from "pinia";
@@ -331,42 +256,19 @@ export default {
   },
 
   data() {
+
+    let date = new Date();
+
+    let formatDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    let formatTime = date.getHours() + ':' + date.getMinutes();
+
     return {
-      selectedTime: "",
-      datePickerOptions: {
-        monthNames: [
-          "Yanvar",
-          "Fevral",
-          "Mart",
-          "Aprel",
-          "May",
-          "İyun",
-          "İyul",
-          "Avqust",
-          "Sentyabr",
-          "Oktyabr",
-          "Noyabr",
-          "Dekabr",
-        ],
-        dayNamesNarrow: ["Ba", "Ba.e", "Çə.a", "Çə", "Cü.a", "Cü", "Şə"],
-        monthNamesShort: [
-          "yan",
-          "fev",
-          "mart",
-          "apr",
-          "may",
-          "iyun",
-          "iyul",
-          "avq",
-          "sent",
-          "okt",
-          "noy",
-          "dek",
-        ],
-      },
-      start_date: new Date(),
-      start_time: "",
-      end_time: "",
+      date: formatDate,
+      valueDate: moment(formatDate, 'YYYY-MM-DD'),
+      startTime: formatTime,
+      valueStartTime: moment(formatTime, 'HH:mm'),
+      endTime: formatTime,
+      valueEndTime: moment(formatTime, 'HH:mm'),
       room_id: "",
       organizer_name: "",
       emails: [],
@@ -375,21 +277,9 @@ export default {
       title: "",
       comment: "",
       clickLoad: false,
-
       limit: 250,
       currentDateTime: new Date(),
-      selectedDate: new Date(),
-      waterMark: "Saat",
-      endEnable: false,
-      startEnable: true,
-      startRead: false,
-      endRead: false,
-      min: new Date(),
-      isStartTimeChange: true,
       step: 10,
-      startVal: null,
-      endVal: null,
-      timeFormat: "H:mm",
       inputText: "",
       suggestions: [
         "aliesso23@gmail.com",
@@ -413,6 +303,42 @@ export default {
   },
 
   methods: {
+    getStartTimeDisabledHours(){
+      let hours = [];
+      for(let i =0; i < moment().hour(); i++){
+        hours.push(i);
+      }
+      return hours;
+    },
+    getEndTimeDisabledHours(){
+      let hours = [];
+      for(let i =0; i < this.valueStartTime.hour(); i++){
+        hours.push(i);
+      }
+      return hours;
+    },
+    getStartTimeDisabledMinutes(selectedHour) {
+      let minutes= [];
+      if (selectedHour === moment().hour()){
+        for(let i =0; i < moment().minute(); i++){
+          minutes.push(i);
+        }
+      }
+      return minutes;
+    },
+    changeDate(date, dateString) {
+      this.date = dateString;
+      this.valueDate = moment(new Date(dateString), 'YYYY-MM-DD');
+      console.log(date);
+    },
+    changeStartTime(date, timeString) {
+      this.startTime = timeString;
+      //this.valueStartTime = moment(new Date(timeString), 'HH:mm');
+    },
+    changeEndTime(date, timeString) {
+      this.endTime = timeString;
+      //this.valueEndTime = moment(new Date(timeString), 'HH:mm');
+    },
     chooseRoom(event) {
       this.room_id = event.id;
       // this.emails = [];
@@ -458,23 +384,26 @@ export default {
 
       this.clickLoad = true;
 
-      await this.userStore.createReservation(
-        this.formattedDate,
-        this.formattedTime,
-        this.formattedEndTime,
-        this.room_id,
-        this.organizer_name,
-        this.emails,
-        this.title,
-        this.comment
-      );
+      let formDate = new FormData();
+
+      formData.append("start_date", this.date);
+      formData.append("start_date", this.startTime);
+      formData.append("end_time", this.endTime);
+      formData.append("room_id", this.room_id);
+      formData.append("organizer_name", this.organizer_name);
+      formData.append("emails", this.emails);
+      formData.append("title", this.title);
+      formData.append("comment", this.comment);
+
+      await this.userStore.createReservation(formDate);
 
       if (!this.userStore.error && !this.userStore.errorMsg) {
         this.clickLoad = false;
         this.close();
-        this.$toast.success(`Uğurla rezerv  olundu`);
+        this.$toast.success(`Uğurla rezervasiya olundu`);
       }
       await this.useStoreRoom.fetchRoom();
+
       this.emitter.emit("refresh");
 
       if (this.userStore.errorMsg) {
@@ -490,28 +419,8 @@ export default {
       this.userStore.error = [];
       this.$emit("close-modal");
     },
-
-    changeValue: function (args) {
-      this.endVal = args.value;
-    },
-    onEnableEndTime: function (args) {
-      let value;
-      if (this.isStartTimeChange) {
-        this.endEnable = true;
-        this.endVal = null;
-        value = new Date(args.value);
-        value.setMinutes(value.getMinutes() + this.step);
-        this.min = value;
-      } else {
-        this.isStartTimeChange = true;
-      }
-    },
     handleInput() {
-      if (this.inputText.trim() === "") {
-        this.showSuggestions = false;
-      } else {
-        this.showSuggestions = true;
-      }
+      this.showSuggestions = this.inputText.trim() !== "";
       this.userStore.searchContact(this.inputText);
     },
     selectSuggestion(suggestion) {
@@ -522,22 +431,12 @@ export default {
   },
 
   mounted() {
-    this.$refs.datePicker.$locale.monthNames = [
-      ...this.datePickerOptions.monthNames,
-    ];
-    this.$refs.datePicker.$locale.dayNamesNarrow = [
-      ...this.datePickerOptions.dayNamesNarrow,
-    ];
-    this.$refs.datePicker.$locale.monthNamesShort = [
-      ...this.datePickerOptions.monthNamesShort,
-    ];
     this.organizer_name = this.userstore.user.name;
   },
 
   setup() {
     onMounted(() => {
       userStore.fetchReservation();
-      // userStore.searchContact();
       userstore.fetchUser();
     });
 
@@ -558,27 +457,14 @@ export default {
         this.currentDateTime = new Date();
       }
     },
-    selectedTime(newValue) {
-      this.$emit("input", newValue);
-    },
     emails: {
       handler() {
-        if (this.emails.length <= 0) {
-          this.emailLengthValid = false;
-        } else {
-          this.emailLengthValid = true;
-        }
+        this.emailLengthValid = this.emails.length > 0;
 
         this.emails.forEach((email) => {
-          if (
-            email.match(
+          this.emailLengthType = !!email.match(
               /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            )
-          ) {
-            this.emailLengthType = true;
-          } else {
-            this.emailLengthType = false;
-          }
+          );
         });
       },
       deep: true,
@@ -597,82 +483,15 @@ export default {
           suggestion.toLowerCase().indexOf(this.inputText.toLowerCase()) !== -1
       );
     },
-    times() {
-      const timeOptions = [];
-      const now = new Date();
-      const currentDate = now.getDate();
-      let currentHour = now.getHours();
-      let currentMinute = now.getMinutes();
-      this.start_time = "";
-      if (currentDate !== this.selectedDate.getDate()) {
-        currentHour = "0";
-        currentMinute = "0";
-        this.start_time = "08:00";
-      }
-
-      for (let hour = currentHour; hour < 24; hour++) {
-        const startMinute =
-          hour === currentHour ? Math.ceil(currentMinute / 10) * 10 : 0;
-
-        for (let minute = startMinute; minute < 60; minute += 10) {
-          const formattedTime = `${String(hour).padStart(2, "0")}:${String(
-            minute
-          ).padStart(2, "0")}`;
-          timeOptions.push(formattedTime);
-        }
-      }
-
-      return timeOptions;
-    },
-    endTimes() {
-      const timeOptions = [];
-      const now = new Date();
-      const currentDate = now.getDate();
-      let currentHour = now.getHours();
-      let currentMinute = now.getMinutes();
-      this.end_time = "";
-      if (currentDate !== this.selectedDate.getDate()) {
-        currentHour = "0";
-        currentMinute = "0";
-        this.end_time = "08:10";
-      }
-
-      for (let hour = currentHour; hour < 24; hour++) {
-        const startMinute =
-          hour === currentHour ? Math.ceil(currentMinute / 10) * 10 : 0;
-
-        for (let minute = startMinute + 10; minute < 60; minute += 10) {
-          const formattedTime = `${String(hour).padStart(2, "0")}:${String(
-            minute
-          ).padStart(2, "0")}`;
-          timeOptions.push(formattedTime);
-        }
-      }
-
-      return timeOptions;
-    },
-    startVal() {
-      // Round the current time to the nearest 10-minute interval
-      const currentMinute = this.currentDateTime.getMinutes();
-      const roundedMinute = Math.ceil(currentMinute / 10) * 10;
-      this.currentDateTime.setMinutes(roundedMinute);
-
-      // Return the rounded time as the start value
-      return this.currentDateTime;
-    },
-
     getRoom() {
       return this.useStoreRoom.getRoom;
     },
-
     formattedTime() {
       return moment(this.start_time, "H:mm").format("HH:mm");
     },
-
     formattedDate() {
       return moment(this.start_date).format("YYYY-MM-DD");
     },
-
     formattedEndTime() {
       return moment(this.end_time, "H:mm").format("HH:mm");
     },

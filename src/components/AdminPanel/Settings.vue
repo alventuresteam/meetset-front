@@ -75,15 +75,15 @@
       <form action="" class="setting" id="login-page" @submit.prevent="saveLoginPage">
         <h1 class="setting__title">Giriş səhifəsi ayarları</h1>
 
-        <label class="label" for="logo">Partnyorun öz loqosunu yükləyin</label>
+        <label class="label" for="logo">Rəngli loqonu yükəyin</label>
         <UploadFile class="uploadfile" id="logo" @file="form.logo = $event"/>
 
-        <label class="label" for="logo_dark">Partnyorun ağ rəngli loqonu yükləyin</label>
+        <label class="label" for="logo_dark">Monoxrom loqonu yükləyin</label>
         <UploadFile class="uploadfile" id="logo_dark" @file="form.logo_dark = $event"/>
 
         <div class="setting__flex" style="margin-top: 20px">
           <div class="setting__group" style="position: relative; width: 100%;">
-            <label class="label">Background mətni əlavə edin</label>
+            <label class="label">Giriş səhifəsi üçün fon mətnini əlavə edin</label>
             <textarea
                 class="input"
                 rows="20"
@@ -116,7 +116,7 @@
             <div class="tabs_item" @click="showFirst = true"
                  :style="showFirst === true ? 'border: 1px solid blue' : ''">
               <input type="radio" v-model="showFirst" value="true"/>
-              Exel-dən əlavə et
+              Excel-dən əlavə et
             </div>
             <br/>
             <div class="tabs_item" @click="showFirst = false"

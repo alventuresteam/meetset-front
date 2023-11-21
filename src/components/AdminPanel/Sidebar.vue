@@ -59,7 +59,7 @@ export default {
       nav: [
         {
           id: "1",
-          name: "Calendar",
+          name: "Ümumi təqvim",
           route: "/calendars",
           img: "calendar-sidebar.svg",
         },
@@ -77,7 +77,7 @@ export default {
         },
         {
           id: "4",
-          name: "Loglar",
+          name: "Tarixçə",
           route: "/logs",
           img: "log.svg",
         },

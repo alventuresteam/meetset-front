@@ -30,34 +30,12 @@ export const useReservationStore = defineStore("reservation", {
       }
     },
 
-    async createReservation(
-      start_date,
-      start_time,
-      end_time,
-      room_id,
-      organizer_name,
-      emails,
-      title,
-      comment
-    ) {
+    async createReservation(data) {
       this.error = null;
       this.errorMsg = null;
-
       await axios
-        .post("reservations/create", {
-          start_date,
-          start_time,
-          end_time,
-          room_id,
-          organizer_name,
-          emails,
-          title,
-          comment,
-        })
-        .then((res) => {
-
-          
-        })
+        .post("reservations/create", data)
+        .then((res) => {})
         .catch((err) => {
           if (err.response.status === 422) {
             this.error = err.response.data.errors;

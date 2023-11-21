@@ -3,54 +3,24 @@
       <h1 class="adminHeader__title">{{ title }}</h1>
 
       <div class="adminHeader__modules flex">
-         <div
-            v-if="$route.name !== 'Rooms' && $route.name !== 'Settings' && $route.name !== 'Calendar' && $route.name !== 'Logs'"
-            class="adminHeader__modules-users modalButton"
-            @click="openModal"
-         >
+         <div v-if="$route.name !== 'Rooms' && $route.name !== 'Settings' && $route.name !== 'Calendar' && $route.name !== 'Logs'" class="adminHeader__modules-users modalButton" @click="openModal">
             <span>İstifadəçi əlavə et</span>
-
-            <img
-               loading="lazy"
-               class=""
-               src="../../assets/images/svg/blackPulus.svg"
-               alt="blackPulus"
-            />
+            <img loading="lazy" class="" src="../../assets/images/svg/blackPulus.svg" alt="blackPulus"/>
          </div>
-         <div
-            v-if="$route.name !== 'User' && $route.name !== 'Settings' && $route.name !== 'Calendar' && $route.name !== 'Logs'"
-            @click="openModalRoom"
-            class="adminHeader__modules-rooms modalButton"
-         >
+         <div v-if="$route.name !== 'User' && $route.name !== 'Settings' && $route.name !== 'Calendar' && $route.name !== 'Logs'" @click="openModalRoom" class="adminHeader__modules-rooms modalButton">
             <span>Otaq yarat</span>
-            <img
-               loading="lazy"
-               src="../../assets/images/svg/pulus.svg"
-               alt="pulus"
-            />
+            <img loading="lazy" src="../../assets/images/svg/pulus.svg" alt="pulus"/>
          </div>
 
          <div class="header" style="padding: 0; display: block">
-            <div
-               class="submitWhite flex center__flex"
-               @click.stop="hideDropdown = true"
-            >
+            <div class="submitWhite flex center__flex" @click.stop="hideDropdown = true">
                {{ userStore.getUser.name }}
-               <img
-                  loading="lazy"
-                  class="fix__img"
-                  src="../../assets/images/svg/dropdown.svg"
-                  alt="dropdown"
-               />
+               <img loading="lazy" class="fix__img" src="../../assets/images/svg/dropdown.svg" alt="dropdown"/>
             </div>
 
             <ul v-if="hideDropdown" class="dropDown" @click="logout()">
                <li class="dropDown__item" >
-                  <img
-                     loading="lazy"
-                     src="../../assets/images/svg/exitBold.svg"
-                     alt="exit"
-                  />
+                  <img loading="lazy" src="../../assets/images/svg/exitBold.svg" alt="exit"/>
                   Çıxış
                </li>
             </ul>
@@ -87,7 +57,7 @@
 <script>
 import CreateModalUser from "./AdminModal/user/CreateModalUser.vue";
 import CreateModalRoom from "./AdminModal/room/CreateModalRoom.vue";
-import {useUserStore} from "../../stores/auth";
+import {useUserStore} from "@/stores/auth";
 import {onMounted, defineAsyncComponent, ref} from "vue";
 import Loading from "@/components/Loading.vue";
 

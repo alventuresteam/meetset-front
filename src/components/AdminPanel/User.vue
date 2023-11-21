@@ -16,7 +16,7 @@
 
          <div class="user__info">
             <div class="user__info-box email">
-               <span class="user__info-subtitle email">Mail</span>
+               <span class="user__info-subtitle email">Elektron poçt ünvanı</span>
                <h2 class="user__info-title emailName">{{ item.email }}</h2>
             </div>
 

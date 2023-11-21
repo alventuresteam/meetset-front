@@ -2,7 +2,7 @@
   <a-space direction="horizontal" style="margin-bottom: 20px">
     <a-input-search
         v-model:value="searchTerm"
-        placeholder="Search members"
+        placeholder="İstifadəçi axtar"
         style="width: 200px"
         @search="onSearch"
     />
