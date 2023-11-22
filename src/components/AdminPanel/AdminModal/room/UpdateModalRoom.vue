@@ -81,10 +81,19 @@
         </div>
 
         <div class="modal__form-group" v-if="updateDataRoom.image">
-
-          <div class="file-preview"></div>
-
-          <img :src="updateDataRoom.image" :alt="updateDataRoom.name" style="width: 50px; height: 50px; object-fit: contain"/>
+          <div class="file-preview">
+            <div class="file-icon">
+              <img loading="lazy" src="../../../../assets/images/svg/file.svg" alt=""/>
+            </div>
+            <div class="file-preview__name">
+              <a :href="updateDataRoom.image" target="_blank">
+                <span class="file-preview__name-text">{{ removeImageUrlSaveOnlyName(updateDataRoom.image) }}</span>
+              </a>
+            </div>
+            <div class="file-preview__remove">
+              <span class="file-preview__remove-text" @click="removeImage(updateDataRoom.image)">Sil</span>
+            </div>
+          </div>
         </div>
 
         <div class="modal__form-group" style="margin-bottom: 40px">
@@ -146,6 +155,16 @@ export default {
     Object.assign(this.updateDataRoom, this.item);
   },
   methods: {
+    async removeImage(url) {
+      this.updateDataRoom.image = null;
+      let formData = new FormData();
+      await this.userStore.removeImage(this.updateDataRoom, formData);
+      await this.userStore.fetchRoom();
+      this.$toast.success(`Uğurla silindi`);
+    },
+    removeImageUrlSaveOnlyName(url) {
+      return url.split("/").pop();
+    },
     onIpAddressInput(event) {
       const numericRegex = /[^0-9.]/g;
       event.target.value = event.target.value.replace(numericRegex, '');

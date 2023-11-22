@@ -56,6 +56,20 @@ export const useRoomStore = defineStore("rooms", {
           }
         });
     },
+    async removeImage(item, data) {
+      this.error = null;
+      this.errorMsg = null;
+      await axios
+          .post(`rooms/${item.id}/remove-image`, data)
+          .then((res) => {})
+          .catch((err) => {
+            if (err.response.status === 422) {
+              this.errorMsg = err.response.data.message;
+
+              console.error(err.response);
+            }
+          });
+    },
 
     async deleteRoom(id) {
       await axios

@@ -154,6 +154,48 @@
     line-height: 3.3;
     border-radius: 6px;
 }
+
+.file-preview{
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+    .file-icon{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 6px;
+        background: #eee;
+        margin-right: 5px;
+        img{
+            width: 20px;
+            height: 20px;
+        }
+    }
+    .file-preview__name{
+        font-family: TTInterfaces-Regular, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #364152;
+    }
+    .file-preview__remove{
+        cursor: pointer;
+        color: #F04438;
+        font-family: TTInterfaces-Regular, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        width: 30px;
+    }
+}
+
 body > div:nth-child(3) {
     display: unset !important;
 }
