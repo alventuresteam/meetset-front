@@ -435,7 +435,7 @@ export default {
       formData.append("organizer_name", this.organizer_name);
 
       this.toValue.map((item) => {
-        formData.append("to_emails[]", item);
+        formData.append("emails[]", item);
       });
 
       this.ccValue.map((item) => {
