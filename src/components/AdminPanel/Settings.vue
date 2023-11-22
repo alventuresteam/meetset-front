@@ -180,6 +180,7 @@ export default defineComponent({
         login_text: "",
         kiosk_password: "",
         checked_invited: false,
+        type: this.showFirst ? 'excel' : 'ldap',
       },
       clickLoad: false,
       ipInvalid: false,
@@ -211,6 +212,7 @@ export default defineComponent({
       this.form.ldap_password = await this.userStore.getSetting.ldap_password;
       this.form.ldap_timeout = await this.userStore.getSetting.ldap_timeout;
       this.form.ldap_username = await this.userStore.getSetting.ldap_username;
+      this.showFirst = await this.userStore.getSetting.type === 'excel';
 
       if (this.form.ip_address && this.form.port) {
         this.clickLoad = false;
@@ -278,7 +280,12 @@ export default defineComponent({
       let formData = new FormData();
 
       for (let key in this.form) {
-        await formData.append(key, this.form[key]);
+
+        if (key === 'type') {
+          await formData.append(key, this.showFirst ? 'excel' : 'ldap');
+        } else {
+          await formData.append(key, this.form[key]);
+        }
       }
 
       this.clickLoad = true;
