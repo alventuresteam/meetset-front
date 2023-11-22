@@ -129,6 +129,5 @@ export const useReservationStore = defineStore("reservation", {
     getters: {
         getReservations: (state) => state.reservation,
         getContact: (state) => state.contacts,
-        allContacts: (state) => state.contacts,
     },
 });

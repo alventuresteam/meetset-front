@@ -167,6 +167,7 @@
         </div>-->
 
         <div class="modal__form-group">
+          <label for="title" class="label">Görüşün başlığı</label>
           <input
             class="input input__100"
             id="title"
@@ -185,6 +186,7 @@
         </div>
 
         <div class="modal__form-group">
+          <label for="messg" class="label">Görüşlə bağlı qeydlər</label>
           <textarea
             class="input input__100 input__height"
             placeholder="Görüşlə bağlı qeydlər"
@@ -296,8 +298,8 @@ export default {
       valueStartTime: moment(formatTime, 'HH:mm'),
       endTime: formatTime,
       valueEndTime: moment(formatTime, 'HH:mm'),
-      options: [{value: "bbeycanov@gmail.com"}],
-      optionsCC: [...Array(25)].map((_, i) => ({ value: (i + 10).toString(36) + (i + 1) })),
+      options: [],
+      optionsCC: [],
       toValue: ref([]),
       ccValue: ref([]),
       room_id: "",
@@ -393,12 +395,34 @@ export default {
       }
     },
 
-    async addPerson() {
-      if (this.emails.length <= 0) this.emailLengthValid = false;
-      if ((await this.v$.$validate()).valueOf() === false) return;
+    fetchData() {
+      fetch(`https://meetset.al.ventures/api/contacts`, {
+        method: "GET",
+        headers: {},
+      })
+          .then((response) => {
+            response.json().then((data) => {
+              console.log(data);
 
-      if (this.emailLengthValid === false || this.emailLengthType === false)
-        return;
+              data.map((item) => {
+                this.options.push({ value: item });
+                this.optionsCC.push({ value: item });
+              });
+
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+    },
+
+    async addPerson() {
+
+      // if (this.emails.length <= 0) this.emailLengthValid = false;
+      // if (this.emailLengthValid === false || this.emailLengthType === false)
+      // return;
+
+      if ((await this.v$.$validate()).valueOf() === false) return;
 
       this.clickLoad = true;
 
@@ -409,8 +433,15 @@ export default {
       formData.append("end_time", this.endTime);
       formData.append("room_id", this.room_id);
       formData.append("organizer_name", this.organizer_name);
-      formData.append("to_emails", this.toValue);
-      formData.append("cc_emails", this.ccValue);
+
+      this.toValue.map((item) => {
+        formData.append("to_emails[]", item);
+      });
+
+      this.ccValue.map((item) => {
+        formData.append("cc_emails[]", item);
+      });
+
       formData.append("title", this.title);
       formData.append("comment", this.comment);
 
@@ -451,6 +482,7 @@ export default {
 
   mounted() {
 
+    this.fetchData();
     // this.options = this.userstore.getContact.map((item) => {
     //   return { value: item.email };
     // });
