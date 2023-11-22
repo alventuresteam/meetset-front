@@ -176,8 +176,6 @@ export default {
          document.getElementById("app").style.overflow='hidden'
       }
 
-
-
       const vcArrows = document.querySelectorAll('.vc-pane-container .vc-arrow');
 
       this.datePickerMonth();

@@ -60,30 +60,24 @@ export default {
         {
           key: "today",
           highlight: true,
-          // highlight: {
-          // color: 'transparent',
-          // fillMode: 'light',
-          // borderColor: 'red',
-          // class: 'today'
-          // },
           dates: moment().format("LL"),
         },
         {
           dot: true,
           dates: [
-            moment().format("LL"), // Jan 1st
+            moment().format("LL"),
           ],
         },
         {
           dot: true,
           dates: [
-            moment().format("LL"), // Jan 1st
+            moment().format("LL"),
           ],
         },
         {
           dot: true,
           dates: [
-            moment().format("LL"), // Jan 1st
+            moment().format("LL"),
           ],
         },
       ],
@@ -165,14 +159,9 @@ export default {
 
     const vcArrows = document.querySelectorAll('.vc-pane-container .vc-arrow');
 
-    // this.datePickerMonth();
-    // this.datePickerMonthDropdown();
-    // this.datePickerDay();
-
     vcArrows.forEach(btn => {
       btn.addEventListener('click', () => {
         this.datePickerMonth();
-        // this.datePickerMonthDropdown();
       })
     })
   },
@@ -180,12 +169,12 @@ export default {
     formattedDate() {
       moment.updateLocale('az', {
         months: [
-          "Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul",
-          "August", "Sentyabr", "Oktyabr", "Noyabr", "Decabr"
+          "Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul",
+          "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"
         ]
       });
 
-      return moment(this.date).format("MMMM Do, YYYY");
+      return moment(this.valueDate).lang('az').format("MMMM Do, YYYY");
     }
   }
 }
