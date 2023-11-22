@@ -89,7 +89,7 @@
               mode="tags"
               id="options"
               style="width: 100%"
-              placeholder="Search members"
+              placeholder="İstifadəçi axtar"
               :options="options"
               @change="handleChangeTo"
           >
@@ -103,7 +103,8 @@
               mode="tags"
               id="optionsCC"
               style="width: 100%"
-              placeholder="Search members"
+              :disabled="ccStatus"
+              placeholder="İstifadəçi axtar"
               :options="optionsCC"
               @change="handleChangeCC"
           >
@@ -275,6 +276,7 @@ import { required } from "@vuelidate/validators";
 import { storeToRefs } from "pinia";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
 import Loading from "@/components/Loading.vue";
+import {useSettingStore} from "@/stores/setting";
 
 export default {
   components: {
@@ -310,6 +312,7 @@ export default {
       title: "",
       comment: "",
       clickLoad: false,
+      ccStatus: false,
       limit: 250,
       currentDateTime: new Date(),
       step: 10,
@@ -481,6 +484,10 @@ export default {
   },
 
   mounted() {
+
+    const useSetting = useSettingStore();
+
+    useSetting.getSetting.checked_invited === 1 ? this.ccStatus = false : this.ccStatus = true;
 
     this.fetchData();
     // this.options = this.userstore.getContact.map((item) => {
