@@ -22,22 +22,24 @@
             <div>
               <label for="start-time" class="label">Başlama vaxtı</label>
               <a-time-picker v-model:value="valueStartTime"
-                             style="width: 100%"
-                             @change="changeStartTime"
-                             :disabledHours="getStartTimeDisabledHours"
-                             id="start-time"
-                             :minuteStep="10"
-                             format="HH:mm" />
+                 style="width: 100%"
+                 @change="changeStartTime"
+                 :disabledHours="getStartTimeDisabledHours"
+                 :disabledMinutes="getStartTimeDisabledMinutes"
+                 id="start-time"
+                 :minuteStep="10"
+                 format="HH:mm" />
             </div>
             <div>
               <label for="end-time" class="label">Bitmə vaxtı</label>
               <a-time-picker v-model:value="valueEndTime"
-                             style="width: 100%"
-                             @change="changeEndTime"
-                             :disabledHours="getEndTimeDisabledHours"
-                             id="end-time"
-                             :minuteStep="10"
-                             format="HH:mm" />
+                 style="width: 100%"
+                 @change="changeEndTime"
+                 :disabledHours="getEndTimeDisabledHours"
+                 :disabledMinutes="getEndTimeDisabledMinutes"
+                 id="end-time"
+                 :minuteStep="10"
+                 format="HH:mm" />
             </div>
           </a-space>
         </div>
@@ -94,6 +96,12 @@
               @change="handleChangeTo"
           >
           </a-select>
+          <span class="errorText" v-if="emailLengthValid === false">
+            Dəvət ediləcəklər boş ola bilməz
+          </span>
+          <span class="errorText" v-if="toValue.length && emailLengthType === false">
+            Maildə səhvlik var
+          </span>
         </div>
 
         <div class="modal__form-group">
@@ -109,6 +117,7 @@
               @change="handleChangeCC"
           >
           </a-select>
+
         </div>
         <!--<div class="modal__form-group">
           <label for="emails" class="label">Dəvət ediləcək şəxslərin mail ünvanları</label>
@@ -255,7 +264,6 @@
 }
 .custom_tp {
   padding-bottom: 4px;
-  border: unset;
   border-bottom: 1px solid black;
   width: 100%;
   outline: none;
@@ -302,8 +310,8 @@ export default {
       valueEndTime: moment(formatTime, 'HH:mm'),
       options: [],
       optionsCC: [],
-      toValue: ref([]),
-      ccValue: ref([]),
+      toValue: [],
+      ccValue: [],
       room_id: "",
       organizer_name: "",
       emails: [],
@@ -340,7 +348,7 @@ export default {
 
   methods: {
     handleChangeTo(value) {
-      console.log(`selected ${value}`);
+      this.toValue.length > 0 ? this.emailLengthValid = true : this.emailLengthValid = false;
     },
     handleChangeCC(value) {
       console.log(`selected ${value}`);
@@ -352,9 +360,23 @@ export default {
       }
       return hours;
     },
+    getStartTimeDisabledMinutes(){
+      let minutes = [];
+      for(let i =0; i < moment().minute(); i++){
+        minutes.push(i);
+      }
+      return minutes;
+    },
     getEndTimeDisabledHours(){
       let hours = [];
       for(let i =0; i < this.valueStartTime.hour(); i++){
+        hours.push(i);
+      }
+      return hours;
+    },
+    getEndTimeDisabledMinutes(){
+      let hours = [];
+      for(let i = 0; i < this.valueStartTime.minute(); i++){
         hours.push(i);
       }
       return hours;
@@ -421,11 +443,10 @@ export default {
 
     async addPerson() {
 
-      // if (this.emails.length <= 0) this.emailLengthValid = false;
-      // if (this.emailLengthValid === false || this.emailLengthType === false)
-      // return;
-
+      if (this.toValue.length <= 0) this.emailLengthValid = false;
       if ((await this.v$.$validate()).valueOf() === false) return;
+      if (this.emailLengthValid === false || this.emailLengthType === false)
+        return;
 
       this.clickLoad = true;
 
@@ -490,13 +511,6 @@ export default {
     useSetting.getSetting.checked_invited === 1 ? this.ccStatus = false : this.ccStatus = true;
 
     this.fetchData();
-    // this.options = this.userstore.getContact.map((item) => {
-    //   return { value: item.email };
-    // });
-    //
-    // this.optionsCC = this.userstore.getContact.map((item) => {
-    //   return { value: item.email };
-    // });
 
     this.organizer_name = this.userstore.user.name;
   },
@@ -524,8 +538,8 @@ export default {
     },
     emails: {
       handler() {
-        this.emailLengthValid = this.emails.length > 0;
-        this.emails.forEach((email) => {
+        this.emailLengthValid = this.toValue.length > 0;
+        this.toValue.forEach((email) => {
           this.emailLengthType = !!email.match(
               /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
           );
