@@ -15,7 +15,7 @@
       </div>
 
       <div v-if="$route.path === '/logs'">
-        <Header title="Loglar"/>
+        <Header title="Tarixçə"/>
       </div>
 
       <div v-if="$route.path === '/settings'">
