@@ -13,7 +13,6 @@ export const useReservationStore = defineStore("reservation", {
         error: [],
         contacts: [],
         errorMsg: "",
-
         token: localStorage.getItem("token") || "",
     }),
 
