@@ -89,7 +89,7 @@ export default defineComponent({
   },
   methods: {
     downloadSource() {
-      window.open(`https://meetset.al.ventures/api/logs/export?date=${this.date}&search_term=${this.searchTerm}`)
+      window.open(`/api/logs/export?date=${this.date}&search_term=${this.searchTerm}`)
     },
     onSearch(searchValue) {
       this.searchTerm = searchValue;
@@ -105,7 +105,7 @@ export default defineComponent({
       this.fetchData();
     },
     fetchData() {
-      fetch(`https://meetset.al.ventures/api/logs?date=${this.date}&search_term=${this.searchTerm}&page=${this.page}&per_page=${this.perPage}`, {
+      fetch(`/api/logs?date=${this.date}&search_term=${this.searchTerm}&page=${this.page}&per_page=${this.perPage}`, {
         method: "GET",
         headers: {},
       })
