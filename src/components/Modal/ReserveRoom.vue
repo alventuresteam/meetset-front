@@ -421,7 +421,7 @@ export default {
     },
 
     fetchData() {
-      fetch(`https://meetset.al.ventures/api/contacts`, {
+      fetch(`/api/contacts`, {
         method: "GET",
         headers: {},
       })
