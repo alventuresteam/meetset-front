@@ -12,7 +12,6 @@
         </span>
       </div>
       <form class="modal__form" @submit.prevent="addPerson()">
-
         <div class="modal__form-group">
           <a-space direction="horizontal">
             <div>
@@ -21,24 +20,24 @@
             </div>
             <div>
               <label for="start-time" class="label">Başlama vaxtı</label>
-              <a-time-picker v-model:value="valueStartTime"
+              <a-time-picker
+                 v-model:value="valueStartTime"
                  style="width: 100%"
                  @change="changeStartTime"
                  :disabledHours="getStartTimeDisabledHours"
                  :disabledMinutes="getStartTimeDisabledMinutes"
                  id="start-time"
-                 :minuteStep="10"
                  format="HH:mm" />
             </div>
             <div>
               <label for="end-time" class="label">Bitmə vaxtı</label>
-              <a-time-picker v-model:value="valueEndTime"
+              <a-time-picker
+                 v-model:value="valueEndTime"
                  style="width: 100%"
                  @change="changeEndTime"
                  :disabledHours="getEndTimeDisabledHours"
                  :disabledMinutes="getEndTimeDisabledMinutes"
                  id="end-time"
-                 :minuteStep="10"
                  format="HH:mm" />
             </div>
           </a-space>
@@ -119,63 +118,6 @@
           </a-select>
 
         </div>
-        <!--<div class="modal__form-group">
-          <label for="emails" class="label">Dəvət ediləcək şəxslərin mail ünvanları</label>
-          <div
-            :class="{ disabled: !room_id }"
-            class="tag-input input input__100 input__height-auto"
-          >
-            <div
-              v-for="(tag, index) in emails"
-              :key="tag"
-              class="tag-input__tag"
-            >
-              {{ tag }}
-              <span @click="removeTag(index)">x</span>
-            </div>
-
-            <textarea
-              maxlength="255"
-              class="tag-input__text"
-              @keydown.enter="addTag"
-              @keydown.188="addTag"
-              @keyup.space="addTag"
-              @keydown.enter.prevent
-              @keydown.delete="removeLastTag"
-              @focusout="userStore.error = null"
-              :disabled="emailLengthType === false"
-              v-model="inputText"
-              @input="handleInput"
-            />
-            <ul
-              v-if="showSuggestions"
-              :style="
-                userStore.getContact.length ? 'border: 1px solid #ccc;' : ''
-              "
-              class="suggestions"
-            >
-              <li
-                v-for="(suggestion, index) in userStore.getContact"
-                :key="index"
-                @click="selectSuggestion(suggestion)"
-              >
-                {{ suggestion }}
-              </li>
-            </ul>
-          </div>
-
-          <span class="errorText" v-if="emailLengthValid === false">
-            Mail boş ola bilməz
-          </span>
-
-          <span
-            class="errorText"
-            v-if="emails.length && emailLengthType === false"
-          >
-            Maildə səhvlik var
-          </span>
-        </div>-->
-
         <div class="modal__form-group">
           <label for="title" class="label">Görüşün başlığı</label>
           <input
@@ -273,15 +215,15 @@
 
 <script>
 import moment from "moment";
-import { TimePickerComponent } from "@syncfusion/ej2-vue-calendars";
-import {onMounted, ref} from "vue";
-import { DatePicker } from "v-calendar";
-import { useUserStore } from "@/stores/auth";
-import { useReservationStore } from "@/stores/reservations";
-import { useRoomStore } from "@/stores/room";
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import { storeToRefs } from "pinia";
+import {TimePickerComponent} from "@syncfusion/ej2-vue-calendars";
+import {onMounted} from "vue";
+import {DatePicker} from "v-calendar";
+import {useUserStore} from "@/stores/auth";
+import {useReservationStore} from "@/stores/reservations";
+import {useRoomStore} from "@/stores/room";
+import {useVuelidate} from "@vuelidate/core";
+import {required} from "@vuelidate/validators";
+import {storeToRefs} from "pinia";
 import CustomSelect from "@/components/Modal/Dropdown.vue";
 import Loading from "@/components/Loading.vue";
 import {useSettingStore} from "@/stores/setting";
@@ -375,11 +317,18 @@ export default {
       return hours;
     },
     getEndTimeDisabledMinutes(){
+
       let hours = [];
+
+      if (this.valueEndTime.hour() > this.valueStartTime.hour()) {
+        return hours;
+      }
+
       for(let i = 0; i < this.valueStartTime.minute(); i++){
         hours.push(i);
       }
       return hours;
+
     },
     changeDate(date, dateString) {
       this.date = dateString;
@@ -388,9 +337,12 @@ export default {
     },
     changeStartTime(date, timeString) {
       this.startTime = timeString;
+      this.endTime = timeString;
+      this.valueEndTime = moment(timeString, 'HH:mm');
     },
     changeEndTime(date, timeString) {
       this.endTime = timeString;
+      this.getEndTimeDisabledMinutes();
     },
     chooseRoom(event) {
       this.room_id = event.id;
