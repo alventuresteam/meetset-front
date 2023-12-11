@@ -16,7 +16,7 @@
           <a-space direction="horizontal">
             <div>
               <label for="date" class="label">Tarix</label>
-              <a-date-picker v-model:value="valueDate" id="date" @change="changeDate" />
+              <a-date-picker v-model:value="valueDate" :disabledDate="disabledDate" id="date" @change="changeDate" />
             </div>
             <div>
               <label for="start-time" class="label">Başlama vaxtı</label>
@@ -289,6 +289,9 @@ export default {
   },
 
   methods: {
+    disabledDate(current) {
+      return current < moment().subtract(1, 'days');
+    },
     handleChangeTo(value) {
       this.toValue.length > 0 ? this.emailLengthValid = true : this.emailLengthValid = false;
     },
@@ -296,6 +299,9 @@ export default {
       console.log(`selected ${value}`);
     },
     getStartTimeDisabledHours(){
+
+      if (this.valueDate.format('YYYY-MM-DD') > moment().format('YYYY-MM-DD')) return;
+
       let hours = [];
       for(let i =0; i < moment().hour(); i++){
         hours.push(i);
@@ -303,6 +309,11 @@ export default {
       return hours;
     },
     getStartTimeDisabledMinutes(){
+
+      if (this.valueDate.format('YYYY-MM-DD') > moment().format('YYYY-MM-DD')) return;
+
+      if (this.valueStartTime.hour() > moment().hour()) return;
+
       let minutes = [];
       for(let i =0; i < moment().minute(); i++){
         minutes.push(i);
@@ -310,6 +321,9 @@ export default {
       return minutes;
     },
     getEndTimeDisabledHours(){
+
+      if (this.valueDate.format('YYYY-MM-DD') > moment().format('YYYY-MM-DD')) return;
+
       let hours = [];
       for(let i =0; i < this.valueStartTime.hour(); i++){
         hours.push(i);
@@ -317,6 +331,10 @@ export default {
       return hours;
     },
     getEndTimeDisabledMinutes(){
+
+      if (this.valueDate.format('YYYY-MM-DD') > moment().format('YYYY-MM-DD')) return;
+
+      if (this.valueStartTime.hour() > moment().hour()) return;
 
       let hours = [];
 
@@ -339,6 +357,7 @@ export default {
       this.startTime = timeString;
       this.endTime = timeString;
       this.valueEndTime = moment(timeString, 'HH:mm');
+      this.getStartTimeDisabledMinutes();
     },
     changeEndTime(date, timeString) {
       this.endTime = timeString;
