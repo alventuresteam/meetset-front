@@ -136,7 +136,18 @@ export default {
   props: ["item"],
   data() {
     return {
-      updateDataRoom: {},
+      updateDataRoom: {
+        status_az_1: "",
+        status_az_2: "",
+        status_en_1: "",
+        status_en_2: "",
+        name: "",
+        capacity: "",
+        address: "",
+        floor: "",
+        image: "",
+        clickLoad: false,
+      },
       clickLoad: false,
       image: "",
     };
@@ -181,10 +192,10 @@ export default {
         formData.append("capacity", this.updateDataRoom.capacity);
         formData.append("address", this.updateDataRoom.address);
         formData.append("floor", this.updateDataRoom.floor);
-        formData.append("status_az_1", this.updateDataRoom.status_az_1);
-        formData.append("status_az_2", this.updateDataRoom.status_az_2);
-        formData.append("status_en_1", this.updateDataRoom.status_en_1);
-        formData.append("status_en_2", this.updateDataRoom.status_en_2);
+        formData.append("status_az_1", this.updateDataRoom.status_az_1 ?? '');
+        formData.append("status_az_2", this.updateDataRoom.status_az_2 ?? '');
+        formData.append("status_en_1", this.updateDataRoom.status_en_1 ?? '');
+        formData.append("status_en_2", this.updateDataRoom.status_en_2 ?? '');
 
         if (this.image) {
           formData.append("image", this.image)
