@@ -63,9 +63,7 @@
         </div>
 
         <div class="modal__form-group">
-          <label for="user" class="label"
-            >İclası təşkil edən şəxsin adı və soyadı</label
-          >
+          <label for="user" class="label">İclası təşkil edən şəxsin adı və soyadı</label>
           <input
             v-model.lazy="organizer_name"
             class="input input__100"
@@ -118,6 +116,7 @@
           </a-select>
 
         </div>
+
         <div class="modal__form-group">
           <label for="title" class="label">Görüşün başlığı</label>
           <input
@@ -240,7 +239,9 @@ export default {
 
     let date = new Date();
 
-    let formatDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    let month = date.getMonth() + 1;
+    let monthFormatted = month.toString().padStart(2, '0');
+    let formatDate = date.getFullYear() + '-' + monthFormatted + '-' + date.getDate();
     let formatTime = date.getHours() + ':' + date.getMinutes();
 
     return {
@@ -299,9 +300,7 @@ export default {
       console.log(`selected ${value}`);
     },
     getStartTimeDisabledHours(){
-
       if (this.valueDate.format('YYYY-MM-DD') > moment().format('YYYY-MM-DD')) return;
-
       let hours = [];
       for(let i =0; i < moment().hour(); i++){
         hours.push(i);

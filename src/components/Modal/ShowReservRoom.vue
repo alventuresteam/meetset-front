@@ -5,48 +5,25 @@
         <h6 v-if="showDeleteButtons" class="modal__head-title">
           Otaq rezervasiyasını sil
         </h6>
-
         <h6 v-else-if="showEditButtons" class="modal__head-title">
           Otaq rezervasiyasını redaktə et
         </h6>
-
         <h6 v-else class="modal__head-title">
           Otaq rezervasiyasının detalları
         </h6>
-
         <span class="modal__head-close" @click="close">
-          <img
-            loading="lazy"
-            src="../../assets/images/svg/modalClose.svg"
-            alt="close_img"
-          />
+          <img loading="lazy" src="../../assets/images/svg/modalClose.svg" alt="close_img"/>
         </span>
       </div>
 
       <div v-if="showDeleteButtons">
-        <form
-          class="modal__form"
-          @submit.prevent="handleDelete(updateReservation)"
-        >
-          <p class="modal__form-delete">
-            Bu otaq rezervasiyasını silmək istədiyinizə əminsinizmi?
-          </p>
-
+        <form class="modal__form" @submit.prevent="handleDelete(updateReservation)">
+          <p class="modal__form-delete">Bu otaq rezervasiyasını silmək istədiyinizə əminsinizmi?</p>
           <div v-if="showDeleteButtons" class="modal__form-group modal__flex">
-            <button
-              type="button"
-              class="submitWhite"
-              @click="close"
-              aria-label="Xeyr"
-            >
-              Xeyr
+            <button type="button" class="submitWhite" @click="close" aria-label="Xeyr">
+              <span>Xeyr</span>
             </button>
-            <button
-              type="submit"
-              class="submitWhite"
-              id="messg"
-              aria-label="Bəli"
-            >
+            <button type="submit" class="submitWhite" id="messg" aria-label="Bəli">
               <span>Bəli</span>
             </button>
           </div>
@@ -55,240 +32,120 @@
 
       <div v-else>
         <form class="modal__form" @submit.prevent="updateHandler">
+
           <div class="modal__form-group">
-            <DatePicker
-              :popover="{ visibility: 'focus' }"
-              :min-date="new Date()"
-              :max-date="new Date(2030, 1, 4)"
-              ref="datePicker"
-              v-model.lazy="updateReservation.start_date"
-            >
-              <template #default="{ inputValue, inputEvents }">
-                <input
-                  class="input"
-                  placeholder="Tarix"
-                  :value="inputValue"
-                  v-on="inputEvents"
-                />
-                <img
-                  @click="$refs.datePicker.togglePopover()"
-                  class="input-icon"
-                  src="../../assets/images/svg/calendar.svg"
-                  alt="input-icon"
-                />
-              </template>
-            </DatePicker>
-
-            <span
-              class="errorText"
-              v-for="error in v$.updateReservation.start_date.$errors"
-              :key="error.$uid"
-            >
-              {{ error.$message }}
-            </span>
-          </div>
-
-          <div
-            class="modal__flex modal__form-group"
-            style="margin-bottom: 30px"
-          >
-          
-            <div class="input" style="margin-right: 10px">
-              <div class="single-time-picker">
-                <select class="custom_tp"  v-model="updateReservation.start_time">
-                  <option :value="updateReservation.start_time" disabled selected hidden>
-                    {{ updateReservation.start_time }}
-                  </option>
-                  <option v-for="time in times" :key="time" :value="time">
-                    {{ time }}
-                  </option>
-                </select>
+            <a-space direction="horizontal">
+              <div>
+                <label for="date" class="label">Tarix</label>
+                <a-date-picker v-model:value="valueDate" :disabledDate="disabledDate" id="date" @change="changeDate" />
               </div>
-              <!-- <ejs-timepicker
-                        v-model.lazy="updateReservation.start_time"
-                        id="startPicker"
-                        :change="onEnableEndTime"
-                        :enabled="true"
-                        :min="currentDateTime"
-                        :openOnFocus="true"
-                        :readonly="startRead"
-                        :placeholder="waterMark"
-                        :format="timeFormat"
-                        :value="startVal"
-                        :step="step"
-                     ></ejs-timepicker> -->
-
-              <span
-                class="errorText"
-                v-for="error in v$.updateReservation.start_time.$errors"
-                :key="error.$uid"
-              >
-                Başlama vaxti boş ola bilməz error
-              </span>
-            </div>
-
-            <div class="input">
-                 <div class="single-time-picker">
-              <select class="custom_tp"  v-model="updateReservation.end_time">
-                <option :value="updateReservation.end_time" disabled selected hidden>{{ updateReservation.end_time }}</option>
-                <option v-for="time in times" :key="time" :value="time">
-                  {{ time }}
-                </option>
-              </select>
-            </div>
-              <!-- <ejs-timepicker
-                v-model.lazy="updateReservation.end_time"
-                id="endPicker"
-                :placeholder="waterMark"
-                :enabled="true"
-                :openOnFocus="true"
-                :readonly="endRead"
-                :min="min"
-                :step="step"
-                :format="timeFormat"
-                :value="endVal"
-                :change="changeValue"
-              ></ejs-timepicker> -->
-
-              <span
-                class="errorText"
-                v-for="error in v$.updateReservation.end_time.$errors"
-                :key="error.$uid"
-              >
-                Bitmə vaxti boş ola bilməz
-              </span>
-            </div>
+              <div>
+                <label for="start-time" class="label">Başlama vaxtı</label>
+                <a-time-picker
+                    v-model:value="valueStartTime"
+                    style="width: 100%"
+                    @change="changeStartTime"
+                    :disabledHours="getStartTimeDisabledHours"
+                    :disabledMinutes="getStartTimeDisabledMinutes"
+                    id="start-time"
+                    format="HH:mm" />
+              </div>
+              <div>
+                <label for="end-time" class="label">Bitmə vaxtı</label>
+                <a-time-picker
+                    v-model:value="valueEndTime"
+                    style="width: 100%"
+                    @change="changeEndTime"
+                    :disabledHours="getEndTimeDisabledHours"
+                    :disabledMinutes="getEndTimeDisabledMinutes"
+                    id="end-time"
+                    format="HH:mm" />
+              </div>
+            </a-space>
           </div>
 
           <div class="modal__form-group">
+            <label for="select_room" class="label">Otağı seçin</label>
             <CustomSelect
-              :options="useStoreRoom.getRoom"
-              :default="updateReservation.room_id"
-              class="select"
-              @selectValue="chooseRoom"
-            />
-
-            <span
-              class="errorText"
-              v-for="error in v$.updateReservation.room_id.$errors"
-              :key="error.$uid"
-            >
-              Otaq boş ola bilməz
-            </span>
+                id="select_room"
+                :options="getRoom"
+                :default="updateReservation.room_id"
+                @selectValue="chooseRoom"
+                class="select"/>
+            <span class="errorText" v-for="error in v$.room_id.$errors" :key="error.$uid">Otaq seşilməyib</span>
           </div>
 
           <div class="modal__form-group">
-            <label for="user" class="label"
-              >İclası təşkil edən şəxsin adı və soyadı</label
-            >
+            <label for="user" class="label">İclası təşkil edən şəxsin adı və soyadı</label>
             <input
-              v-model.lazy="updateReservation.organizer_name"
-              class="input input__100"
-              id="user"
-              type="text"
-              maxlength="250"
+                v-model.lazy="updateReservation.organizer_name"
+                class="input input__100"
+                id="user"
+                type="text"
+                maxlength="50"
             />
-
             <span
-              class="errorText"
-              v-for="error in v$.updateReservation.organizer_name.$errors"
-              :key="error.$uid"
+                class="errorText"
+                v-for="error in v$.organizer_name.$errors"
+                :key="error.$uid"
             >
-              İclası təşkil edən şəxs boş ola bilməz
-            </span>
+            Təşkilatçı boş ola bilməz
+          </span>
           </div>
 
           <div class="modal__form-group">
-            <label for="emails" class="label"
-              >Dəvət ediləcək şəxslərin mail ünvanları</label
+            <label for="options" class="label">Dəvət ediləcəklər ( To )</label>
+            <a-select
+                v-model:value="updateReservation.emails"
+                mode="tags"
+                id="options"
+                style="width: 100%"
+                placeholder="İstifadəçi axtar"
+                :options="options"
+                @change="handleChangeTo"
             >
-
-            <div class="tag-input input input__100 input__height-auto">
-              <div
-                v-for="(tag, index) in updateReservation.emails"
-                :key="tag"
-                class="tag-input__tag"
-              >
-                {{ tag }}
-                <button aria-label="x" @click="removeTag(index)">x</button>
-              </div>
-
-              <textarea
-                class="tag-input__text"
-                maxlength="50"
-                @keydown.enter="addTag"
-                @keydown.188="addTag"
-                @keyup.space="addTag"
-                @keydown.enter.prevent
-                @keydown.delete="removeLastTag"
-                @focusout="userStore.error = null"
-              />
-            </div>
-
+            </a-select>
             <span class="errorText" v-if="emailLengthValid === false">
-              Mail boş ola bilməz
+              Dəvət ediləcəklər boş ola bilməz
             </span>
-            <span
-              class="errorText"
-              v-if="
-                updateReservation.emails &&
-                updateReservation.emails.length &&
-                emailLengthType === false
-              "
-            >
+            <span class="errorText" v-if="toValue.length && emailLengthType === false">
               Maildə səhvlik var
             </span>
           </div>
 
           <div class="modal__form-group">
-            <input
-              class="input input__100"
-              id="title"
-              placeholder="Görüşün başlığı"
-              type="text"
-              maxlength="250"
-              v-model.lazy="updateReservation.title"
-            />
-
-            <span
-              class="errorText"
-              v-for="error in v$.updateReservation.title.$errors"
-              :key="error.$uid"
+            <label for="optionsCC" class="label">Məlumat xarakterli dəvət ( CC )</label>
+            <a-select
+                v-model:value="updateReservation.cc_emails"
+                mode="tags"
+                id="optionsCC"
+                style="width: 100%"
+                :disabled="ccStatus"
+                placeholder="İstifadəçi axtar"
+                :options="cc_options"
+                @change="handleChangeCC"
             >
+            </a-select>
+
+          </div>
+
+          <div class="modal__form-group">
+            <input class="input input__100" id="title" placeholder="Görüşün başlığı" type="text" maxlength="250" v-model.lazy="updateReservation.title"/>
+            <span class="errorText" v-for="error in v$.title.$errors" :key="error.$uid">
               Görüşlə başlığı boş ola bilməz
             </span>
           </div>
 
           <div class="modal__form-group">
-            <textarea
-              class="input input__100 input__height"
-              placeholder="Görüşlə bağlı qeydlər"
-              style="background: none"
-              v-model.lazy="updateReservation.comment"
-              maxlength="500"
-            />
+            <textarea class="input input__100 input__height" placeholder="Görüşlə bağlı qeydlər" style="background: none" v-model.lazy="updateReservation.comment" maxlength="500"/>
           </div>
 
           <div v-if="showEditButtons" class="modal__form-group modal__flex">
-            <button
-              type="button"
-              class="submitWhite"
-              aria-label="Silmək"
-              @click="activeDelete"
-            >
+            <button type="button" class="submitWhite" aria-label="Silmək" @click="activeDelete">
               Sil
-              <img
-                loading="lazy"
-                src="../../assets/images/svg/delet.svg"
-                alt="delet"
-              />
+              <img loading="lazy" src="../../assets/images/svg/delet.svg" alt="delet"/>
             </button>
-            <button
-              type="submit"
-              class="submit"
-              id="messg"
-              aria-label="Yadda Saxla"
-            >
+            <button type="submit" class="submit" id="messg" aria-label="Yadda Saxla">
               <span>Yadda saxla</span>
             </button>
           </div>
@@ -297,139 +154,170 @@
     </div>
   </div>
   <div v-show="clickLoad" class="loading-dots">
-    <loading />
+    <loading/>
   </div>
 </template>
-
 <script>
-import { useReservationStore } from "../../stores/reservations";
-import { useRoomStore } from "../../stores/room";
-import { TimePickerComponent } from "@syncfusion/ej2-vue-calendars";
-import moment from "moment";
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import CustomSelect from "@/components/Modal/Dropdown.vue";
-import { DatePicker } from "v-calendar";
 import Loading from "@/components/Loading.vue";
+import {required} from "@vuelidate/validators";
+import {useReservationStore} from "@/stores/reservations";
+import {useRoomStore} from "@/stores/room";
+import {useVuelidate} from "@vuelidate/core";
+import moment from "moment/moment";
+import CustomSelect from "@/components/Modal/Dropdown.vue";
+import {useSettingStore} from "@/stores/setting";
 
 export default {
   props: ["item", "itemRoom"],
   components: {
-    Loading,
-    "ejs-timepicker": TimePickerComponent,
     CustomSelect,
-    DatePicker,
+    Loading,
   },
-
   data() {
+
+    let date = new Date();
+
+    let month = date.getMonth() + 1;
+    let monthFormatted = month.toString().padStart(2, '0');
+    let formatDate = date.getFullYear() + '-' + monthFormatted + '-' + date.getDate().toString().padStart(2, '0');
+    let formatTime = date.getHours().toString().padStart(2, '0') + ':' + date.getMinutes().toString().padStart(2, '0');
+
     return {
-      datePickerOptions: {
-        monthNames: [
-          "Yanvar",
-          "Fevral",
-          "Mart",
-          "Aprel",
-          "May",
-          "İyun",
-          "İyul",
-          "Avqust",
-          "Sentyabr",
-          "Oktyabr",
-          "Noyabr",
-          "Dekabr",
-        ],
-        dayNamesNarrow: ["Ba", "Ba.e", "Çə.a", "Çə", "Cü.a", "Cü", "Şə"],
-      },
+      date: formatDate,
+      valueDate: moment(formatDate, 'YYYY-MM-DD'),
+      startTime: formatTime,
+      valueStartTime: moment(formatTime, 'HH:mm'),
+      endTime: formatTime,
+      valueEndTime: moment(formatTime, 'HH:mm'),
+      options: [],
+      optionsCC: [],
+      toValue: [],
+      ccValue: [],
       clickLoad: false,
       updateReservation: {},
-      updateReservationRoom: {},
-
-      emailLengthValid: null,
-      emailLengthType: null,
-
+      updateReservationRoom: {
+        emails: [],
+        cc_emails: [],
+        title: "",
+        comment: "",
+        start_date: moment(formatDate, 'YYYY-MM-DD'),
+        start_time: moment(formatTime, 'HH:mm'),
+        end_time: moment(formatTime, 'HH:mm'),
+      },
       showEditButtons: true,
       showDeleteButtons: false,
-      timeFormat: "HH:mm",
-      limit: 250,
-      waterMark: "Saat",
-      currentDateTime: new Date(),
-      endEnable: false,
-      startEnable: false,
-      startRead: false,
-      endRead: false,
-      min: null,
-      isStartTimeChange: true,
-      step: 10,
-      endVal: null,
-      startVal: null,
     };
   },
-
   validations() {
     return {
-      updateReservation: {
-        end_time: { required },
-        start_time: { required },
-        organizer_name: { required },
-        start_date: { required },
-        room_id: { required },
-        title: { required },
-      },
+      start_date: { required },
+      start_time: { required },
+      end_time: { required },
+      room_id: { required },
+      organizer_name: { required },
+      title: { required },
     };
   },
-
   mounted() {
     this.updateReservation = JSON.parse(JSON.stringify(this.item));
-    //Object.assign(this.updateReservation, this.item);
     Object.assign(this.updateReservationRoom, this.itemRoom);
 
-    this.$refs.datePicker.$locale.monthNames = [
-      ...this.datePickerOptions.monthNames,
-    ];
-    this.$refs.datePicker.$locale.dayNamesNarrow = [
-      ...this.datePickerOptions.dayNamesNarrow,
-    ];
+    this.valueDate = moment(this.updateReservation.start_date, 'YYYY-MM-DD');
+    this.valueStartTime = moment(this.updateReservation.start_time, 'HH:mm');
+    this.valueEndTime = moment(this.updateReservation.end_time, 'HH:mm');
+
+    const useSetting = useSettingStore();
+    useSetting.getSetting.checked_invited === 1 ? this.ccStatus = false : this.ccStatus = true;
+
+    console.log(this.itemRoom);
   },
   methods: {
-    chooseRoom(event) {
-      this.updateReservation.room_id = event.id;
-      // this.updateReservation.emails = [];
+    disabledDate(current) {
+      return current < moment().subtract(1, 'days');
     },
-
-    addTag(event) {
-      let room = this.getRoom.find(
-        (item) => item.id === this.updateReservation.room_id
-      );
-
-      if (room.capacity <= this.updateReservation.emails.length) {
-        return;
-      }
-
-      let val = event.target.value.trim();
-
-      if (this.updateReservation.emails.includes(val)) {
-        return;
-      }
-      if (val.length > 0) {
-        this.updateReservation.emails.push(val);
-        event.target.value = "";
-      }
+    handleChangeTo(value) {
+      this.toValue.length > 0 ? this.emailLengthValid = true : this.emailLengthValid = false;
     },
-
-    removeTag(index) {
-      this.updateReservation.emails.splice(index, 1);
+    handleChangeCC(value) {
+      console.log(`selected ${value}`);
     },
-    removeLastTag(event) {
-      if (event.target.value.length === 0) {
-        this.removeTag(this.updateReservation.emails.length - 1);
+    getStartTimeDisabledHours(){
+      if (this.valueDate.format('YYYY-MM-DD') > moment().format('YYYY-MM-DD')) return;
+      let hours = [];
+      for(let i =0; i < moment().hour(); i++){
+        hours.push(i);
       }
+      return hours;
+    },
+    getStartTimeDisabledMinutes(){
+
+      if (this.valueDate.format('YYYY-MM-DD') > moment().format('YYYY-MM-DD')) return;
+
+      if (this.valueStartTime.hour() > moment().hour()) return;
+
+      let minutes = [];
+      for(let i =0; i < moment().minute(); i++){
+        minutes.push(i);
+      }
+      return minutes;
+    },
+    getEndTimeDisabledHours(){
+
+      if (this.valueDate.format('YYYY-MM-DD') > moment().format('YYYY-MM-DD')) return;
+
+      let hours = [];
+      for(let i =0; i < this.valueStartTime.hour(); i++){
+        hours.push(i);
+      }
+      return hours;
+    },
+    getEndTimeDisabledMinutes(){
+
+      if (this.valueDate.format('YYYY-MM-DD') > moment().format('YYYY-MM-DD')) return;
+
+      if (this.valueStartTime.hour() > moment().hour()) return;
+
+      let hours = [];
+
+      if (this.valueEndTime.hour() > this.valueStartTime.hour()) {
+        return hours;
+      }
+
+      for(let i = 0; i < this.valueStartTime.minute(); i++){
+        hours.push(i);
+      }
+      return hours;
+
+    },
+    changeDate(date, dateString) {
+      this.date = dateString;
+      this.valueDate = moment(new Date(dateString), 'YYYY-MM-DD');
+      console.log(date);
+    },
+    changeStartTime(date, timeString) {
+      this.startTime = timeString;
+      this.endTime = timeString;
+      this.valueEndTime = moment(timeString, 'HH:mm');
+      this.getStartTimeDisabledMinutes();
+    },
+    changeEndTime(date, timeString) {
+      this.endTime = timeString;
+      this.getEndTimeDisabledMinutes();
+    },
+    close() {
+      this.$emit("close-modal");
+      this.userStore.errorMsg = "";
+      this.userStore.error = [];
     },
     activeDelete() {
       this.showDeleteButtons = true;
       this.showEditButtons = false;
     },
-
+    chooseRoom(event) {
+      this.updateReservation.room_id = event.id;
+    },
     async handleDelete(item) {
+
       this.clickLoad = true;
       await this.userStore.deletReservation(item);
       await this.useStoreRoom.fetchRoom();
@@ -438,25 +326,11 @@ export default {
       this.close();
       this.$toast.success(`Uğurla silindi`);
     },
-
     async updateHandler(e) {
-      if (this.updateReservation.emails.length <= 0) {
-        this.emailLengthValid = false;
-      }
-
-      if ((await this.v$.$validate()).valueOf() === false) {
-        return;
-      }
-
-      if (this.emailLengthValid === false || this.emailLengthType === false) {
-        return;
-      }
-
       this.clickLoad = true;
 
-      this.updateReservation.start_date = this.formattedDate;
-      this.updateReservation.start_time = this.formattedTime;
-      this.updateReservation.end_time = this.formattedEndTime;
+      this.updateReservation.start_time = this.startTime;
+      this.updateReservation.end_time = this.endTime;
 
       await this.userStore.updateReservation(this.updateReservation);
       await this.useStoreRoom.fetchRoom();
@@ -468,9 +342,9 @@ export default {
       }
 
       if (
-        !this.userStore.error &&
-        !this.userStore.errorMsg &&
-        this.showEditButtons
+          !this.userStore.error &&
+          !this.userStore.errorMsg &&
+          this.showEditButtons
       ) {
         this.clickLoad = false;
         this.close();
@@ -481,122 +355,16 @@ export default {
         this.clickLoad = false;
       }
     },
-
-    close() {
-      this.$emit("close-modal");
-      this.userStore.errorMsg = "";
-      this.userStore.error = [];
-    },
-
-    changeValue: function (args) {
-      this.endVal = args.value;
-    },
-
-    onEnableEndTime: function (args) {
-      let value;
-      if (this.isStartTimeChange) {
-        this.endEnable = true;
-        this.endVal = null;
-        value = new Date(args.value);
-        value.setMinutes(value.getMinutes() + this.step);
-        this.min = value;
-      } else {
-        this.isStartTimeChange = true;
-      }
-    },
   },
-
   setup() {
     const userStore = useReservationStore();
     const useStoreRoom = useRoomStore();
-    return { userStore, useStoreRoom, v$: useVuelidate() };
+    return {userStore, useStoreRoom, v$: useVuelidate()};
   },
-
-  watch: {
-    dateDifference(val) {
-      if (val === true) {
-        this.currentDateTime = new Date(2023, 1, 1, 0);
-      } else {
-        this.currentDateTime = new Date();
-      }
-    },
-
-    "updateReservation.emails": {
-      handler() {
-        if (this.updateReservation.emails.length <= 0) {
-          this.emailLengthValid = false;
-        } else {
-          this.emailLengthValid = true;
-        }
-
-        this.updateReservation.emails.forEach((email) => {
-          if (
-            email.match(
-              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            )
-          ) {
-            this.emailLengthType = true;
-          } else {
-            this.emailLengthType = false;
-          }
-        });
-      },
-      deep: true,
-    },
-  },
-
   computed: {
-    dateDifference() {
-      if (this.updateReservation.start_date && new Date()) {
-        console.log("true");
-        return this.updateReservation.start_date > new Date();
-      }
-    },
-    times() {
-      const timeOptions = [];
-      const now = new Date();
-      const currentDate = now.getDate();
-      let currentHour = now.getHours();
-      let currentMinute = now.getMinutes();
-      if (currentDate !== this.selectedDate.getDate()) {
-         currentHour = "0";
-         currentMinute = "0";
-      }
-      for (let hour = currentHour; hour < 24; hour++) {
-        const startMinute = hour === currentHour ? Math.ceil(currentMinute / 10) * 10 : 0;
-
-        for (let minute = startMinute; minute < 60; minute += 10) {
-          const formattedTime = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
-          timeOptions.push(formattedTime);
-        }
-      }
-
-      return timeOptions;
-    },
-    startVal() {
-      // Round the current time to the nearest 10-minute interval
-      const currentMinute = this.currentDateTime.getMinutes();
-      const roundedMinute = Math.ceil(currentMinute / 10) * 10;
-      this.currentDateTime.setMinutes(roundedMinute);
-
-      // Return the rounded time as the start value
-      return this.updateReservation.start_time;
-    },
-
     getRoom() {
       return this.useStoreRoom.getRoom;
     },
-
-    formattedTime() {
-      return moment(this.updateReservation.start_time, "H:mm").format("HH:mm");
-    },
-    formattedDate() {
-      return moment(this.updateReservation.start_date).format("YYYY-MM-DD");
-    },
-
-    formattedEndTime() {
-      return moment(this.updateReservation.end_time, "H:mm").format("HH:mm");
-    },
-  },
-};
+  }
+}
 </script>
